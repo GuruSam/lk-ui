@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/dashboard',
-    name: 'home',
+    name: 'dashboard',
     component: Home,
     meta: {
       title: 'Личный кабинет продюсера'
@@ -23,6 +23,11 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title
+
+  if (to.path === '/') {
+    return next('/dashboard')
+  }
+  
   next()
 })
 
