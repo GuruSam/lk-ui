@@ -59,6 +59,9 @@ export default {
 
 <style>
 body {
-  background-color: #1a1a1b;
+  background-color: #1e1e21;
 }
+/* .layout-inner {
+  padding: 0 120px 0 120px;
+} */
 </style>

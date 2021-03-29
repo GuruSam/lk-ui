@@ -22,6 +22,22 @@
         <b-nav-item href="#">ЛабStore</b-nav-item>
         <b-nav-item href="#">База знаний</b-nav-item>
       </b-navbar-nav>
+
+      <b-navbar-nav class="align-items-lg-center ml-auto">
+        <b-nav-item-dropdown :right="true" class="navbar-user">
+          <template slot="button-content">
+            <span class="d-inline-flex flex-lg-row-reverse align-items-center align-middle">
+              <img src="images/default-avatar.png" alt class="d-block ui-w-30 rounded-circle">
+              <span class="px-1 mr-lg-2 ml-2 ml-lg-0">Username</span>
+            </span>
+          </template>
+
+            <b-dd-item><i class="ion ion-ios-person text-lightest"></i> &nbsp; Профиль на форуме</b-dd-item>
+            <b-dd-item><i class="ion ion-md-settings text-lightest"></i> &nbsp; Настройки</b-dd-item>
+            <b-dd-divider />
+            <b-dd-item @click="logout()"><i class="ion ion-ios-log-out text-danger"></i> &nbsp; Выход</b-dd-item>
+        </b-nav-item-dropdown>
+      </b-navbar-nav>
     </b-collapse>
 
   </b-navbar>

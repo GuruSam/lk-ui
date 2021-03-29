@@ -53,13 +53,15 @@ export default {
 <style>
 .sidenav.layout-sidenav {
   background-color: #131315;
+  border-right: 3px solid #00abc12d;
   /* border-right: 2px solid #145b61; */
 }
 .sidenav a.sidenav-link {
-  color: #15909b;
+  color: #e1e2e4;
 }
 .sidenav-item.active, 
 .sidenav-item:hover {
-  background-color: #202125;
+  background-color: #00acc170;
+  color: #fff;
 }
 </style>
