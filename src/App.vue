@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <div class="layout-wrapper layout-2">
+    <div class="layout-wrapper layout-1">
       <div class="layout-inner">
-        <!-- <app-layout-sidenav /> -->
+        <Navbar />
 
         <div class="layout-container">
-          <Navbar />
+          <Sidenav />
 
           <div class="layout-content">
             <div class="router-transitions container-fluid flex-grow-1 container-p-y">
@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="layout-overlay" @click="closeSidenav"></div>
-    </div>
+  </div>
   </div>
 </template>
 
@@ -26,15 +26,17 @@
 <style src="@/vendor/styles/theme-corporate-dark.scss" lang="scss"></style>
 <style src="@/vendor/styles/colors-dark.scss" lang="scss"></style>
 <style src="@/vendor/styles/uikit.scss" lang="scss"></style>
-<style src="./style.scss" lang="scss"></style>
+<style src="@/vendor/style.scss" lang="scss"></style>
 
 <script>
 import Navbar from '@/components/layout/Navbar'
+import Sidenav from '@/components/layout/Sidenav'
 
 export default {
   name: 'App',
   components: {
-    Navbar
+    Navbar,
+    Sidenav
   },
 
   mounted () {
