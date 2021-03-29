@@ -1,8 +1,11 @@
 <template>
   <sidenav orientation="vertical" class="sidenav-vertical layout-sidenav">
     <div class="sidenav-inner" :class="{ 'py-1': orientation !== 'horizontal' }">
-      <sidenav-router-link icon="ion ion-ios-contact" to="/" :exact="true">Home</sidenav-router-link>
-      <sidenav-router-link icon="ion ion-md-desktop" to="/page-2" :exact="true">Page 2</sidenav-router-link>
+      <sidenav-router-link icon="ion ion-md-speedometer" to="/dashboard" :active="isMenuActive('/dashboard')" :exact="true">Главная</sidenav-router-link>
+      <sidenav-router-link icon="ion ion-md-desktop" to="/tickets" :exact="true">Обратная связь</sidenav-router-link>
+      <sidenav-router-link icon="ion ion-md-desktop" to="/tasks" :exact="true">Система заданий</sidenav-router-link>
+      <sidenav-router-link icon="ion ion-md-desktop" to="/characters" :exact="true">Персонажи</sidenav-router-link>
+      <sidenav-router-link icon="ion ion-md-desktop" to="/pet-creator" :exact="true">Конструктор существ</sidenav-router-link>
     </div>
   </sidenav>
 </template>
@@ -47,9 +50,16 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .sidenav.layout-sidenav {
-  background-color: #1C1F24;
-  color: #00838f !important;
+  background-color: #131315;
+  /* border-right: 2px solid #145b61; */
+}
+.sidenav a.sidenav-link {
+  color: #15909b;
+}
+.sidenav-item.active, 
+.sidenav-item:hover {
+  background-color: #202125;
 }
 </style>

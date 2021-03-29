@@ -4,7 +4,7 @@
     <span class="log mr-1">
       <b-img src="/images/logo.png" width="50" />
     </span>
-    <b-navbar-brand to="/">Кабинет продюсера</b-navbar-brand>
+    <b-navbar-brand to="/">Кабинет игрока</b-navbar-brand>
 
     <b-navbar-nav class="align-items-lg-center mr-auto mr-lg-4" v-if="sidenavToggle">
       <a class="nav-item nav-link px-0 ml-2 ml-lg-0" href="javascript:void(0)" @click="toggleSidenav">
@@ -16,8 +16,11 @@
 
     <b-collapse is-nav id="app-layout-navbar">
       <b-navbar-nav class="align-items-lg-center">
-        <b-nav-item href="#">Link 1</b-nav-item>
-        <b-nav-item href="#">Link 2</b-nav-item>
+        <b-nav-item href="#">Сайт Лабиринта</b-nav-item>
+        <b-nav-item href="#">Игра</b-nav-item>
+        <b-nav-item href="#">Пограничье</b-nav-item>
+        <b-nav-item href="#">ЛабStore</b-nav-item>
+        <b-nav-item href="#">База знаний</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
 
@@ -46,3 +49,16 @@ export default {
   }
 }
 </script>
+
+<style>
+.layout-navbar {
+  background-image: linear-gradient(to right top, rgba(0, 172, 193, 0.5), rgba(0, 131, 143, 0.5)), url(https://store.playlabirint.ru/images/header_background.jpg);
+  background-position: center center;
+}
+#app-layout-navbar .nav-link {
+  color: #eff1f5;
+}
+#app-layout-navbar .nav-link:hover {
+  color: #fff;
+}
+</style>
