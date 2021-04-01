@@ -27,7 +27,7 @@
         <b-nav-item-dropdown :right="true" class="navbar-user">
           <template slot="button-content">
             <span class="d-inline-flex flex-lg-row-reverse align-items-center align-middle">
-              <img src="https://thesims.cc/data/avatars/l/0/1.jpg" alt class="d-block ui-w-30 rounded-circle">
+              <span class="px-1 mr-lg-2 ml-2 ml-lg-0">Мой аккаунт</span>
             </span>
           </template>
 
