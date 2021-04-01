@@ -6,6 +6,10 @@
   box-shadow: $card-shadow;
 }
 
+.card.card-bordered {
+  border-bottom: 3px solid $card-border-color-primary;
+}
+
 .card-link {
   display: inline-block;
 }

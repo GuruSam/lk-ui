@@ -5,9 +5,9 @@
 // * Colors
 
 $white:        #fff !default;
-$black:        #181C21 !default;
+$black:        #111111 !default;
 $theme-white:  #fff !default;
-$theme-black:  #181C21 !default;
+$theme-black:  #111111 !default;
 $gray-25:      rgba($black, .015) !default;
 $gray-50:      rgba($black, .03) !default;
 $gray-100:     rgba($black, .06) !default;
@@ -21,7 +21,7 @@ $gray-800:     rgba($black, .8) !default;
 $gray-900:     rgba($black, .9) !default;
 
 $grays: (
-  "25": $gray-25, 
+  "25": $gray-25,
   "50": $gray-50
 ) !default;
 
@@ -35,6 +35,7 @@ $yellow:       #FFD950 !default;
 $green:        #02BC77 !default;
 $teal:         #20c997 !default;
 $cyan:         #28c3d7 !default;
+$primary-color: #00acc1;
 
 $theme-colors: (
   "primary":   $indigo,
@@ -459,6 +460,7 @@ $card-spacer-x-sm:         1rem !default;
 $card-border-color:        $border-color !default;
 $card-inner-border-color:  $border-inner-color !default;
 $card-cap-bg:              transparent !default;
+$card-border-color-primary: $primary-color;
 
 $card-img-overlay-padding: 1.5rem !default;
 

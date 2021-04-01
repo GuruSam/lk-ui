@@ -5,7 +5,7 @@
 // * Colors
 
 $white:        #fff !default;
-$black:        #25282E !default;
+$black:        #030305 !default;
 
 $gray-25:      rgba($white, .015) !default;
 $gray-50:      rgba($white, .03) !default;
@@ -28,25 +28,26 @@ $blue:         #1e70cd !default;
 $indigo:       #6610f2 !default;
 $purple:       #6f42c1 !default;
 $pink:         #e83e8c !default;
-$red:          #d9534f !default;
-$orange:       #FEB744 !default;
+$red: #cd2121 !default;
+$orange: #e98502 !default;
 $yellow:       #FFD950 !default;
-$green:        #02BC77 !default;
+$green: #159142 !default;
 $teal:         #20c997 !default;
 $cyan:         #28c3d7 !default;
+$primary-color: #00acc1!default;
 
 $theme-colors: (
   "primary":   $indigo,
   "secondary": #8897AA,
   "success":   $green,
   "info":      $cyan,
-  "warning":   $yellow,
+  "warning":   $orange,
   "danger":    $red,
   "dark":      $black
 ) !default;
 
 // #06c
-$link-color: #65CFF9 !default;
+$link-color: #26c6da !default;
 $link-hover-color: lighten($link-color, 10%) !default;
 
 $spacer: 1rem !default;
@@ -461,6 +462,7 @@ $card-spacer-x:            1.5rem !default;
 $card-spacer-x-sm:         1rem !default;
 $card-inner-border-color:  $border-inner-color !default;
 $card-cap-bg:              transparent !default;
+$card-border-color-primary: $primary-color;
 
 $card-img-overlay-padding: 1.5rem !default;
 

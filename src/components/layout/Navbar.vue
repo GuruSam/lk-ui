@@ -4,7 +4,7 @@
     <span class="log mr-1">
       <b-img src="/images/logo.png" width="50" />
     </span>
-    <b-navbar-brand to="/">Кабинет игрока</b-navbar-brand>
+    <b-navbar-brand class="font-weight-light" to="/">ЛК игрока</b-navbar-brand>
 
     <b-navbar-nav class="align-items-lg-center mr-auto mr-lg-4" v-if="sidenavToggle">
       <a class="nav-item nav-link px-0 ml-2 ml-lg-0" href="javascript:void(0)" @click="toggleSidenav">
@@ -27,13 +27,11 @@
         <b-nav-item-dropdown :right="true" class="navbar-user">
           <template slot="button-content">
             <span class="d-inline-flex flex-lg-row-reverse align-items-center align-middle">
-              <img src="images/default-avatar.png" alt class="d-block ui-w-30 rounded-circle">
-              <span class="px-1 mr-lg-2 ml-2 ml-lg-0">Username</span>
+              <img src="https://thesims.cc/data/avatars/l/0/1.jpg" alt class="d-block ui-w-30 rounded-circle">
             </span>
           </template>
 
             <b-dd-item><i class="ion ion-ios-person text-lightest"></i> &nbsp; Профиль на форуме</b-dd-item>
-            <b-dd-item><i class="ion ion-md-settings text-lightest"></i> &nbsp; Настройки</b-dd-item>
             <b-dd-divider />
             <b-dd-item @click="logout()"><i class="ion ion-ios-log-out text-danger"></i> &nbsp; Выход</b-dd-item>
         </b-nav-item-dropdown>
@@ -69,7 +67,7 @@ export default {
 <style>
 .layout-navbar {
   background-image: linear-gradient(to right top, rgba(0, 172, 193, 0.5), rgba(0, 131, 143, 0.5)), url(https://store.playlabirint.ru/images/header_background.jpg);
-  background-position: center center;
+  background-position: center left;
 }
 #app-layout-navbar .nav-link {
   color: #eff1f5;
