@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1 class="font-weight-bold py-3 mb-4">Главная</h1>
     <b-container fluid>
+      <h2 class="font-weight-bold py-3 mb-4">Главная</h2>
       <b-row>
         <b-col>
           <div class="card bg-primary border-0 text-white mb-4">
@@ -92,7 +92,7 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col class="mt-2"><h2>Избранные персонажи</h2></b-col>
+        <b-col class="mt-2"><h3>Избранные персонажи</h3></b-col>
       </b-row>
       <b-row>
         <b-col>
