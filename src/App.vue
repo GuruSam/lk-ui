@@ -4,7 +4,8 @@
       <div class="layout-inner">
         <Navbar />
 
-        <div class="layout-container">
+        <WelcomeScreen v-if="!loggedIn" />
+        <div v-else class="layout-container">
           <Sidenav />
 
           <div class="layout-content">
@@ -19,7 +20,7 @@
         </div>
       </div>
       <div class="layout-overlay" @click="closeSidenav"></div>
-  </div>
+    </div>
   </div>
 </template>
 
@@ -33,12 +34,20 @@
 <script>
 import Navbar from '@/components/layout/Navbar'
 import Sidenav from '@/components/layout/Sidenav'
+import WelcomeScreen from '@/views/WelcomeScreen'
+import { mapState } from 'vuex'
 
 export default {
   name: 'App',
   components: {
     Navbar,
-    Sidenav
+    Sidenav,
+    WelcomeScreen
+  },
+  computed: {
+    ...mapState({
+      loggedIn: state => state.auth.loggedIn
+    })
   },
 
   mounted () {
@@ -61,7 +70,7 @@ export default {
 
 <style>
 body {
-  background-color: #1e1e21;
+  background-color: #141414;
 }
 .background-fade {
   position: fixed;

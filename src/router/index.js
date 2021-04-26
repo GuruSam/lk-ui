@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home'
+import store from '../store/index'
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,10 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title
+
+  if (!store.state.auth.loggedIn && to.path !== '/welcome') {
+    return next('/welcome')
+  }
 
   if (to.path === '/') {
     return next('/dashboard')
