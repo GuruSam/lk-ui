@@ -1,5 +1,6 @@
 const state = {
-  loggedIn: false
+  loggedIn: false,
+  error: null
 }
 
 const mutations = {
@@ -8,6 +9,9 @@ const mutations = {
   },
   loggedIn: state => {
     state.loggedIn = true
+  },
+  setError: (state, payload) => {
+    state.error = payload
   }
 }
 
@@ -17,6 +21,9 @@ const actions = {
   },
   loggedIn: ctx => {
     ctx.commit('loggedIn')
+  },
+  setError: (ctx, payload) => {
+    ctx.commit('setError', payload)
   }
 }
 

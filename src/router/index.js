@@ -1,12 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home'
-import WelcomeScreen from '../views/WelcomeScreen'
-import store from '../store/index'
+import Home from '@/views/Home'
+import WelcomeScreen from '@/views/WelcomeScreen'
+import ErrorPage from '@/views/ErrorPage'
+import store from '@/store/index'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/',
+    redirect: '/dashboard'
+  },
   {
     path: '/dashboard',
     name: 'dashboard',
@@ -22,6 +27,18 @@ const routes = [
     meta: {
       title: 'Добро пожаловать в Лабиринт'
     }
+  },
+  {
+    path: '/error',
+    name: 'error',
+    component: ErrorPage,
+    beforeEnter: (to, from, next) => {
+      if (!store.state.auth.error) {
+        return next('dashboard')
+      }
+
+      next()
+    }
   }
 ]
 
@@ -34,12 +51,13 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title
 
-  if (!store.state.user.isProducer && to.path !== '/welcome') {
-    return next('/welcome')
+  if (!store.state.auth.loggedIn) {
+    return window.location.replace(process.env.VUE_APP_LOGIN_PAGE_URL)
   }
 
-  if (to.path === '/') {
-    return next('/dashboard')
+  if (!store.state.user.isProducer && to.path !== '/welcome' && to.path !== '/error') {
+    console.log('redirecting')
+    return next('/welcome')
   }
   
   next()

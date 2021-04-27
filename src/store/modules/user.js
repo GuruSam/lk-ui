@@ -23,7 +23,7 @@ const actions = {
     ctx.commit('setUser', payload)
   },
   removeUser: ctx => {
-    ctx.commit('removeUSer')
+    ctx.commit('removeUser')
   }
 }
 
