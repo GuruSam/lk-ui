@@ -4,9 +4,8 @@
       <div class="layout-inner">
         <Navbar />
 
-        <WelcomeScreen v-if="!loggedIn" />
-        <div v-else class="layout-container">
-          <Sidenav />
+        <div class="layout-container">
+          <Sidenav v-if="loggedIn" />
 
           <div class="layout-content">
             <div class="router-transitions container-fluid flex-grow-1 container-p-y">
@@ -34,19 +33,17 @@
 <script>
 import Navbar from '@/components/layout/Navbar'
 import Sidenav from '@/components/layout/Sidenav'
-import WelcomeScreen from '@/views/WelcomeScreen'
 import { mapState } from 'vuex'
 
 export default {
   name: 'App',
   components: {
     Navbar,
-    Sidenav,
-    WelcomeScreen
+    Sidenav
   },
   computed: {
     ...mapState({
-      loggedIn: state => state.auth.loggedIn
+      loggedIn: state => state.auth.loggedIn && state.user.isProducer
     })
   },
 

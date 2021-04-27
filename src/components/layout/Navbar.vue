@@ -4,9 +4,9 @@
     <span class="log mr-1">
       <b-img src="/images/logo.png" width="50" />
     </span>
-    <b-navbar-brand class="font-weight-light" to="/">ЛК игрока</b-navbar-brand>
+    <b-navbar-brand class="font-weight-light" :class="{ 'separator' : !loggedIn }" to="/">ЛК игрока</b-navbar-brand>
 
-    <b-navbar-nav class="align-items-lg-center mr-auto mr-lg-4" v-if="sidenavToggle">
+    <b-navbar-nav class="align-items-lg-center mr-auto mr-lg-4" v-if="loggedIn">
       <a class="nav-item nav-link px-0 ml-2 ml-lg-0" href="javascript:void(0)" @click="toggleSidenav">
         <i class="ion ion-md-menu text-large align-middle" />
       </a>
@@ -24,7 +24,7 @@
       </b-navbar-nav>
 
       <b-navbar-nav class="align-items-lg-center ml-auto">
-        <b-nav-item-dropdown :right="true" class="navbar-user">
+        <b-nav-item-dropdown v-if="loggedIn" :right="true" class="navbar-user">
           <template slot="button-content">
             <span class="d-inline-flex flex-lg-row-reverse align-items-center align-middle">
               <span class="px-1 mr-lg-2 ml-2 ml-lg-0">Мой аккаунт</span>
@@ -42,16 +42,21 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'app-layout-navbar',
-
   props: {
     sidenavToggle: {
       type: Boolean,
       default: true
     }
   },
-
+  computed: {
+    ...mapState({
+      loggedIn: state => state.auth.loggedIn && state.user.isProducer
+    })
+  },
   methods: {
     toggleSidenav () {
       this.layoutHelpers.toggleCollapsed()
@@ -74,5 +79,9 @@ export default {
 }
 #app-layout-navbar .nav-link:hover {
   color: #fff;
+}
+.separator {
+  padding-right: 20px;
+  border-right: 1px solid hsla(0,0%,100%,.2);
 }
 </style>

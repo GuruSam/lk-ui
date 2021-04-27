@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home'
+import WelcomeScreen from '../views/WelcomeScreen'
 import store from '../store/index'
 
 Vue.use(VueRouter)
@@ -12,6 +13,14 @@ const routes = [
     component: Home,
     meta: {
       title: 'Личный кабинет продюсера'
+    }
+  },
+  {
+    path: '/welcome',
+    name: 'welcome-page',
+    component: WelcomeScreen,
+    meta: {
+      title: 'Добро пожаловать в Лабиринт'
     }
   }
 ]
@@ -25,7 +34,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title
 
-  if (!store.state.auth.loggedIn && to.path !== '/welcome') {
+  if (!store.state.user.isProducer && to.path !== '/welcome') {
     return next('/welcome')
   }
 
