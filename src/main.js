@@ -18,6 +18,7 @@ Vue.mixin({
 
 if (store.state.auth.loggedIn) {
   userService.getUserData()
+    .finally(() => store.dispatch('setLoadingState', false))
 }
 
 new Vue({

@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <div class="layout-wrapper layout-1">
+    <Loader v-if="appLoading" />
+    <div v-else class="layout-wrapper layout-1">
       <div class="layout-inner">
         <Navbar />
 
@@ -9,7 +10,8 @@
 
           <div class="layout-content">
             <div class="router-transitions container-fluid flex-grow-1 container-p-y">
-              <router-view />
+              <ErrorPage v-if="error" />
+              <router-view v-else />
             </div>
             <div class="background-fade d-none d-lg-block">
               <div class="background-fade-image"></div>
@@ -33,17 +35,23 @@
 <script>
 import Navbar from '@/components/layout/Navbar'
 import Sidenav from '@/components/layout/Sidenav'
+import Loader from '@/components/Loader'
+import ErrorPage from '@/views/ErrorPage'
 import { mapState } from 'vuex'
 
 export default {
   name: 'App',
   components: {
     Navbar,
-    Sidenav
+    Sidenav,
+    Loader,
+    ErrorPage
   },
   computed: {
     ...mapState({
-      loggedIn: state => state.auth.loggedIn && state.user.isProducer
+      appLoading: state => state.appLoading,
+      loggedIn: state => state.auth.loggedIn && state.user.isProducer,
+      error: state => state.error
     })
   },
 

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
 import store from '@/store'
-import router from '@/router'
 
 export default class UserService {
   getUserData () {
@@ -11,8 +10,7 @@ export default class UserService {
       })
       .catch(() => {
         store.dispatch('user/removeUser')
-        store.dispatch('auth/setError', 'Ошибка авторизации пользователя')
-        router.push({ path: '/error' })
+        store.dispatch('setError', 'Ошибка авторизации пользователя')
 
         Vue.notify({
           group: 'custom-notification',

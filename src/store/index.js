@@ -5,11 +5,34 @@ import auth from './modules/auth'
 
 Vue.use(Vuex)
 
+const state = {
+  appLoading: true,
+  error: null
+}
+
+const mutations = {
+  setLoadingState: (state, payload) => {
+    state.appLoading = payload
+  },
+  setError: (state, payload) => {
+    state.error = payload
+  }
+}
+
+const actions = {
+  setLoadingState: (ctx, payload) => {
+    ctx.commit('setLoadingState', payload)
+  },
+  setError: (ctx, payload) => {
+    ctx.commit('setError', payload)
+  }
+}
+
 export default new Vuex.Store({
-  state: {},
+  state,
+  mutations,
+  actions,
   getters: {},
-  mutations: {},
-  actions: {},
   modules: {
     user: user,
     auth: auth
