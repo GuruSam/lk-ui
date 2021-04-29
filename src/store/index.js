@@ -6,7 +6,7 @@ import auth from './modules/auth'
 Vue.use(Vuex)
 
 const state = {
-  appLoading: true,
+  appLoading: false,
   error: null
 }
 
