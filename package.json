@@ -49,9 +49,13 @@
       "parser": "babel-eslint"
     },
     "ignorePatterns": [
-      "**/vendor/*.js"
+      "**/vendor/*.js",
+      "*/vendor/*.js",
+      "./src/vendor/*.js"
     ],
-    "rules": {}
+    "rules": {
+      "no-unused-vars": ["e", "evt", "event"]
+    }
   },
   "browserslist": [
     "> 1%",
