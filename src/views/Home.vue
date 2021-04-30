@@ -6,47 +6,12 @@
         <b-col xl="9" lg="8" md="12" sm="12" >
           <b-row>
             <b-col>
-              <div class="card mb-4">
-                <div class="card-header text-large">
-                  Активные заявки
-                </div>
-                <div class="table-responsive">
-                  <table class="table card-table">
-                    <tbody>
-                    <tr>
-                      <td>Согласование амулета</td>
-                      <td><span class="badge badge-outline-warning">Ждёт ответа ГМ</span></td>
-                      <td>01.04.2021 10:19</td>
-                      <td><a href="#"><i class="ion ion-md-eye"></i></a></td>
-                    </tr>
-                    <tr>
-                      <td>Заявка в игру Вася Пупкин</td>
-                      <td><span class="badge badge-outline-danger">Ждёт вашего ответа</span></td>
-                      <td>01.04.2021 10:19</td>
-                      <td><a href="#"><i class="ion ion-md-eye"></i></a></td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+              <data-table type="tickets" title="Активные заявки" />
             </b-col>
           </b-row>
           <b-row>
             <b-col>
-              <div class="card mb-4">
-                <div class="card-header text-large">
-                  Задания в процессе
-                </div>
-                <div class="table-responsive">
-                  <table class="table card-table">
-                    <tbody>
-                    <tr>
-                      <td>Активных заданий нет</td>
-                    </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+              <data-table type="tasks" title="Задания в процессе" />
             </b-col>
           </b-row>
           <b-row>
@@ -129,10 +94,15 @@
 </template>
 
 <script>
+import Table from '@/components/Table'
+
 export default {
   name: 'Home',
   metaInfo: {
     title: 'Главная'
+  },
+  components: {
+    'data-table': Table
   }
 }
 </script>
