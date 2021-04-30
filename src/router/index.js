@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '@/views/Home'
 import WelcomeScreen from '@/views/WelcomeScreen'
 import store from '@/store/index'
+import { authService } from '@/services'
 
 Vue.use(VueRouter)
 
@@ -46,7 +47,7 @@ router.beforeEach((to, from, next) => {
   document.title = to.meta.title
 
   if (!store.state.auth.loggedIn) {
-    return window.location.replace(process.env.VUE_APP_LOGIN_PAGE_URL)
+    return authService.redirectToLogin()
   }
   
   next()

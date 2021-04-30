@@ -43,6 +43,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { authService } from '@/services'
 
 export default {
   name: 'app-layout-navbar',
@@ -64,6 +65,10 @@ export default {
 
     getLayoutNavbarBg () {
       return this.layoutNavbarBg
+    },
+
+    logout () {
+      authService.userLogout()
     }
   }
 }

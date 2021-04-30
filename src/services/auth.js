@@ -36,6 +36,8 @@ export default class AuthService {
     tokenService.removeToken()
     store.dispatch('user/removeUser')
     store.dispatch('auth/clearLogoutInfo')
+    
+    this.redirectToLogin()
   }
 
   refreshToken () {
@@ -57,6 +59,10 @@ export default class AuthService {
 
         return Promise.reject(error)
       })
+  }
+
+  redirectToLogin () {
+    window.location.replace(process.env.VUE_APP_LOGIN_PAGE_URL)
   }
 
   getDomain () {
