@@ -5,9 +5,9 @@
         <div class="sidenav-horizontal">
           <div class="card bg-transparent">
             <div class="card-body text-center">
-              <img src="https://thesims.cc/data/avatars/l/0/1.jpg" alt class="ui-w-100 rounded-circle mt-2 mb-3">
-              <h5 class="mb-2">Gardolir</h5>
-              <p class="text-muted small">150 лабриков</p>
+              <img :src="user.avatar" alt class="ui-w-100 rounded-circle mt-2 mb-3">
+              <h5 class="mb-2">{{ user.username }}</h5>
+              <p class="text-muted small">{{ balance }}</p>
             </div>
             <div class="card-footer text-center p-0">
               <div class="row no-gutters row-bordered">
@@ -36,6 +36,7 @@
 
 <script>
 import { Sidenav, SidenavLink, SidenavRouterLink, SidenavMenu, SidenavHeader, SidenavBlock, SidenavDivider } from '@/vendor/libs/sidenav'
+import { mapState } from 'vuex'
 
 export default {
   name: 'app-layout-sidenav',
@@ -55,6 +56,16 @@ export default {
     orientation: {
       type: String,
       default: 'vertical'
+    }
+  },
+
+  computed: {
+    ...mapState({
+      user: state => state.user
+    }),
+
+    balance () {
+      return this.user.balance + ' ' + this.declOfNum(this.user.balance, ['лабрик', 'лабрика', 'лабриков'])
     }
   },
 
