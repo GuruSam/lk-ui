@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-		PROJECT = "lablk"
+		PROJECT = "lk-ui"
 	}
     parameters {
         gitParameter(name: 'REVISION',
@@ -39,8 +39,8 @@ pipeline {
     post {
     	unsuccessful {
 			sshagent(credentials: ['thesimscc']) {
-				sh "ssh -o StrictHostKeyChecking=no root@82.146.51.146 \"[ ! -d \"/var/www/${PROJECT}\" ] && mkdir -p /var/www/${PROJECT}_bkp && mv /var/www/${PROJECT}_bkp /var/www/${PROJECT}\""
                 bitbucketStatusNotify(buildState: 'FAILED')
+				sh "ssh -o StrictHostKeyChecking=no root@82.146.51.146 \"[ ! -d \"/var/www/${PROJECT}\" ] && mkdir -p /var/www/${PROJECT}_bkp && mv /var/www/${PROJECT}_bkp /var/www/${PROJECT}\""
 			}
 		}
         always {
