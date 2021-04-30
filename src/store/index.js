@@ -6,22 +6,34 @@ import auth from './modules/auth'
 Vue.use(Vuex)
 
 const state = {
-  appLoading: false,
+  appLoaded: false,
+  showLoader: false,
   error: null
 }
 
 const mutations = {
-  setLoadingState: (state, payload) => {
-    state.appLoading = payload
+  appLoaded: (state, payload) => {
+    state.appLoaded = payload
   },
   setError: (state, payload) => {
     state.error = payload
+  },
+  toggleLoader: (state, payload) => {
+    state.showLoader = payload
   }
 }
 
 const actions = {
-  setLoadingState: (ctx, payload) => {
-    ctx.commit('setLoadingState', payload)
+  setLoadingState: (ctx, loading) => {
+    if (loading === true) {
+      ctx.commit('toggleLoader', true)
+    } else {
+      ctx.commit('appLoaded', true)
+
+      setTimeout(() => {
+        ctx.commit('toggleLoader', false)
+      }, 1000);
+    }
   },
   setError: (ctx, payload) => {
     ctx.commit('setError', payload)

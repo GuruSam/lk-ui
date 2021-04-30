@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <Loader v-if="appLoading" />
-    <div v-else class="layout-wrapper layout-1">
+    <transition name="fade">
+      <Loader v-if="showLoader" />
+    </transition>
+    <div v-if="appLoaded" class="layout-wrapper layout-1">
       <div class="layout-inner">
         <Navbar />
 
@@ -49,7 +51,8 @@ export default {
   },
   computed: {
     ...mapState({
-      appLoading: state => state.appLoading,
+      appLoaded: state => state.appLoaded,
+      showLoader: state => state.showLoader,
       loggedIn: state => state.auth.loggedIn && state.user.isProducer,
       error: state => state.error
     })
@@ -109,7 +112,10 @@ body {
   right: 0;
   bottom: 0;
 }
-/* .layout-inner {
-  padding: 0 120px 0 120px;
-} */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 </style>

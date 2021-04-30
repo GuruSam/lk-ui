@@ -30,5 +30,6 @@ export default {
   height: 100%;
   margin: 0;
   background-color: #141414;
+  z-index: 100;
 }
 </style>
