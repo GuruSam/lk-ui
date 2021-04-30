@@ -1,4 +1,4 @@
-export PROJECT = lk-ui
+export PROJECT = lablk
 
 ## Docker
 docker-build:
