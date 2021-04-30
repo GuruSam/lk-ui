@@ -77,7 +77,7 @@
         </b-col>
         <b-col xl="3" lg="4" md="12" sm="12">
           <b-row>
-            <b-col>
+            <b-col sm="12" md="6" lg="12" xl="12">
               <div class="card bg-primary border-0 text-white mb-4">
                 <div class="card-body d-flex align-items-center">
                   <span class="display-2 ion ion-ios-contacts"></span>
@@ -88,7 +88,7 @@
                 </div>
               </div>
             </b-col>
-            <b-col>
+            <b-col sm="12" md="6" lg="12" xl="12">
               <div class="card border-0 text-white mb-4">
                 <div class="card-body d-flex align-items-center">
                   <span class="display-2 ion ion-md-people"></span>
@@ -99,7 +99,7 @@
                 </div>
               </div>
             </b-col>
-            <b-col>
+            <b-col sm="12" md="6" lg="12" xl="12">
               <div class="card bg-primary border-0 text-white mb-4">
                 <div class="card-body d-flex align-items-center">
                   <span class="display-2 ion ion-ios-mail"></span>
@@ -110,7 +110,7 @@
                 </div>
               </div>
             </b-col>
-            <b-col>
+            <b-col sm="12" md="6" lg="12" xl="12">
               <div class="card border-0 text-white mb-4">
                 <div class="card-body d-flex align-items-center">
                   <span class="display-2 ion ion-md-list-box"></span>
