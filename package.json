@@ -49,7 +49,9 @@
       "parser": "babel-eslint"
     },
     "ignorePatterns": [
-      "**/vendor/*.js"
+      "**/vendor/*.js",
+      "*/vendor/*.js",
+      "./src/vendor/*.js"
     ],
     "rules": {}
   },
