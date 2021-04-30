@@ -32,7 +32,7 @@ const actions = {
 
       setTimeout(() => {
         ctx.commit('toggleLoader', false)
-      }, 1000);
+      }, 500);
     }
   },
   setError: (ctx, payload) => {
