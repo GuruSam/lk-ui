@@ -647,7 +647,7 @@ class SideNav {
         }
         this._inner.addEventListener('mousemove', this._evntInnerMousemove)
 
-        this._evntInnerMouseleave = (e) => {
+        this._evntInnerMouseleave = () => {
           this.closeAll()
         }
         this._inner.addEventListener('mouseleave', this._evntInnerMouseleave)
