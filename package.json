@@ -53,7 +53,9 @@
       "*/vendor/*.js",
       "./src/vendor/*.js"
     ],
-    "rules": {}
+    "rules": {
+      "no-unused-vars": ["e", "evt", "event"]
+    }
   },
   "browserslist": [
     "> 1%",
