@@ -42,50 +42,10 @@
         </b-col>
         <b-col xl="3" lg="4" md="12" sm="12">
           <b-row>
-            <b-col sm="12" md="6" lg="12" xl="12">
-              <div class="card bg-primary border-0 text-white mb-4">
-                <div class="card-body d-flex align-items-center">
-                  <span class="display-2 ion ion-ios-contacts"></span>
-                  <div class="ml-3">
-                    <div class="display-4">12</div>
-                    <div class="opacity-75">персонажей в игре</div>
-                  </div>
-                </div>
-              </div>
-            </b-col>
-            <b-col sm="12" md="6" lg="12" xl="12">
-              <div class="card border-0 text-white mb-4">
-                <div class="card-body d-flex align-items-center">
-                  <span class="display-2 ion ion-md-people"></span>
-                  <div class="ml-3">
-                    <div class="display-4">10</div>
-                    <div class="opacity-75">NPC в игре</div>
-                  </div>
-                </div>
-              </div>
-            </b-col>
-            <b-col sm="12" md="6" lg="12" xl="12">
-              <div class="card bg-primary border-0 text-white mb-4">
-                <div class="card-body d-flex align-items-center">
-                  <span class="display-2 ion ion-ios-mail"></span>
-                  <div class="ml-3">
-                    <div class="display-4">3</div>
-                    <div class="opacity-75">заявки ждёт ответа</div>
-                  </div>
-                </div>
-              </div>
-            </b-col>
-            <b-col sm="12" md="6" lg="12" xl="12">
-              <div class="card border-0 text-white mb-4">
-                <div class="card-body d-flex align-items-center">
-                  <span class="display-2 ion ion-md-list-box"></span>
-                  <div class="ml-3">
-                    <div class="display-4">0</div>
-                    <div class="opacity-75">заданий в процессе</div>
-                  </div>
-                </div>
-              </div>
-            </b-col>
+            <info-card light icon="ios-contacts" :text="charactersInGame" />
+            <info-card icon="ios-people" text="NPC в игре" />
+            <info-card light icon="ios-mail" :text="ticketsPending" />
+            <info-card icon="md-list-box" :text="activeTasks" />
           </b-row>
         </b-col>
       </b-row>
@@ -95,6 +55,7 @@
 
 <script>
 import Table from '@/components/Table'
+import InfoCard from '@/components/InfoCard'
 
 export default {
   name: 'Home',
@@ -102,7 +63,21 @@ export default {
     title: 'Главная'
   },
   components: {
-    'data-table': Table
+    'data-table': Table,
+    'info-card': InfoCard
+  },
+  computed: {
+    charactersInGame () {
+      return this.declOfNum(0, ['персонаж', 'персонажа', 'персонажей']) + ' в игре' 
+    },
+
+    ticketsPending () {
+      return this.declOfNum(0, ['заявка', 'заявки', 'заявок']) + ' ' + this.declOfNum(0, ['ждёт', 'ждут', 'ждут']) + ' ответа'
+    },
+
+    activeTasks () {
+      return this.declOfNum(0, ['задание', 'задания', 'заданий']) + ' в процессе'
+    }
   }
 }
 </script>
