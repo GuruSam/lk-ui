@@ -24,7 +24,7 @@
       </b-navbar-nav>
 
       <b-navbar-nav class="align-items-lg-center ml-auto">
-        <b-nav-item-dropdown v-if="loggedIn" :right="true" class="navbar-user">
+        <b-nav-item-dropdown :right="true" class="navbar-user">
           <template slot="button-content">
             <span class="d-inline-flex flex-lg-row-reverse align-items-center align-middle">
               <span class="px-1 mr-lg-2 ml-2 ml-lg-0">Мой аккаунт</span>
