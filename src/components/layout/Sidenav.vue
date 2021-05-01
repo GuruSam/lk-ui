@@ -4,8 +4,8 @@
       <div class="sidenav-inner">
         <div class="sidenav-horizontal">
           <div class="card bg-transparent">
-            <div class="card-body text-center">
-              <img :src="user.avatar" alt class="ui-w-100 rounded-circle mt-2 mb-3">
+            <div class="card-body text-center user-block">
+              <img :src="user.avatar" alt class="ui-w-100 rounded-circle mt-2 mb-3 avatar">
               <h5 class="mb-2">{{ user.username }}</h5>
               <p class="text-muted small">{{ balance }}</p>
             </div>
@@ -51,7 +51,6 @@ export default {
     SidenavDivider
     /* eslint-enable vue/no-unused-components */
   },
-
   props: {
     orientation: {
       type: String,
@@ -63,7 +62,6 @@ export default {
     ...mapState({
       user: state => state.user
     }),
-
     balance () {
       return this.user.balance + ' ' + this.declOfNum(this.user.balance, ['лабрик', 'лабрика', 'лабриков'])
     }
@@ -73,11 +71,9 @@ export default {
     isMenuActive (url) {
       return this.$route.path.indexOf(url) === 0
     },
-
     isMenuOpen (url) {
       return this.$route.path.indexOf(url) === 0 && this.orientation !== 'horizontal'
     },
-
     toggleSidenav () {
       this.layoutHelpers.toggleCollapsed()
     }
@@ -104,5 +100,16 @@ export default {
 }
 .icon-size {
   font-size: 1.2rem;
+}
+.card-body.user-block {
+  min-height: 230px;
+}
+.layout-collapsed:not(.layout-sidenav-hover) .user-block {
+  width: 70px;
+  padding: 0;
+}
+.layout-collapsed:not(.layout-sidenav-hover) .user-block > h5,
+.layout-collapsed:not(.layout-sidenav-hover) .user-block > p {
+  display: none;
 }
 </style>
