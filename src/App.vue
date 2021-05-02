@@ -14,6 +14,7 @@
             <div class="router-transitions container-fluid flex-grow-1 container-p-y">
               <ErrorPage v-if="error" />
               <router-view v-else />
+              <vue-progress-bar></vue-progress-bar>
             </div>
             <div class="background-fade d-none d-lg-block">
               <div class="background-fade-image"></div>
@@ -55,6 +56,17 @@ export default {
       showLoader: state => state.showLoader,
       loggedIn: state => state.auth.loggedIn && state.user.isProducer,
       error: state => state.error
+    })
+  },
+
+  created () {
+    this.$router.beforeEach((to, from, next) => {
+      this.$Progress.start()
+      next()
+    })
+
+    this.$router.afterEach(() => {
+      this.$Progress.finish()
     })
   },
 
