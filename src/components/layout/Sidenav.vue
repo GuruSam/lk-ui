@@ -5,7 +5,7 @@
         <div class="sidenav-horizontal">
           <div class="card bg-transparent">
             <div class="card-body text-center user-block">
-              <img :src="user.avatar" alt class="ui-w-100 rounded-circle mt-2 mb-3 avatar">
+              <img :src="user.avatar" alt class="rounded-circle mt-2 mb-3 avatar">
               <h5 class="mb-2">{{ user.username }}</h5>
               <p class="text-muted small">{{ balance }}</p>
             </div>
@@ -65,6 +65,7 @@ export default {
     balance () {
       return this.user.balance + ' ' + this.declOfNum(this.user.balance, ['лабрик', 'лабрика', 'лабриков'])
     }
+
   },
 
   methods: {
@@ -112,4 +113,15 @@ export default {
 .layout-collapsed:not(.layout-sidenav-hover) .user-block > p {
   display: none;
 }
+.layout-collapsed:not(.layout-sidenav-hover) .user-block > .avatar {
+  width: 45px;
+}
+.layout-sidenav-hover .user-block > .avatar,
+.user-block .avatar {
+  width: 100px;
+}
+/* .user-block {
+  background: linear-gradient(to right top, rgb(2 2 2 / 44%), rgb(10 16 16 / 47%)), url('/images/blur-background.jpg');
+  background-size: cover;
+} */
 </style>
