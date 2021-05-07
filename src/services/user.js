@@ -26,7 +26,7 @@ export default class UserService {
       })
       .catch(() => {
         store.dispatch('user/removeUser')
-        store.dispatch('setError', 'Ошибка авторизации пользователя')
+        store.dispatch('setError', 'Не удалось получить данные пользователя')
 
         Vue.notify({
           group: 'custom-notification',

@@ -8,10 +8,6 @@ export default class AuthService {
   constructor () {
     this.authAPI = process.env.VUE_APP_AUTH_API_BASE_URL
     axios.defaults.headers['Device-Info'] = this.getDeviceInfo()
-
-    if (tokenService.tokenExists()) {
-      store.dispatch('auth/loggedIn')
-    }
   }
 
   userLogout () {

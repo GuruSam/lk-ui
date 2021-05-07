@@ -1,11 +1,17 @@
 import { authService } from './index.js'
 import Cookie from 'js-cookie'
 import JwtDecode from 'jwt-decode'
+import store from '@/store'
 
 const ACCESS_TOKEN_KEY = 'accessToken'
 const REFRESH_TOKEN_KEY = 'refreshToken'
 
 export default class TokenService {
+  constructor () {
+    if (this.tokenExists()) {
+      store.dispatch('auth/loggedIn')
+    }
+  }
   /**
    * @returns {Object}
    */
