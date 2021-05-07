@@ -29,10 +29,7 @@ const actions = {
       ctx.commit('toggleLoader', true)
     } else {
       ctx.commit('appLoaded', true)
-
-      setTimeout(() => {
-        ctx.commit('toggleLoader', false)
-      }, 500);
+      ctx.commit('toggleLoader', false)
     }
   },
   setError: (ctx, payload) => {

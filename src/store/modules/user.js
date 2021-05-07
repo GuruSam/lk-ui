@@ -27,9 +27,16 @@ const actions = {
   }
 }
 
+const getters = {
+  userExists: (state) => {
+    return state.userId !== null
+  }
+}
+
 export default {
   namespaced: true,
   state,
   mutations,
+  getters,
   actions
 }

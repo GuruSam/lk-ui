@@ -1,9 +1,19 @@
 import Vue from 'vue'
-import axios from 'axios'
 import store from '@/store'
 import router from '@/router'
+import axios from 'axios'
 
 export default class UserService {
+  constructor () {
+    if (!store.getters.userExists && !store.state.appLoaded) {
+      this._userFetch = this.getUserData()
+    }
+  }
+
+  get userFetch () {
+    return this._userFetch
+  }
+
   getUserData () {
     return axios.get('/user')
       .then(({ data }) => {

@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '@/views/Home'
 import WelcomeScreen from '@/views/WelcomeScreen'
 import store from '@/store/index'
-import { authService } from '@/services'
+import { authService, userService } from '@/services'
 
 Vue.use(VueRouter)
 
@@ -28,11 +28,13 @@ const routes = [
       title: 'Добро пожаловать в Лабиринт'
     },
     beforeEnter: (to, from, next) => {
-      if (store.state.user.isProducer && store.state.auth.loggedIn) {
-        return next('/dashboard')
-      }
+      userService.userFetch.finally(() => {
+        if (store.state.user.isProducer && store.state.auth.loggedIn) {
+          return next('/dashboard')
+        }
 
-      next()
+        next()
+      })
     }
   }
 ]
@@ -50,6 +52,17 @@ router.beforeEach((to, from, next) => {
     return authService.redirectToLogin()
   }
   
+  next()
+})
+
+router.beforeResolve((to, from, next) => {
+  if (!store.state.appLoaded && store.state.showLoader) {
+    return userService.userFetch.finally(() => {
+        store.dispatch('setLoadingState', false)
+        next()
+      })
+  }
+
   next()
 })
 

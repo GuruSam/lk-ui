@@ -2,7 +2,6 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 import router from './router'
-import { userService } from '@/services'
 import globals from './globals'
 import BootstrapVue from 'bootstrap-vue'
 import Notifications from 'vue-notification'
@@ -24,11 +23,7 @@ Vue.mixin({
   data: globals
 })
 
-if (store.state.auth.loggedIn) {
-  store.dispatch('setLoadingState', true)
-  userService.getUserData()
-    .finally(() => store.dispatch('setLoadingState', false))
-}
+store.dispatch('setLoadingState', true)
 
 new Vue({
   router,
