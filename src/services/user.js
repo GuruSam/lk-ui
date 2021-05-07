@@ -10,10 +10,16 @@ export default class UserService {
     }
   }
 
+  /**
+   * @returns {Promise}
+   */
   get userFetch () {
     return this._userFetch
   }
 
+  /**
+   * @returns {Promise}
+   */
   getUserData () {
     return axios.get('/user')
       .then(({ data }) => {
