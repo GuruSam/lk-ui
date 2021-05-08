@@ -18,7 +18,7 @@
       @click="copyPassword"
     >
       <i class="ion" :class="pwdCopied ? 'ion-md-checkmark' : 'ion-md-copy'"></i>
-      &nbsp; Скопировать пароль
+      &nbsp; {{ pwdCopied ? 'Пароль скопирован' : 'Скопировать пароль' }}
     </a>
   </div>
 </template>
@@ -48,7 +48,7 @@ export default {
 
           this.timeout = setTimeout(() => {
             this.pwdCopied = false
-          }, 10000);
+          }, 5000);
         })
     }
   }
