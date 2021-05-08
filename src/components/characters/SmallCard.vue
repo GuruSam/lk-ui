@@ -16,31 +16,15 @@
         </div>
       </div>
       <div class="card-footer py-3">
-        <form ref="authForm" method="post" action="https://playlabirint.ru/game/login/login">
-          <input type="hidden" name="login" :value="character.name" />
-          <input type="hidden" name="password" :value="character.password" />
-          <input type="hidden" name="remember" value="1" />
-          <input type="hidden" name="logout" value="1" />
-          <input type="hidden" name="_xfRedirect" value="https://playlabirint.ru/game" />
-          <input type="hidden" name="_xfToken" value="1620461050,09b979c1da62bb10b98dbe1a9d6f9d1e" />
-        </form>
-        <a href="#" class="btn btn-sm btn-primary rounded-pill" @click="loginCharacter"><i class="ion ion-md-key"></i>&nbsp; Авторизоваться</a>
-        &nbsp;
-        <a 
-          href="#" 
-          class="btn btn-sm rounded-pill" 
-          :class="{ 'btn-success' : pwdCopied }"
-          @click="copyPassword"
-        >
-          <i class="ion" :class="pwdCopied ? 'ion-md-checkmark' : 'ion-md-copy'"></i>
-          &nbsp; Скопировать пароль
-        </a>
+        <AuthBlock :character="character" />
       </div>
     </div>
   </b-col>
 </template>
 
 <script>
+import AuthBlock from './AuthBlock'
+
 export default {
   name: 'small-card',
   props: {
@@ -49,13 +33,15 @@ export default {
       default: () => {}
     }
   },
+  components: {
+    AuthBlock
+  },
   data: function () {
     const xlBreakpoint = matchMedia('(max-width: 1500px) and (min-width: 1200px)')
 
     return {
       xlBreakpoint,
-      isXlEntered: xlBreakpoint.matches,
-      pwdCopied: false
+      isXlEntered: xlBreakpoint.matches
     }
   },
   mounted () {
@@ -75,21 +61,6 @@ export default {
         default:
           return 'Неизвестно'
       }
-    }
-  },
-  methods: {
-    loginCharacter () {
-      this.$refs.authForm.submit()
-    },
-    copyPassword () {
-      navigator.clipboard.writeText(this.character.password)
-        .then(() => {
-          this.pwdCopied = true
-
-          setTimeout(() => {
-            this.pwdCopied = false
-          }, 10000);
-        })
     }
   }
 }
