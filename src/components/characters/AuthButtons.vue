@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: 'auth-block',
+  name: 'auth-buttons',
   props: ['character'],
   data: () => ({
     pwdCopied: false,

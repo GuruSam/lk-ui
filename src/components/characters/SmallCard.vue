@@ -16,14 +16,14 @@
         </div>
       </div>
       <div class="card-footer py-3">
-        <AuthBlock :character="character" />
+        <AuthButtons :character="character" />
       </div>
     </div>
   </b-col>
 </template>
 
 <script>
-import AuthBlock from './AuthBlock'
+import AuthButtons from './AuthButtons'
 
 export default {
   name: 'small-card',
@@ -34,7 +34,7 @@ export default {
     }
   },
   components: {
-    AuthBlock
+    AuthButtons
   },
   data: function () {
     const xlBreakpoint = matchMedia('(max-width: 1500px) and (min-width: 1200px)')
