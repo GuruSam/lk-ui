@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home'
 import WelcomeScreen from '@/views/WelcomeScreen'
+import Tickets from '@/views/Tickets'
 import store from '@/store/index'
 import { authService, userService } from '@/services'
 
@@ -35,6 +36,14 @@ const routes = [
 
         next()
       })
+    }
+  },
+  {
+    path: '/tickets',
+    name: 'tickets',
+    component: Tickets,
+    meta: {
+      title: 'Список заявок'
     }
   }
 ]
