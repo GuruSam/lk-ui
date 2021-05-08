@@ -28,9 +28,3 @@ export default {
   }
 }
 </script>
-
-<style>
-body {
-  background-image: linear-gradient(to right top, rgba(14, 14, 14, 0.5), rgba(14, 14, 14, 0.5)), url(https://store.playlabirint.ru/images/page-background.jpg);
-}
-</style>

@@ -1,4 +1,5 @@
 import layoutHelpers from '@/components/layout/helpers.js'
+import dayjs from 'dayjs'
 
 export default function () {
   return {
@@ -79,6 +80,10 @@ export default function () {
         default:
           return phrases[2]
       }
+    },
+
+    getDate (ts) {
+      return dayjs.unix(ts).format('DD.MM.YYYY HH:mm')
     }
   }
 }

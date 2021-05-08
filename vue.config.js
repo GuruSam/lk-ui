@@ -33,5 +33,8 @@ module.exports = {
         options.compilerOptions.whitespace = 'preserve'
         return options
       })
+  },
+  devServer: {
+    port: 18003
   }
 }

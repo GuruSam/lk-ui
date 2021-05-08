@@ -20,26 +20,6 @@
             </b-row>
             <b-row>
               <character v-for="char in characters.favorites" :key="char.id" :character="char" />
-              <!-- <b-col>
-                <div class="card card-bordered mb-4">
-                  <div class="card-body">
-                    <div class="media">
-                      <img src="https://playlabirint.ru/data/avatars/l/552/552037.jpg" alt class="ui-w-100 rounded-circle">
-                      <div class="media-body pt-2 ml-3">
-                        <h5 class="text-large mb-2">Аномалия</h5>
-                        <div class="text-success text-big mb-2">В игре</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card-footer py-3">
-                    <a href="#" class="btn btn-sm btn-primary rounded-pill"><i class="ion ion-md-key"></i>&nbsp; Авторизоваться</a>
-                    &nbsp;
-                    <a href="#" class="btn btn-sm rounded-pill"><i class="ion ion-md-copy"></i>&nbsp; Скопировать пароль</a>
-                  </div>
-                </div>
-              </b-col>
-              <b-col></b-col>
-              <b-col></b-col> -->
             </b-row>
           </div>
         </b-col>
@@ -91,7 +71,7 @@ export default {
     },
 
     ticketsPending () {
-      return this.declOfNum(this.tickets.needAnswerCount, ['заявка', 'заявки', 'заявок']) + ' ' + this.declOfNum(this.tickets.total, ['ждёт', 'ждут', 'ждут']) + ' Вашего ответа'
+      return this.declOfNum(this.tickets.needAnswerCount, ['заявка', 'заявки', 'заявок']) + ' ' + this.declOfNum(this.tickets.needAnswerCount, ['ждёт', 'ждут', 'ждут']) + ' Вашего ответа'
     },
 
     activeTasks () {

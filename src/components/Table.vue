@@ -8,7 +8,7 @@
       <tbody v-if="data.length">
         <tr v-for="el in data" :key="el.id">
           <td>{{ el.name }}</td>
-          <td><span class="badge" :class="getStatusColor(el.status)">{{ getStatus(el.status) }}</span></td>
+          <td><span class="badge" :class="getTicketStatusColor(el.status, true)">{{ getTicketStatus(el.status) }}</span></td>
           <td>{{ getDate(el.updatedAt) }}</td>
           <td class="text-right">
             <router-link :to="'/tickets/' + el.id"><i class="ion ion-md-eye"></i></router-link>
@@ -26,10 +26,11 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'
+import { contentMixin } from '@/mixins/content'
 
 export default {
   name: 'data-table',
+  mixins: [contentMixin],
   props: {
     title: String,
     data: {
@@ -46,35 +47,6 @@ export default {
         case 'tasks':
           return 'Активных заданий нет'
       } 
-    },
-    getDate (ts) {
-      return dayjs.unix(ts).format('DD.MM.YYYY HH:mm')
-    },
-    getStatusColor (status) {
-      switch (status) {
-        case 1:
-          return 'badge-outline-primary'
-        case 2:
-          return 'badge-outline-success'
-        case 3:
-          return 'badge-outline-warning'
-        case 4:
-          return 'badge-outline-danger'
-        default:
-          return 'badge-outline-secondary'
-      }
-    },
-    getStatus (status) {
-      switch (status) {
-        case 1:
-          return 'Создано'
-        case 2:
-          return 'В обработке'
-        case 3:
-          return 'Ждёт ответа ГМ'
-        case 4: 
-          return 'Ждёт вашего ответа'
-      }
     }
   }
 }
