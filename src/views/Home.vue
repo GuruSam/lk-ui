@@ -6,46 +6,49 @@
         <b-col xl="9" lg="8" md="12" sm="12" >
           <b-row>
             <b-col>
-              <data-table type="tickets" title="Активные заявки" />
+              <data-table type="tickets" title="Активные заявки" :data="tickets.items" />
             </b-col>
           </b-row>
           <b-row>
             <b-col>
-              <data-table type="tasks" title="Задания в процессе" />
+              <data-table type="tasks" title="Задания в процессе" :data="tasks.items" />
             </b-col>
           </b-row>
-          <b-row>
-            <b-col class="mt-2"><h3>Избранные персонажи</h3></b-col>
-          </b-row>
-          <b-row>
-            <b-col>
-              <div class="card card-bordered mb-4">
-                <div class="card-body">
-                  <div class="media">
-                    <img src="https://playlabirint.ru/data/avatars/l/552/552037.jpg" alt class="ui-w-100 rounded-circle">
-                    <div class="media-body pt-2 ml-3">
-                      <h5 class="text-large mb-2">Аномалия</h5>
-                      <div class="text-success text-big mb-2">В игре</div>
+          <div v-if="characters.favorites && characters.favorites.length">
+            <b-row>
+              <b-col class="mt-2"><h3>Избранные персонажи</h3></b-col>
+            </b-row>
+            <b-row>
+              <character v-for="char in characters.favorites" :key="char.id" :character="char" />
+              <!-- <b-col>
+                <div class="card card-bordered mb-4">
+                  <div class="card-body">
+                    <div class="media">
+                      <img src="https://playlabirint.ru/data/avatars/l/552/552037.jpg" alt class="ui-w-100 rounded-circle">
+                      <div class="media-body pt-2 ml-3">
+                        <h5 class="text-large mb-2">Аномалия</h5>
+                        <div class="text-success text-big mb-2">В игре</div>
+                      </div>
                     </div>
                   </div>
+                  <div class="card-footer py-3">
+                    <a href="#" class="btn btn-sm btn-primary rounded-pill"><i class="ion ion-md-key"></i>&nbsp; Авторизоваться</a>
+                    &nbsp;
+                    <a href="#" class="btn btn-sm rounded-pill"><i class="ion ion-md-copy"></i>&nbsp; Скопировать пароль</a>
+                  </div>
                 </div>
-                <div class="card-footer py-3">
-                  <a href="#" class="btn btn-sm btn-primary rounded-pill"><i class="ion ion-md-key"></i>&nbsp; Авторизоваться</a>
-                  &nbsp;
-                  <a href="#" class="btn btn-sm rounded-pill"><i class="ion ion-md-copy"></i>&nbsp; Скопировать пароль</a>
-                </div>
-              </div>
-            </b-col>
-            <b-col></b-col>
-            <b-col></b-col>
-          </b-row>
+              </b-col>
+              <b-col></b-col>
+              <b-col></b-col> -->
+            </b-row>
+          </div>
         </b-col>
         <b-col xl="3" lg="4" md="12" sm="12">
           <b-row>
-            <info-card light icon="ios-contacts" :text="charactersInGame" />
-            <info-card icon="ios-people" text="NPC в игре" />
-            <info-card light icon="ios-mail" :text="ticketsPending" />
-            <info-card icon="md-list-box" :text="activeTasks" />
+            <info-card light icon="ios-contacts" :number="characters.total" :text="charactersInGame" />
+            <info-card icon="ios-people" :number="npc.total" text="NPC в игре" />
+            <info-card light icon="ios-mail" :number="tickets.needAnswerCount" :text="ticketsPending" />
+            <info-card icon="md-list-box" :number="tasks.total" :text="activeTasks" />
           </b-row>
         </b-col>
       </b-row>
@@ -56,6 +59,8 @@
 <script>
 import Table from '@/components/Table'
 import InfoCard from '@/components/InfoCard'
+import SmallCard from '@/components/characters/SmallCard'
+import { contentService } from '@/services'
 
 export default {
   name: 'Home',
@@ -64,19 +69,41 @@ export default {
   },
   components: {
     'data-table': Table,
-    'info-card': InfoCard
+    'info-card': InfoCard,
+    'character': SmallCard
+  },
+  data: () => ({
+    tickets: {},
+    tasks: {},
+    characters: {},
+    npc: {}
+  }),
+  beforeRouteEnter (to, from, next) {
+    contentService.getDashboardInfo()
+      .then(({ data }) => {
+        next(vm => vm.setData(data))
+      })
+      .catch(() => next())
   },
   computed: {
     charactersInGame () {
-      return this.declOfNum(0, ['персонаж', 'персонажа', 'персонажей']) + ' в игре' 
+      return this.declOfNum(this.characters.total, ['персонаж', 'персонажа', 'персонажей']) + ' в игре' 
     },
 
     ticketsPending () {
-      return this.declOfNum(0, ['заявка', 'заявки', 'заявок']) + ' ' + this.declOfNum(0, ['ждёт', 'ждут', 'ждут']) + ' ответа'
+      return this.declOfNum(this.tickets.needAnswerCount, ['заявка', 'заявки', 'заявок']) + ' ' + this.declOfNum(this.tickets.total, ['ждёт', 'ждут', 'ждут']) + ' Вашего ответа'
     },
 
     activeTasks () {
-      return this.declOfNum(0, ['задание', 'задания', 'заданий']) + ' в процессе'
+      return this.declOfNum(this.tasks.total, ['задание', 'задания', 'заданий']) + ' в процессе'
+    }
+  },
+  methods: {
+    setData ({ tickets, tasks, characters, npc }) {
+      this.tickets = tickets || this.tickets
+      this.tasks = tasks || this.tasks
+      this.characters = characters || this.characters
+      this.npc = npc || this.npc
     }
   }
 }
