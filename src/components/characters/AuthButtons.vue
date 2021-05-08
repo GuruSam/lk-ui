@@ -8,7 +8,7 @@
       <input type="hidden" name="_xfRedirect" value="https://playlabirint.ru/game" />
       <input type="hidden" name="_xfToken" value="1620461050,09b979c1da62bb10b98dbe1a9d6f9d1e" />
     </form>
-    <a href="#" class="btn btn-sm btn-primary rounded-pill mr-2" @click="loginCharacter"><i class="ion ion-md-key"></i>&nbsp; Авторизоваться</a>
+    <a href="#" class="btn btn-sm btn-primary rounded-pill mr-2" @click="loginCharacter"><i class="ion ion-md-key"></i>&nbsp; Войти</a>
     <a 
       href="#" 
       class="btn btn-sm rounded-pill" 
