@@ -43,7 +43,6 @@ export default new Vuex.Store({
   actions,
   getters: {},
   modules: {
-    user: user,
-    auth: auth
+    user, auth
   }
 })

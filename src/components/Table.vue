@@ -8,7 +8,7 @@
       <tbody v-if="data.length">
         <tr v-for="el in data" :key="el.id">
           <td>{{ el.name }}</td>
-          <td><span class="badge" :class="getTicketStatusColor(el.status, true)">{{ getTicketStatus(el.status) }}</span></td>
+          <td><span class="badge" :class="getTicketStatusColor(el.status, true)">{{ ticketStatus[el.status] }}</span></td>
           <td>{{ getDate(el.updatedAt) }}</td>
           <td class="text-right">
             <router-link :to="'/tickets/' + el.id"><i class="ion ion-md-eye"></i></router-link>

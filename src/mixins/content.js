@@ -1,22 +1,17 @@
-export const contentMixin = {
-  methods: {
-    getTicketStatus (status) {
-      switch (status) {
-        case 1:
-          return 'Создано'
-        case 2:
-          return 'В обработке'
-        case 3:
-          return 'Ждёт ответа ГМ'
-        case 4: 
-          return 'Ждёт вашего ответа'
-        case 5:
-          return 'Завершено'
-        case 100:
-          return 'В архиве'
-      }
-    },
+const ticketStatus = {
+  1: 'Создано',
+  2: 'В обработке',
+  3: 'Ждёт ответа ГМ',
+  4: 'Ждёт вашего ответа',
+  5: 'Завершено',
+  100: 'В архиве'
+}
 
+export const contentMixin = {
+  data: () => ({
+    ticketStatus
+  }),
+  methods: {
     getTicketStatusColor (status, outline) {
       switch (status) {
         case 1:
