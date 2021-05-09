@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
+import store from '@/store'
 import { authService, tokenService } from './index'
 
 export default class ApiService {
@@ -7,6 +8,7 @@ export default class ApiService {
     this._mount401Interceptor()
     this._mount403Interceptor()
     this._mount500Interceptor()
+    this._mountXfTokenInterceptor()
     this.setAuthHeader()
 
     this.refreshPending = null
@@ -80,6 +82,18 @@ export default class ApiService {
         })
       }
 
+      return Promise.reject(error)
+    })
+  }
+
+  _mountXfTokenInterceptor () {
+    axios.interceptors.response.use(response => {
+      if (response.headers['xf-token']) {
+        store.dispatch('setXfToken', response.headers['xf-token'])
+      }
+
+      return response
+    }, async error => {
       return Promise.reject(error)
     })
   }
