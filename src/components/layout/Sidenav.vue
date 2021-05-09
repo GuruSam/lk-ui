@@ -68,6 +68,14 @@ export default {
 
   },
 
+  watch: {
+    $route () {
+      if (this.layoutHelpers.isSmallScreen()) {
+        this.layoutHelpers.setCollapsed(true)
+      }
+    }
+  },
+
   methods: {
     isMenuActive (url) {
       return this.$route.path.indexOf(url) === 0
