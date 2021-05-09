@@ -31,7 +31,7 @@ export default {
   }),
   computed: {
     xfToken () {
-      return this.$store.state.xfToken
+      return this.$store.state.auth.xfToken
     }
   },
   methods: {
