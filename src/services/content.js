@@ -9,6 +9,7 @@ export default class ContentService {
     params.type = params.type ?? 'all'
     params.limit = params.limit ?? -1
     params.offset = params.offset ?? 0
+    params.needFilters = true
 
     return axios.get('/tickets', { params })
   }

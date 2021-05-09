@@ -10,17 +10,18 @@
         :responsive="true"
         :show-empty="true"
         :busy="busy"
-        empty-text="У вас еще нет заявок"
+        empty-text="Заявок нет"
         class="card-table">
 
         <template v-slot:cell(name)="data">
           <router-link class="text-white" :to="'/tickets/' + data.item.id">{{ data.item.name }}</router-link>
         </template>
-        
         <template v-slot:cell(status)="data">
           <span class="badge" :class="getTicketStatusColor(data.item.status)">{{ ticketStatus[data.item.status] }}</span>
         </template>
-
+        <template v-slot:cell(createdAt)="data">
+          {{ getDate(data.item.createdAt) }}
+        </template>
         <template v-slot:cell(updatedAt)="data">
           {{ getDate(data.item.updatedAt) }}
         </template>
@@ -63,7 +64,8 @@ export default {
       { key: 'name', label: 'Название', thClass: 'text-nowrap text-primary', thStyle: 'min-width: 300px', tdClass: 'align-middle py-3' },
       { key: 'status', label: 'Статус', thClass: 'text-nowrap text-primary', tdClass: 'align-middle py-3' },
       { key: 'character.name', label: 'Персонаж', thClass: 'text-nowrap text-primary', tdClass: 'align-middle py-3' },
-      { key: 'created_at', label: 'Создана', thClass: 'text-nowrap text-primary', tdClass: 'align-middle py-3' },
+      { key: 'category.name', label: 'Категория', thClass: 'text-nowrap text-primary', tdClass: 'align-middle py-3' },
+      { key: 'createdAt', label: 'Создана', thClass: 'text-nowrap text-primary', tdClass: 'align-middle py-3' },
       { key: 'updatedAt', label: 'Обновлена', thClass: 'text-nowrap text-primary', tdClass: 'align-middle py-3' },
       { key: 'actions', label: ' ', thClass: 'text-nowrap text-primary', tdClass: 'text-nowrap align-middle text-center py-3' }
     ],

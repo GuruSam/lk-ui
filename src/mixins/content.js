@@ -16,7 +16,8 @@ export const contentMixin = {
       switch (status) {
         case 1:
           return outline ? 'badge-outline-primary' : 'badge-primary'
-        case 2 || 5:
+        case 2:
+        case 5:
           return outline ? 'badge-outline-success' : 'badge-success'
         case 3:
           return outline ? 'badge-outline-warning' : 'badge-warning'

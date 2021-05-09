@@ -6,8 +6,6 @@
     </h3>
     <TicketFilter 
       :charactersOptions="characterOptions" 
-      :status="filterStatus" 
-      :characterId="filterCharacter"
       @filter="applyFilter" 
     />
 
@@ -33,9 +31,11 @@ export default {
     total: 0,
     characterOptions: [],
 
-    filterStatus: null,
-    filterCharacter: null,
-    filterType: 'active'
+    filter: {
+      status: null,
+      characterId: null,
+      type: 'active'
+    }
   }),
   beforeRouteEnter (to, from, next) {
     contentService.getTicketsList({ type: 'active' })
@@ -43,43 +43,39 @@ export default {
         next(vm => {
           vm.tickets = data.items
           vm.total = data.total
-          vm.setCharacterOptions(data.items)
+          vm.setCharacterOptions(data.filters.characters)
         })
       })
       .catch(() => next())
   },
   methods: {
     applyFilter (status, characterId) {
-      this.filterStatus = status
-      this.filterCharacter = characterId
+      this.filter.status = status
+      this.filter.characterId = characterId
       this.fetchData()
     },
     applyType (newTabIndex) {
-      this.filterType = newTabIndex === 0 ? 'active' : 'completed'
+      this.filter.type = newTabIndex === 0 ? 'active' : 'completed'
       this.fetchData()
     },
     fetchData () {
-      const params = {
-        status: this.filterStatus,
-        characterId: this.filterCharacter,
-        type: this.filterType
-      }
       this.busy = true
 
-      return contentService.getTicketsList(params)
+      return contentService.getTicketsList(this.filter)
         .then(({ data }) => {
           this.tickets = data.items
           this.total = data.total
+          this.setCharacterOptions(data.filters.characters)
         })
         .finally(() => {
           this.busy = false
         })
     },
-    setCharacterOptions (tickets) {
-      this.characterOptions = tickets.map(ticket => {
+    setCharacterOptions (characters) {
+      this.characterOptions = characters.map(char => {
         return {
-          value: ticket.character.id,
-          text: ticket.character.name
+          value: char.id,
+          text: char.name
         }
       })
     }
