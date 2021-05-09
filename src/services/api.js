@@ -89,9 +89,8 @@ export default class ApiService {
 
   _mountXfTokenInterceptor () {
     axios.interceptors.response.use(response => {
-      console.log(response)
       if (response.headers['xf-token']) {
-        store.dispatch('setXfToken', response.headers['xf-token'])
+        store.dispatch('auth/setXfToken', response.headers['xf-token'])
       }
 
       return response
