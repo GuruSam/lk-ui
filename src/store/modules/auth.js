@@ -1,5 +1,6 @@
 const state = {
-  loggedIn: false
+  loggedIn: false,
+  xfToken: null
 }
 
 const mutations = {
@@ -8,6 +9,9 @@ const mutations = {
   },
   loggedIn: state => {
     state.loggedIn = true
+  },
+  setXfToken: (state, payload) => {
+    state.xfToken = payload
   }
 }
 
@@ -17,6 +21,9 @@ const actions = {
   },
   loggedIn: ctx => {
     ctx.commit('loggedIn')
+  },
+  setXfToken: (ctx, payload) => {
+    ctx.commit('setXfToken', payload)
   }
 }
 

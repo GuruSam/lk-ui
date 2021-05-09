@@ -8,8 +8,7 @@ Vue.use(Vuex)
 const state = {
   appLoaded: false,
   showLoader: false,
-  error: null,
-  xfToken: null
+  error: null
 }
 
 const mutations = {
@@ -21,9 +20,6 @@ const mutations = {
   },
   toggleLoader: (state, payload) => {
     state.showLoader = payload
-  },
-  setXfToken: (state, payload) => {
-    state.xfToken = payload
   }
 }
 
@@ -38,9 +34,6 @@ const actions = {
   },
   setError: (ctx, payload) => {
     ctx.commit('setError', payload)
-  },
-  setXfToken: (ctx, payload) => {
-    ctx.commit('setXfToken', payload)
   }
 }
 
