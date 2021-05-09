@@ -70,6 +70,8 @@ export default class TokenService {
 
   createXfToken () {
     const string = cryptoRandomString({length: 16, type: 'base64'})
-    Cookie.set(XF_TOKEN_KEY, string)
+    const domain = authService.getDomain()
+
+    Cookie.set(XF_TOKEN_KEY, string, { domain: domain })
   }
 }
