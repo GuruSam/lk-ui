@@ -21,7 +21,7 @@ export default class UserService {
    * @returns {Promise}
    */
   getUserData () {
-    return axios.get('/user')
+    return axios.get('/user', { withCredentials: true })
       .then(({ data }) => {
         const user = data
         store.dispatch('user/setUser', user)

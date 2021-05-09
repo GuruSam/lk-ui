@@ -13,7 +13,6 @@ export default class ApiService {
 
     this.refreshPending = null
     axios.defaults.baseURL = process.env.VUE_APP_LK_API_BASE_URL
-    axios.defaults.withCredentials = true
   }
 
   setAuthHeader () {
