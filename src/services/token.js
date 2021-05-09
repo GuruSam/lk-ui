@@ -14,9 +14,7 @@ export default class TokenService {
       store.dispatch('auth/loggedIn')
     }
 
-    if (this.xfTokenExists()) {
-      store.dispatch('auth/setXfToken', this.getXfToken())
-    } else {
+    if (!this.xfTokenExists()) {
       this.createXfToken()
     }
   }
@@ -28,10 +26,6 @@ export default class TokenService {
     const refreshToken = Cookie.get(REFRESH_TOKEN_KEY)
 
     return { accessToken, refreshToken }
-  }
-
-  getXfToken () {
-    return Cookie.get(XF_TOKEN_KEY)
   }
 
   /**
