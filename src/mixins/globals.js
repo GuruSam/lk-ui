@@ -83,6 +83,10 @@ export default function () {
     },
 
     getDate (ts) {
+      const diff = dayjs().diff(dayjs.unix(ts), 'hour')
+      if (!diff) {
+        return dayjs.unix(ts).fromNow()
+      }
       return dayjs.unix(ts).format('DD.MM.YYYY HH:mm')
     }
   }

@@ -40,6 +40,7 @@
             v-model="currentPage"
             :total-rows="total"
             :per-page="perPage"
+            @change="setPage"
             size="sm" />
         </div>
       </div>
@@ -70,13 +71,20 @@ export default {
       { key: 'actions', label: ' ', thClass: 'text-nowrap text-primary', tdClass: 'text-nowrap align-middle text-center py-3' }
     ],
     currentPage: 1,
-    perPage: 15
+    perPage: 1
   }),
   computed: {
     totalPages () {
       return Math.ceil(this.total / this.perPage)
     }
   },
+  methods: {
+    setPage (page) {
+      this.$emit('pagination', {
+        offset: page * this.perPage - this.perPage
+      })
+    }
+  }
 }
 </script>
 

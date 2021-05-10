@@ -4,15 +4,17 @@
       <div class="mr-2">Связь с организаторами</div>
       <b-btn variant="primary rounded-pill" class="d-block"><span class="ion ion-md-add"></span>&nbsp; Написать заявку</b-btn>
     </h3>
-    <TicketFilter 
-      :charactersOptions="characterOptions" 
-      @filter="applyFilter" 
-    />
+    <TicketFilter :charactersOptions="characterOptions" @filter="applyFilter" />
 
     <b-tabs no-fade class="nav-tabs-top mb-4" active-nav-item-class="tabs-border" @activate-tab="applyType">
       <b-tab title="Активные" active></b-tab>
       <b-tab title="Завершенные"></b-tab>
-      <TicketTable :busy="busy" :tickets="tickets" :total="total" />
+      <TicketTable 
+        :busy="busy" 
+        :tickets="tickets" 
+        :total="total"
+        @pagination="fetchData" 
+      />
     </b-tabs>
   </b-container>
 </template>
@@ -58,10 +60,11 @@ export default {
       this.filter.type = newTabIndex === 0 ? 'active' : 'completed'
       this.fetchData()
     },
-    fetchData () {
+    fetchData (offset) {
+      const params = offset ? Object.assign({}, this.filter, offset) : this.filter
       this.busy = true
 
-      return contentService.getTicketsList(this.filter)
+      return contentService.getTicketsList(params)
         .then(({ data }) => {
           this.tickets = data.items
           this.total = data.total
