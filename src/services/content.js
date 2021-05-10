@@ -7,7 +7,7 @@ export default class ContentService {
 
   getTicketsList (params) {
     params.type = params.type ?? 'all'
-    params.limit = params.limit ?? 1
+    params.limit = params.limit ?? 12
     params.offset = params.offset ?? 0
     params.needFilters = true
 

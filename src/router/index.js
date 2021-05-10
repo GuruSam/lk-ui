@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '@/views/Home'
 import WelcomeScreen from '@/views/WelcomeScreen'
 import TicketsList from '@/views/tickets/List'
+import CharactersList from '@/views/characters/CharactersList'
 import store from '@/store/index'
 import { authService, userService } from '@/services'
 
@@ -44,6 +45,14 @@ const routes = [
     component: TicketsList,
     meta: {
       title: 'Список заявок'
+    }
+  },
+  {
+    path: '/characters',
+    name: 'characters',
+    component: CharactersList,
+    meta: {
+      title: 'Мои персонажи'
     }
   }
 ]

@@ -5,7 +5,6 @@
         :items="tickets"
         :fields="fields"
         :striped="true"
-        :current-page="currentPage"
         :per-page="perPage"
         :responsive="true"
         :show-empty="true"
@@ -40,7 +39,7 @@
             v-model="currentPage"
             :total-rows="total"
             :per-page="perPage"
-            @change="setPage"
+            @input="setPage"
             size="sm" />
         </div>
       </div>
@@ -71,7 +70,7 @@ export default {
       { key: 'actions', label: ' ', thClass: 'text-nowrap text-primary', tdClass: 'text-nowrap align-middle text-center py-3' }
     ],
     currentPage: 1,
-    perPage: 1
+    perPage: 12
   }),
   computed: {
     totalPages () {
