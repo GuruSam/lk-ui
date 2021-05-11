@@ -1,6 +1,7 @@
 <template>
   <b-container fluid>
-    <b-row class="contacts-col-view">
+    <h3 class="mb-4">Мои персонажи</h3>
+    <b-row class="contacts-col-view mt-3">
       <character :character="character" />
     </b-row>
   </b-container>

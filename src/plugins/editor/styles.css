@@ -1,0 +1,26 @@
+.ql-toolbar.ql-snow,
+.ql-container.ql-snow {
+    border: 1px solid #353535;
+}
+.ql-editor {
+    color: #a0a0a0;
+}
+.ql-editor.ql-blank::before {
+    color: rgb(232 232 232 / 60%);
+}
+.ql-tooltip.ql-editing {
+    z-index: 100;
+}
+.ql-snow .ql-tooltip[data-mode=link]::before {
+    content: "Введите ссылку:";
+}
+.ql-snow .ql-tooltip.ql-editing a.ql-action::after {
+    content: 'Сохранить';
+}
+
+.ql-snow .ql-stroke {
+    stroke: #adadad;
+}
+.ql-snow .ql-fill {
+    fill: #adadad;
+}

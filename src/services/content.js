@@ -13,4 +13,8 @@ export default class ContentService {
 
     return axios.get('/tickets', { params })
   }
+
+  getTicket (id) {
+    return axios.get(`/tickets/${id}`)
+  }
 }

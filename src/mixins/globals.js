@@ -87,7 +87,7 @@ export default function () {
       if (!diff) {
         return dayjs.unix(ts).fromNow()
       }
-      return dayjs.unix(ts).format('DD.MM.YYYY HH:mm')
+      return dayjs.unix(ts).format('DD MMMM YYYY, HH:mm')
     }
   }
 }

@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '@/views/Home'
+import store from '@/store/index'
+import { authService, userService } from '@/services'
+
 import WelcomeScreen from '@/views/WelcomeScreen'
 import TicketsList from '@/views/tickets/List'
 import CharactersList from '@/views/characters/CharactersList'
-import store from '@/store/index'
-import { authService, userService } from '@/services'
+import TicketPage from '@/views/tickets/TicketPage'
 
 Vue.use(VueRouter)
 
@@ -48,6 +50,11 @@ const routes = [
     }
   },
   {
+    path: '/tickets/:id',
+    name: 'ticket-page',
+    component: TicketPage
+  },
+  {
     path: '/characters',
     name: 'characters',
     component: CharactersList,
@@ -64,7 +71,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title
+  document.title = to.meta.title ?? from.meta.title
 
   if (!store.state.auth.loggedIn) {
     return authService.redirectToLogin()

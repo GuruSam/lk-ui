@@ -2,7 +2,7 @@ import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import Notifications from 'vue-notification'
 import VueProgressBar from 'vue-progressbar'
-import './dayjs'
+import './dayjs.js'
 
 const progressBarOptions = {
   color: '#01cae2',
