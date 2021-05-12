@@ -17,4 +17,11 @@ export default class ContentService {
   getTicket (id) {
     return axios.get(`/tickets/${id}`)
   }
+
+  getTicketComments (id, params = {}) {
+    params.limit = params.limit ?? 12
+    params.offset = params.offset ?? 0
+
+    return axios.get(`/tickets/${id}/comments`, { params })
+  }
 }

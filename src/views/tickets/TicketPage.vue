@@ -8,33 +8,33 @@
       <b-col>
         <b-card header="Описание" header-tag="h6" class="mb-4">
           <div v-html="ticket.description" class="ticket-desc"></div>
+          <!-- <CiteButton ref="citeButton" /> -->
         </b-card>
 
         <b-card header="Обсуждение" header-tag="h6" class="mb-4" no-body>
-          <!-- <div class="d-flex justify-content-center mb-3">
-            <b-spinner variant="primary" label="Spinning" class="ml-auto"></b-spinner>
-          </div> -->
+          <div v-if="commentsPending" class="d-flex justify-content-center mb-4 mt-4">
+            <b-spinner variant="primary" label="Spinning"></b-spinner>
+          </div>
 
-          <b-card-body>
-            <div class="media mb-3">
+          <b-card-body v-else-if="comments.length">
+            <div v-for="comment in comments" :key="comment.createdAt" class="media mb-3">
               <div class="text-center">
-                <img src="https://thesims.cc/data/avatars/l/141/141690.jpg" class="ui-w-40 rounded-circle" alt>
-                <div class="text-muted small text-nowrap mt-2">13:19</div>
+                <img :src="comment.author.avatar" class="ui-w-40 rounded-circle" alt>
+                <div class="text-muted small text-nowrap mt-2">{{ getCommentDate(comment.createdAt) }}</div>
               </div>
               <div class="media-body bg-lighter rounded py-2 px-3 ml-3">
-                <div class="font-weight-semibold mb-2 text-danger">Гейм-мастер</div>
-                Pellentesque faucibus, nisl vel luctus porttitor, leo felis pellentesque augue, dignissim tempus risus odio sed lorem. Nunc nec malesuada nunc, ut mollis dui.
+                <div class="font-weight-semibold mb-2" :class="getCommentAuthorColor(comment.author.type)">{{ comment.author.name }}</div>
+                {{ comment.text }}
               </div>
             </div>
           </b-card-body>
-            <b-card-footer>
-              <quillEditor v-model="comment" :options="editorOptions" />
-              <b-btn class="mt-4" variant="primary">Отправить</b-btn>
-              <!-- <b-input-group>
-                <b-input placeholder="Напишите сообщение..." />
-                <b-btn slot="append" variant="primary">Отправить</b-btn>
-              </b-input-group> -->
-            </b-card-footer>
+          <b-card-body v-else>
+            <p class="text-muted">У этой заявки еще нет обсуждений</p>
+          </b-card-body>
+          <b-card-footer v-if="!commentsPending">
+            <quillEditor v-model="comment" :options="editorOptions" />
+            <b-btn class="mt-4" variant="primary">Отправить</b-btn>
+          </b-card-footer>
         </b-card>
       </b-col>
 
@@ -88,6 +88,8 @@ import { contentService } from '@/services'
 import { contentMixin } from '@/mixins/content'
 import { quillEditor } from 'vue-quill-editor'
 import { quillOptions } from '@/plugins/editor/options'
+// import CiteButton from '@/components/CiteButton'
+import dayjs from 'dayjs'
 
 export default {
   name: 'TicketPage',
@@ -100,6 +102,9 @@ export default {
       category: {},
       character: {}
     },
+    comments: [],
+    commentsTotal: null,
+    commentsPending: true,
     comment: '',
     editorOptions: quillOptions
   }),
@@ -149,11 +154,39 @@ export default {
     const { data } = await contentService.getTicket(to.params.id)
     next(vm => vm.setData(data))
   },
+  mounted () {
+    contentService.getTicketComments(this.$route.params.id)
+      .then(({ data }) => {
+        this.comments = data.items
+        this.commentsTotal = data.total
+        this.commentsPending = false
+      })
+  },
   methods: {
     setData (data) {
       document.title = data.name
       this.ticket = data
-    }
+    },
+
+    showCite (evt) {
+      if (document.getSelection().toString()) {
+        this.$refs.citeButton.show(evt)
+      }
+    },
+
+    getCommentDate (ts) {
+      return dayjs.unix(ts).format('HH:mm')
+    },
+
+    getCommentAuthorColor (type) {
+      switch (type) {
+        case 'producer':
+          return 'text-primary'
+        case 'gm':
+        case 'system':
+          return 'text-danger'
+      }
+    } 
   }
 }
 </script>
@@ -165,5 +198,8 @@ export default {
 }
 .ticket-desc { 
   color: #d4d4d4;
+}
+.cite-btn {
+  position: fixed;
 }
 </style>
