@@ -7,35 +7,10 @@
     <b-row>
       <b-col>
         <b-card header="Описание" header-tag="h6" class="mb-4">
-          <div v-html="ticket.description" class="ticket-desc"></div>
-          <!-- <CiteButton ref="citeButton" /> -->
+          <div v-html="ticket.description" class="ticket-desc" @mouseup="showCiteButton"></div>
         </b-card>
-
-        <b-card header="Обсуждение" header-tag="h6" class="mb-4" no-body>
-          <div v-if="commentsPending" class="d-flex justify-content-center mb-4 mt-4">
-            <b-spinner variant="primary" label="Spinning"></b-spinner>
-          </div>
-
-          <b-card-body v-else-if="comments.length">
-            <div v-for="comment in comments" :key="comment.createdAt" class="media mb-3">
-              <div class="text-center">
-                <img :src="comment.author.avatar" class="ui-w-40 rounded-circle" alt>
-                <div class="text-muted small text-nowrap mt-2">{{ getCommentDate(comment.createdAt) }}</div>
-              </div>
-              <div class="media-body bg-lighter rounded py-2 px-3 ml-3">
-                <div class="font-weight-semibold mb-2" :class="getCommentAuthorColor(comment.author.type)">{{ comment.author.name }}</div>
-                {{ comment.text }}
-              </div>
-            </div>
-          </b-card-body>
-          <b-card-body v-else>
-            <p class="text-muted">У этой заявки еще нет обсуждений</p>
-          </b-card-body>
-          <b-card-footer v-if="!commentsPending">
-            <quillEditor v-model="comment" :options="editorOptions" />
-            <b-btn class="mt-4" variant="primary">Отправить</b-btn>
-          </b-card-footer>
-        </b-card>
+        <TicketComments />
+        <CiteButton ref="citeButton" />
       </b-col>
 
       <b-col md="4" xl="3">
@@ -57,16 +32,16 @@
               <div class="text-muted">Категория</div>
               <div>{{ ticket.category.name }}</div>
             </b-list-group-item>
-            <b-list-group-item class="d-flex justify-content-between align-items-center">
+            <b-list-group-item v-if="ticket.character" class="d-flex justify-content-between align-items-center">
               <div class="text-muted">Персонаж</div>
               <div><a href="javascript:void(0)">{{ ticket.character.name }}</a></div>
             </b-list-group-item>
             <b-list-group-item class="d-flex justify-content-between align-items-center">
-              <div class="text-muted">Дата создания</div>
+              <div class="text-muted">Создано</div>
               <div>{{ getDate(ticket.createdAt) }}</div>
             </b-list-group-item>
             <b-list-group-item class="d-flex justify-content-between align-items-center">
-              <div class="text-muted">Дата обновления</div>
+              <div class="text-muted">Обновлено</div>
               <div>{{ getDate(ticket.updatedAt) }}</div>
             </b-list-group-item>
             <b-list-group-item class="d-flex justify-content-center align-items-center">
@@ -79,34 +54,23 @@
   </b-container>
 </template>
 
-<style src="quill/dist/quill.core.css"></style>
-<style src="quill/dist/quill.snow.css"></style>
-<style src="@/plugins/editor/styles.css"></style>
-
 <script>
 import { contentService } from '@/services'
 import { contentMixin } from '@/mixins/content'
-import { quillEditor } from 'vue-quill-editor'
-import { quillOptions } from '@/plugins/editor/options'
-// import CiteButton from '@/components/CiteButton'
-import dayjs from 'dayjs'
+import CiteButton from '@/components/CiteButton'
+import TicketComments from '@/components/tickets/TicketComments'
 
 export default {
   name: 'TicketPage',
   mixins: [contentMixin],
   components: {
-    quillEditor
+    CiteButton, TicketComments
   },
   data: () => ({
     ticket: {
       category: {},
       character: {}
-    },
-    comments: [],
-    commentsTotal: null,
-    commentsPending: true,
-    comment: '',
-    editorOptions: quillOptions
+    }
   }),
   computed: {
     breadcrumb () {
@@ -154,39 +118,15 @@ export default {
     const { data } = await contentService.getTicket(to.params.id)
     next(vm => vm.setData(data))
   },
-  mounted () {
-    contentService.getTicketComments(this.$route.params.id)
-      .then(({ data }) => {
-        this.comments = data.items
-        this.commentsTotal = data.total
-        this.commentsPending = false
-      })
-  },
   methods: {
     setData (data) {
       document.title = data.name
       this.ticket = data
     },
 
-    showCite (evt) {
-      if (document.getSelection().toString()) {
-        this.$refs.citeButton.show(evt)
-      }
-    },
-
-    getCommentDate (ts) {
-      return dayjs.unix(ts).format('HH:mm')
-    },
-
-    getCommentAuthorColor (type) {
-      switch (type) {
-        case 'producer':
-          return 'text-primary'
-        case 'gm':
-        case 'system':
-          return 'text-danger'
-      }
-    } 
+    showCiteButton (evt) {
+      this.$refs.citeButton.trigger(evt)
+    }
   }
 }
 </script>
@@ -198,8 +138,5 @@ export default {
 }
 .ticket-desc { 
   color: #d4d4d4;
-}
-.cite-btn {
-  position: fixed;
 }
 </style>

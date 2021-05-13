@@ -5,7 +5,7 @@ import store from '@/store/index'
 import { authService, userService } from '@/services'
 
 import WelcomeScreen from '@/views/WelcomeScreen'
-import TicketsList from '@/views/tickets/List'
+import TicketsList from '@/views/tickets/TicketsList'
 import CharactersList from '@/views/characters/CharactersList'
 import TicketPage from '@/views/tickets/TicketPage'
 

@@ -13,10 +13,17 @@
 <script>
 export default {
   name: 'CiteButton',
+  props: {
+    elements: {
+      type: Array,
+      default: () => []
+    }
+  },
   data: () => ({
-    showCiteBtn: false
+    showCiteBtn: false,
+    selectedText: ''
   }),
-  created () {
+  mounted () {
     document.addEventListener('click', () => {
       if (!document.getSelection().toString()) {
         this.showCiteBtn = false
@@ -24,16 +31,34 @@ export default {
     })
   },
   methods: {
+    trigger (evt) {
+      if (document.getSelection().toString()) {
+        this.show(evt)
+        this.selectedText = document.getSelection().toString()
+      }
+    },
+
     show (evt) {
-      this.$refs.button.$el.style.top = `${evt.clientY - 30}px`
-      this.$refs.button.$el.style.left = `${evt.clientX - 25}px`
+      this.$refs.button.style.top = `${evt.clientY - 30}px`
+      this.$refs.button.style.left = `${evt.clientX - 25}px`
       this.showCiteBtn = true
     },
 
     cite () {
+      const bq = `<blockquote>${this.selectedText}</blockquote><br>`
+      const editor = document.querySelector('.ql-editor')
+      editor.innerHTML = editor.innerHTML + bq
+      
       this.showCiteBtn = false
       document.getSelection().removeAllRanges()
     }
   }
 }
 </script>
+
+<style>
+.cite-btn {
+  position: fixed;
+  cursor: pointer;
+}
+</style>
