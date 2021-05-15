@@ -46,9 +46,11 @@ export default {
         if (quote.dataset.source) {
           const source = quote.dataset.source === 'desc' ? 'Из описания:' : quote.dataset.source + ' сказал(а):'
           const sourceBlock = `<span class="cite-source text-muted mb-2">${source}</span>`
-          quote.prepend(sourceBlock)
+          quote.insertAdjacentHTML('afterbegin', sourceBlock)
         }
       })
+
+      this.comment.text = tempDiv.innerHTML
     }
   }
 }
@@ -58,6 +60,7 @@ export default {
 .comment blockquote {
   background-color: #1e1e21;
   border-left: 3px solid #a9a9a9;
+  border-radius: 0.25rem;
   color: #a9a9a9;
   font-style: italic;
   padding: 0.5em 10px;
@@ -65,5 +68,6 @@ export default {
 }
 .cite-source {
   display: block;
+  font-size: 13px;
 }
 </style>
