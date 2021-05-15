@@ -1,17 +1,22 @@
 <template>
   <b-col xl="4" lg="12" md="6" sm="12">
-    <div class="card card-bordered mb-4">
+    <div class="card card-bordered character-card mb-4">
       <div class="card-body">
         <div class="media">
           <img 
             :src="character.avatar" 
             alt="avatar" 
-            class="rounded-circle" 
+            class="rounded-circle avatar" 
             :class="isXlEntered ? 'ui-w-80' : 'ui-w-100'"
           />
           <div class="media-body pt-2 ml-3">
             <h5 class="mb-2" :class="{ 'text-large' : !isXlEntered }">{{ character.name }}</h5>
             <div class="text-success text-big mb-2">{{ status }}</div>
+            <div class="mt-4 link-group">
+              <a href="#"><span class="h5 ion ion-ios-contact link-icon mr-2 text-white"></span></a>
+              <a href="#"><span class="h5 ion ion-ios-clipboard link-icon mr-2 text-white"></span></a>
+              <a href="#"><span class="h5 ion ion-ios-book link-icon text-white"></span></a>
+            </div>
           </div>
         </div>
       </div>
@@ -65,4 +70,25 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.character-card { 
+  background-image: linear-gradient( #1212148c, #121214 ),url(https://playlabirint.ru/img/bg3.jpg);
+  background-size: cover;
+}
+.avatar { 
+  border: 2px solid #087482;
+  box-shadow: 0px 0px 12px #025661;
+}
+.link-group {
+  margin-bottom: -25px;
+}
+.link-icon {
+  transition: all 0.2s ease-in-out;
+}
+.link-icon:hover {
+  cursor: pointer;
+  color: #028291 !important;
+}
+</style>
 
