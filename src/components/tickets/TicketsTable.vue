@@ -51,7 +51,7 @@
 import { contentMixin } from '@/mixins/content'
 
 export default {
-  name: 'tickets-table',
+  name: 'TicketsTable',
   mixins: [contentMixin],
   props: {
     busy: Boolean,

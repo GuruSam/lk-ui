@@ -4,12 +4,12 @@
       <div class="mr-2">Связь с организаторами</div>
       <b-btn variant="primary rounded-pill" class="d-block"><span class="ion ion-md-add"></span>&nbsp; Написать заявку</b-btn>
     </h3>
-    <TicketFilter :charactersOptions="characterOptions" @filter="applyFilter" />
+    <TicketsFilter :charactersOptions="characterOptions" @filter="applyFilter" />
 
     <b-tabs no-fade class="nav-tabs-top mb-4" active-nav-item-class="tabs-border" @activate-tab="applyType">
       <b-tab title="Активные" active></b-tab>
       <b-tab title="Завершенные"></b-tab>
-      <TicketTable 
+      <TicketsTable 
         :busy="busy" 
         :tickets="tickets" 
         :total="total"
@@ -20,13 +20,13 @@
 </template>
 
 <script>
-import TicketFilter from '@/components/tickets/Filter'
-import TicketTable from '@/components/tickets/Table'
+import TicketsFilter from '@/components/tickets/TicketsFilter'
+import TicketsTable from '@/components/tickets/TicketsTable'
 import { contentService } from '@/services'
 
 export default {
   name: 'tickets',
-  components: { TicketFilter, TicketTable },
+  components: { TicketsFilter, TicketsTable },
   data: () => ({
     busy: false,
     tickets: [],

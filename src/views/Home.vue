@@ -37,8 +37,8 @@
 </template>
 
 <script>
-import Table from '@/components/Table'
-import InfoCard from '@/components/InfoCard'
+import Table from '@/components/dashboard/Table'
+import InfoCard from '@/components/dashboard/InfoCard'
 import SmallCard from '@/components/characters/SmallCard'
 import { contentService } from '@/services'
 

@@ -26,7 +26,7 @@
 import { contentMixin } from '@/mixins/content'
 
 export default {
-  name: 'tickets-filter',
+  name: 'TicketsFilter',
   mixins: [contentMixin],
   props: {
     charactersOptions: {
