@@ -21,7 +21,8 @@ export default {
   },
   data: () => ({
     showCiteBtn: false,
-    selectedText: ''
+    selectedText: '',
+    source: 'desc'
   }),
   mounted () {
     document.addEventListener('click', () => {
@@ -31,10 +32,14 @@ export default {
     })
   },
   methods: {
-    trigger (evt) {
+    trigger (evt, source) {
       if (document.getSelection().toString()) {
         this.show(evt)
         this.selectedText = document.getSelection().toString()
+
+        if (source) {
+          this.source = source
+        }
       }
     },
 
@@ -45,7 +50,7 @@ export default {
     },
 
     cite () {
-      const bq = `<blockquote>${this.selectedText}</blockquote><br>`
+      const bq = `<blockquote data-source="${this.source}">${this.selectedText}</blockquote><br>`
       const editor = document.querySelector('.ql-editor')
       editor.innerHTML = editor.innerHTML + bq
       

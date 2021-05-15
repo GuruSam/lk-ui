@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <transition name="fade">
-      <Loader v-if="showLoader" />
+      <AppLoader v-if="showLoader" />
     </transition>
     <div v-if="appLoaded" class="layout-wrapper layout-1">
       <div class="layout-inner">
@@ -38,7 +38,7 @@
 <script>
 import Navbar from '@/components/layout/Navbar'
 import Sidenav from '@/components/layout/Sidenav'
-import Loader from '@/components/Loader'
+import AppLoader from '@/components/loaders/AppLoader'
 import ErrorPage from '@/views/ErrorPage'
 import { mapState } from 'vuex'
 
@@ -47,7 +47,7 @@ export default {
   components: {
     Navbar,
     Sidenav,
-    Loader,
+    AppLoader,
     ErrorPage
   },
   computed: {
