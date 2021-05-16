@@ -1,24 +1,25 @@
 <template>
-  <b-card header="Комментарии" header-tag="h6" class="mb-4" no-body>
-    <DataLoader v-if="pending" />
-    <b-card-body v-else-if="comments.length" @mouseup="showCiteButton">
-      <Comment v-for="comment in comments" :key="comment.createdAt" :comment="comment" />
-      <b-pagination class="justify-content-center justify-content-sm-end m-0"
-        v-if="total > perPage"
-        v-model="currentPage"
-        :total-rows="total"
-        :per-page="perPage"
-        @input="setPage"
-        size="sm" />
-      <CiteButton ref="citeButton" />
-    </b-card-body>
-    <b-card-body v-else>
-      <p class="text-muted text-italic">Комментариев еще нет.</p>
-    </b-card-body>
-    <b-card-footer v-if="!pending && showEditor">
-      <quillEditor ref="editor" v-model="newComment" :options="editorOptions" />
-      <b-btn class="mt-4" variant="primary">Отправить</b-btn>
-    </b-card-footer>
+  <b-card header="Комментарии" header-tag="h6" class="mb-4 comment-section" no-body>
+    <b-overlay :show="pending" spinner-variant="primary" bg-color="#121214">
+      <b-card-body v-if="comments.length" @mouseup="showCiteButton">
+        <Comment v-for="comment in comments" :key="comment.createdAt" :comment="comment" />
+        <b-pagination class="justify-content-center justify-content-sm-end m-0"
+          v-if="total > perPage"
+          v-model="currentPage"
+          :total-rows="total"
+          :per-page="perPage"
+          @input="setPage"
+          size="sm" />
+        <CiteButton ref="citeButton" />
+      </b-card-body>
+      <b-card-body v-else>
+        <p class="text-muted text-italic">Комментариев еще нет.</p>
+      </b-card-body>
+      <b-card-footer v-if="!pending && showEditor">
+        <quillEditor ref="editor" v-model="newComment" :options="editorOptions" />
+        <b-btn class="mt-4" variant="primary">Отправить</b-btn>
+      </b-card-footer>
+    </b-overlay>
   </b-card>
 </template>
 
@@ -31,7 +32,7 @@ import { quillEditor } from 'vue-quill-editor'
 import { quillOptions } from '@/plugins/editor/options'
 import CiteButton from '../CiteButton'
 import Comment from '../Comment'
-import DataLoader from '../loaders/DataLoader'
+// import DataLoader from '../loaders/DataLoader'
 import { contentService } from '@/services'
 
 export default {
@@ -40,7 +41,7 @@ export default {
     showEditor: Boolean
   },
   components: {
-    Comment, CiteButton, quillEditor, DataLoader
+    Comment, CiteButton, quillEditor
   },
   data: () => ({
     newComment: '',
@@ -54,10 +55,10 @@ export default {
   }),
   mounted () {
     this.fetchComments()
-      .finally(() => this.pending = false)
   },
   methods: {
     fetchComments () {
+      this.pending = true
       const params = { 
         limit: this.perPage,
         offset: this.currentPage * this.perPage - this.perPage
@@ -68,6 +69,7 @@ export default {
           this.comments = data.items
           this.total = data.total
         })
+        .finally(() => this.pending = false)
     },
 
     showCiteButton (evt) {
