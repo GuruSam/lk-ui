@@ -7,10 +7,10 @@
             :src="character.avatar" 
             alt="avatar" 
             class="rounded-circle avatar" 
-            :class="isXlEntered ? 'ui-w-80' : 'ui-w-100'"
+            :class="breakpoint.isXl ? 'ui-w-80' : 'ui-w-100'"
           />
           <div class="media-body pt-2 ml-3">
-            <h5 class="mb-2" :class="{ 'text-large' : !isXlEntered }">{{ character.name }}</h5>
+            <h5 class="mb-2" :class="{ 'text-large' : !breakpoint.isXl }">{{ character.name }}</h5>
             <div class="text-success text-big mb-2">{{ status }}</div>
             <div class="mt-4 link-group">
               <a href="#"><span class="h5 ion ion-ios-contact link-icon mr-2 text-white"></span></a>
@@ -40,19 +40,6 @@ export default {
   },
   components: {
     AuthButtons
-  },
-  data: function () {
-    const xlBreakpoint = matchMedia('(max-width: 1500px) and (min-width: 1200px)')
-
-    return {
-      xlBreakpoint,
-      isXlEntered: xlBreakpoint.matches
-    }
-  },
-  mounted () {
-    this.xlBreakpoint.addEventListener('change', () => {
-      this.isXlEntered = this.xlBreakpoint.matches
-    })
   },
   computed: {
     status () {

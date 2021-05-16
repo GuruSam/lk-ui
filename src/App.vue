@@ -11,7 +11,7 @@
           <Sidenav v-if="loggedIn" />
 
           <div class="layout-content">
-            <div class="router-transitions container-fluid flex-grow-1 container-p-y">
+            <div class="router-transitions flex-grow-1 container-p-y" :class="{ 'container-fluid' : !breakpoint.isXs }">
               <ErrorPage v-if="error" />
               <router-view v-else />
               <vue-progress-bar></vue-progress-bar>
@@ -68,6 +68,7 @@ export default {
     this.$router.afterEach(() => {
       this.$Progress.finish()
     })
+    console.dir(this)
   },
 
   mounted () {
