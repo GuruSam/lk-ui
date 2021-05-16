@@ -5,7 +5,10 @@
       <div class="text-muted small text-nowrap mt-2">{{ getCommentDate(comment.createdAt) }}</div>
     </div>
     <div class="media-body comment-text bg-lighter rounded py-2 px-3 ml-3">
-      <div class="font-weight-semibold mb-2" :class="getCommentAuthorColor(comment.author.type)">{{ comment.author.name }}</div>
+      <div class="d-flex align-items-center">
+        <div class="font-weight-semibold mb-2" :class="getCommentAuthorColor(comment.author.type)">{{ comment.author.name }}</div>
+        <b-badge variant="primary" class="ml-auto mb-2">Новый</b-badge>
+      </div>
       <div class="comment" v-html="comment.text" :data-author="comment.author.name" ></div>
     </div>
   </div>

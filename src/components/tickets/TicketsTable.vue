@@ -1,32 +1,33 @@
 <template>
   <b-card no-body>
-    <div class="table-responsive">
-      <b-table
-        :items="tickets"
-        :fields="fields"
-        :striped="true"
-        :per-page="perPage"
-        :responsive="true"
-        :show-empty="true"
-        :busy="busy"
-        empty-text="Заявок нет"
-        class="card-table">
+    <b-overlay :show="busy" spinner-variant="primary" bg-color="#121214">
+      <div class="table-responsive">
+        <b-table
+          :items="tickets"
+          :fields="fields"
+          :striped="true"
+          :per-page="perPage"
+          :responsive="true"
+          :show-empty="true"
+          empty-text="Заявок нет"
+          class="card-table">
 
-        <template v-slot:cell(name)="data">
-          <router-link class="text-white" :to="'/tickets/' + data.item.id">{{ data.item.name }}</router-link>
-        </template>
-        <template v-slot:cell(status)="data">
-          <span class="badge" :class="getTicketStatusColor(data.item.status)">{{ ticketStatus[data.item.status] }}</span>
-        </template>
-        <template v-slot:cell(createdAt)="data">
-          {{ getDate(data.item.createdAt) }}
-        </template>
-        <template v-slot:cell(updatedAt)="data">
-          {{ getDate(data.item.updatedAt) }}
-        </template>
-      </b-table>
+          <template v-slot:cell(name)="data">
+            <router-link class="text-white" :to="'/tickets/' + data.item.id">{{ data.item.name }}</router-link>
+          </template>
+          <template v-slot:cell(status)="data">
+            <span class="badge" :class="getTicketStatusColor(data.item.status)">{{ ticketStatus[data.item.status] }}</span>
+          </template>
+          <template v-slot:cell(createdAt)="data">
+            {{ getDate(data.item.createdAt) }}
+          </template>
+          <template v-slot:cell(updatedAt)="data">
+            {{ getDate(data.item.updatedAt) }}
+          </template>
+        </b-table>
 
-    </div>
+      </div>
+    </b-overlay>
     <hr v-if="tickets.length" class="border-light m-0">
     <b-card-body v-if="tickets.length" class="pt-0 pb-3">
       <div class="row">

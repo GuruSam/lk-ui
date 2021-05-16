@@ -56,9 +56,6 @@ export default {
     this.fetchComments()
     document.querySelector('.comment-section').addEventListener('pointerup', this.showCiteButton)
   },
-  beforeDestroy () {
-    document.querySelector('.comment-section').removeEventListener('pointerup', this.showCiteButton)
-  },
   methods: {
     fetchComments () {
       this.pending = true
