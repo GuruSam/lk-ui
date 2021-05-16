@@ -68,7 +68,6 @@ export default {
     this.$router.afterEach(() => {
       this.$Progress.finish()
     })
-    console.dir(this)
   },
 
   mounted () {
@@ -130,5 +129,8 @@ body {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+#app .layout-inner .layout-container {
+  padding-top: 66px !important;
 }
 </style>

@@ -21,7 +21,7 @@ const routes = [
     name: 'dashboard',
     component: Home,
     meta: {
-      title: 'Личный кабинет продюсера'
+      title: 'ЛК - Главная'
     }
   },
   {
@@ -71,7 +71,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title ?? from.meta.title
+  document.title = to.meta.title || from.meta.title || document.title
 
   if (!store.state.auth.loggedIn) {
     return authService.redirectToLogin()

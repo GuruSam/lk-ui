@@ -75,11 +75,13 @@ export default {
 </script>
 
 <style>
-.layout-navbar {
+.layout-inner .layout-navbar {
   background-image: linear-gradient(to right top, rgba(0, 172, 193, 0.5), rgba(0, 131, 143, 0.5)), url(https://store.playlabirint.ru/images/header_background.jpg);
   background-position: center center;
   background-size: cover;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+  position: fixed;
+  min-width: 100%;
 }
 #app-layout-navbar .nav-link {
   color: #eff1f5;
