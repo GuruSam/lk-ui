@@ -9,7 +9,7 @@
         <b-card header="Описание" header-tag="h6" class="mb-4">
           <div v-html="ticket.description" class="ticket-desc" @mouseup="showCiteButton"></div>
         </b-card>
-        <TicketComments />
+        <TicketComments :show-editor="!isArchived" />
         <CiteButton ref="citeButton" />
       </b-col>
 
@@ -44,7 +44,7 @@
               <div class="text-muted">Обновлено</div>
               <div>{{ getDate(ticket.updatedAt) }}</div>
             </b-list-group-item>
-            <b-list-group-item class="d-flex justify-content-center align-items-center">
+            <b-list-group-item v-if="!isCompleted" class="d-flex justify-content-center align-items-center">
               <b-btn variant="primary">Завершить</b-btn>
             </b-list-group-item>
           </b-list-group>
@@ -80,6 +80,14 @@ export default {
         { text: 'Мои заявки', to: { name: 'tickets' }},
         { text: ticketName, active: true }
       ]
+    },
+
+    isArchived () {
+      return this.ticket.status === 100
+    },
+
+    isCompleted () {
+      return this.ticket.status === 5 || this.ticket.status === 100
     },
 
     statusColor () {
@@ -125,7 +133,9 @@ export default {
     },
 
     showCiteButton (evt) {
-      this.$refs.citeButton.trigger(evt)
+      if (!this.isArchived) {
+        this.$refs.citeButton.trigger(evt)
+      }
     }
   }
 }

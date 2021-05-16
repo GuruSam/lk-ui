@@ -15,7 +15,7 @@
     <b-card-body v-else>
       <p class="text-muted text-italic">Комментариев еще нет.</p>
     </b-card-body>
-    <b-card-footer v-if="!pending">
+    <b-card-footer v-if="!pending && showEditor">
       <quillEditor ref="editor" v-model="newComment" :options="editorOptions" />
       <b-btn class="mt-4" variant="primary">Отправить</b-btn>
     </b-card-footer>
@@ -36,6 +36,9 @@ import { contentService } from '@/services'
 
 export default {
   name: 'TicketComments',
+  props: {
+    showEditor: Boolean
+  },
   components: {
     Comment, CiteButton, quillEditor, DataLoader
   },
