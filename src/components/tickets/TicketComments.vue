@@ -32,7 +32,6 @@ import { quillEditor } from 'vue-quill-editor'
 import { quillOptions } from '@/plugins/editor/options'
 import CiteButton from '../CiteButton'
 import Comment from '../Comment'
-// import DataLoader from '../loaders/DataLoader'
 import { contentService } from '@/services'
 
 export default {
@@ -55,6 +54,10 @@ export default {
   }),
   mounted () {
     this.fetchComments()
+    document.querySelector('.comment-section').addEventListener('pointerup', this.showCiteButton)
+  },
+  beforeDestroy () {
+    document.querySelector('.comment-section').removeEventListener('pointerup', this.showCiteButton)
   },
   methods: {
     fetchComments () {
