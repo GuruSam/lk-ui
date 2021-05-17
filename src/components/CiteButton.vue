@@ -45,8 +45,8 @@ export default {
     },
 
     show (evt) {
-      const x = (evt.clientX - 30) || evt.touches[0].clientX
-      const y = (evt.clientY - 35) || evt.touches[0].clientY
+      const x = (evt.clientX - 30) || (evt.x - 30)
+      const y = (evt.clientY - 35) || (evt.y - 35)
 
       this.$refs.button.style.top = `${y}px`
       this.$refs.button.style.left = `${x}px`
