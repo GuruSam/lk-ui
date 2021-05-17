@@ -2,20 +2,14 @@ import { authService } from './index.js'
 import Cookie from 'js-cookie'
 import JwtDecode from 'jwt-decode'
 import store from '@/store'
-import cryptoRandomString from 'crypto-random-string'
 
 const ACCESS_TOKEN_KEY = 'accessToken'
 const REFRESH_TOKEN_KEY = 'refreshToken'
-const XF_TOKEN_KEY = 'lab_csrf'
 
 export default class TokenService {
   constructor () {
     if (this.tokenExists()) {
       store.dispatch('auth/loggedIn')
-    }
-
-    if (!this.xfTokenExists()) {
-      this.createXfToken()
     }
   }
   /**
@@ -60,18 +54,5 @@ export default class TokenService {
     const token = this.getToken()
 
     return token.accessToken !== undefined || token.refreshToken !== undefined
-  }
-
-  xfTokenExists () {
-    const token = Cookie.get(XF_TOKEN_KEY)
-
-    return token !== undefined
-  }
-
-  createXfToken () {
-    const string = cryptoRandomString({length: 16, type: 'base64'})
-    const domain = authService.getDomain()
-
-    Cookie.set(XF_TOKEN_KEY, string, { domain: domain })
   }
 }
