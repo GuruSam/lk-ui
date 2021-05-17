@@ -11,7 +11,12 @@
 .ql-tooltip.ql-editing {
     z-index: 100;
 }
-.ql-snow .ql-tooltip[data-mode=link]::before {
+.ql-wrappable { 
+    display: flex;
+    flex-wrap: wrap;
+}
+.ql-snow .ql-tooltip[data-mode=link]::before,
+.ql-snow .ql-tooltip[data-mode=image]::before {
     content: "Введите ссылку:";
 }
 .ql-snow .ql-tooltip.ql-editing a.ql-action::after {

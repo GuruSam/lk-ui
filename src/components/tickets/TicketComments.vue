@@ -81,7 +81,6 @@ export default {
     },
 
     showCiteButton (evt) {
-      console.log(evt)
       const comment = evt.target.closest('.comment')
       
       if (comment) {
