@@ -54,7 +54,14 @@ export default {
   }),
   mounted () {
     this.fetchComments()
-    document.querySelector('.comment-section').addEventListener('pointerup', this.showCiteButton)
+
+    let lastMove = null
+    document.querySelector('.comment-section').addEventListener('touchstart', (evt) => {
+      lastMove = evt
+    })
+    document.querySelector('.comment-section').addEventListener('touchend', () => {
+      this.showCiteButton(lastMove)
+    })
   },
   methods: {
     fetchComments () {

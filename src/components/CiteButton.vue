@@ -2,8 +2,9 @@
   <b-badge 
     v-show="showCiteBtn"
     ref="button"
-    class="cite-btn" 
-    variant="primary" 
+    class="cite-btn"
+    :class="{ 'p-2' : breakpoint.isXs }"
+    variant="primary"
     @click="cite"
   >
     Цитировать
@@ -26,7 +27,7 @@ export default {
   }),
   mounted () {
     document.addEventListener('click', () => {
-      if (!document.getSelection().toString()) {
+      if (!document.getSelection().toString() && this.showCiteBtn) {
         this.showCiteBtn = false
       }
     })
@@ -44,8 +45,11 @@ export default {
     },
 
     show (evt) {
-      this.$refs.button.style.top = `${evt.clientY - 30}px`
-      this.$refs.button.style.left = `${evt.clientX - 25}px`
+      const x = (evt.clientX - 30) || evt.touches[0].clientX
+      const y = (evt.clientY - 35) || evt.touches[0].clientY
+
+      this.$refs.button.style.top = `${y}px`
+      this.$refs.button.style.left = `${x}px`
       this.showCiteBtn = true
     },
 
