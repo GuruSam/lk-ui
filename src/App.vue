@@ -23,6 +23,7 @@
           </div>
         </div>
       </div>
+      <notifications group="notifications" />
       <div class="layout-overlay" @click="closeSidenav"></div>
     </div>
   </div>

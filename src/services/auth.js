@@ -71,5 +71,14 @@ export default class AuthService {
 
   getXfToken () {
     return axios.get('/user/xf-token', { withCredentials: true })
+      .catch(() => {
+        Vue.notify({
+          group: 'notifications',
+          type: 'error',
+          title: 'Ошибка',
+          text: 'Произошла ошибка получения токена',
+          duration: -1
+        })
+      })
   }
 }
