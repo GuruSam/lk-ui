@@ -3,7 +3,7 @@
     <b-container fluid>
       <h2 class="font-weight-bold py-3 mb-4">Главная</h2>
       <b-row>
-        <b-col xl="9" lg="8" md="12" sm="12" >
+        <b-col xl="9" lg="12" md="12" sm="12" >
           <b-row>
             <b-col>
               <data-table type="tickets" title="Активные заявки" :data="tickets.items" />
@@ -23,7 +23,7 @@
             </b-row>
           </div>
         </b-col>
-        <b-col xl="3" lg="4" md="12" sm="12">
+        <b-col xl="3" lg="12" md="12" sm="12">
           <b-row>
             <info-card light icon="ios-contacts" :number="characters.total" :text="charactersInGame" />
             <info-card icon="ios-people" :number="npc.total" text="NPC в игре" />

@@ -1,5 +1,5 @@
 <template>
-  <b-col xl="4" lg="12" md="6" sm="12">
+  <b-col xl="4" lg="6" md="6" sm="12">
     <div class="card card-bordered character-card mb-4">
       <div class="card-body">
         <div class="media">

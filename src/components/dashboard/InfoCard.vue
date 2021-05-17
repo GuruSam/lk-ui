@@ -1,5 +1,5 @@
 <template>
-  <b-col sm="12" md="6" lg="12" xl="12">
+  <b-col sm="12" md="6" lg="6" xl="12">
     <div 
       class="card border-0 text-white mb-4" 
       :class="{ 'bg-primary' : light }"
