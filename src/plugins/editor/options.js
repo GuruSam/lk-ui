@@ -26,7 +26,6 @@ function imageHandler () {
   };
   // Called on hide and save.
   tooltip.hide = () => {
-    document.querySelector('.ql-tooltip').classList.remove('ql-wrappable')
     tooltip.save = originalSave
     tooltip.hide = originalHide
     tooltip.hide()
@@ -38,7 +37,6 @@ function imageHandler () {
 function setTooltipPosition () {
   const qlImageOffset = document.querySelector('.ql-image').offsetLeft
   const qlTooltip = document.querySelector('.ql-tooltip')
-  qlTooltip.classList.add('ql-wrappable')
 
   qlTooltip.style.top = '0px'
   qlTooltip.style.left = `${qlImageOffset - 100}px`

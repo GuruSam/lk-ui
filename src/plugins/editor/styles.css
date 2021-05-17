@@ -11,7 +11,7 @@
 .ql-tooltip.ql-editing {
     z-index: 100;
 }
-.ql-wrappable { 
+.ql-tooltip.ql-editing:not(.ql-hidden) {
     display: flex;
     flex-wrap: wrap;
 }
