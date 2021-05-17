@@ -7,8 +7,8 @@
     <TicketsFilter :charactersOptions="characterOptions" @filter="applyFilter" />
 
     <b-tabs no-fade class="nav-tabs-top mb-4" active-nav-item-class="tabs-border" @activate-tab="applyType">
-      <b-tab title="Активные" active></b-tab>
-      <b-tab title="Завершенные"></b-tab>
+      <b-tab title="Активные" :active="filter.type === 'active'"></b-tab>
+      <b-tab title="Завершенные" :active="filter.type === 'completed'"></b-tab>
       <TicketsTable 
         :busy="busy" 
         :tickets="tickets" 
@@ -27,6 +27,7 @@ import { contentService } from '@/services'
 export default {
   name: 'tickets',
   components: { TicketsFilter, TicketsTable },
+
   data: () => ({
     busy: false,
     tickets: [],
@@ -39,8 +40,11 @@ export default {
       type: 'active'
     }
   }),
+
   beforeRouteEnter (to, from, next) {
-    contentService.getTicketsList({ type: 'active' })
+    const type = to.query.type || 'active'
+
+    contentService.getTicketsList({ type })
       .then(({ data }) => {
         next(vm => {
           vm.tickets = data.items
@@ -50,6 +54,13 @@ export default {
       })
       .catch(() => next())
   },
+
+  created () {
+    if (this.$route.query.type) {
+      this.filter.type = this.$route.query.type
+    }
+  },
+
   methods: {
     applyFilter (status, characterId) {
       this.filter.status = status
@@ -58,6 +69,7 @@ export default {
     },
     applyType (newTabIndex) {
       this.filter.type = newTabIndex === 0 ? 'active' : 'completed'
+      this.$router.push({ query: { type: this.filter.type } })
       this.fetchData()
     },
     fetchData (offset) {
