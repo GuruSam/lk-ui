@@ -52,7 +52,9 @@ export default {
       authService.getXfToken()
         .then(({ data }) => {
           this.xfToken = data.token
-          this.$nextTick(this.$refs.authForm.submit, window)
+          this.$nextTick(function () {
+            this.$refs.authForm.submit
+          })
         })
         .finally(() => this.submit = false)
     },
