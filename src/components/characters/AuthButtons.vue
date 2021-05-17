@@ -53,7 +53,7 @@ export default {
         .then(({ data }) => {
           this.xfToken = data.token
           this.$nextTick(function () {
-            this.$refs.authForm.submit
+            this.$refs.authForm.submit()
           })
         })
         .finally(() => this.submit = false)
