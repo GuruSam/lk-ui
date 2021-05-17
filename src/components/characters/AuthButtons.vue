@@ -8,7 +8,19 @@
       <input type="hidden" name="_xfRedirect" value="https://playlabirint.ru/game" />
       <input type="hidden" name="_xfToken" :value="xfToken" />
     </form>
-    <a href="#" class="btn btn-sm btn-primary rounded-pill mr-2" @click="loginCharacter"><i class="ion ion-md-key"></i>&nbsp; Войти</a>
+    <b-btn 
+      class="login-btn"
+      variant="primary" 
+      size="sm" pill 
+      @click="loginCharacter" 
+      :disabled="submit"
+    >
+      <div v-if="!submit">
+        <i class="ion ion-md-key"></i>
+        &nbsp; Войти
+      </div>
+      <b-spinner v-else></b-spinner>
+    </b-btn>
     <a 
       href="#" 
       class="btn btn-sm rounded-pill" 
@@ -22,21 +34,27 @@
 </template>
 
 <script>
+import { authService } from '@/services'
+
 export default {
   name: 'auth-buttons',
   props: ['character'],
   data: () => ({
     pwdCopied: false,
-    timeout: null
+    timeout: null,
+    xfToken: null,
+    submit: false
   }),
-  computed: {
-    xfToken () {
-      return this.$store.state.auth.xfToken
-    }
-  },
   methods: {
     loginCharacter () {
-      this.$refs.authForm.submit()
+      this.submit = true
+
+      authService.getXfToken()
+        .then(({ data }) => {
+          this.xfToken = data.token
+          this.$refs.authForm.submit()
+        })
+        .finally(() => this.submit = false)
     },
     copyPassword (evt) {
       evt.preventDefault()
@@ -57,3 +75,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.login-btn {
+  min-width: 75px;
+}
+</style>

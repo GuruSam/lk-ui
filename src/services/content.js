@@ -7,7 +7,7 @@ export default class ContentService {
   }
 
   getDashboardInfo () {
-    return axios.get('/dashboard', { withCredentials: true })
+    return axios.get('/dashboard')
   }
 
   getTicketsList (params) {

@@ -68,4 +68,8 @@ export default class AuthService {
   getDeviceInfo () {
     return `${platform.os};${platform.name};${platform.version};labirint`
   }
+
+  getXfToken () {
+    return axios.get('/user/xf-token', { withCredentials: true })
+  }
 }
