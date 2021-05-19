@@ -1,5 +1,5 @@
 <template>
-  <b-col xl="4" lg="6" md="6" sm="12">
+  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-4">
     <div class="card card-bordered character-card mb-4">
       <div class="card-body">
         <div class="media">
@@ -9,7 +9,7 @@
             class="rounded-circle avatar" 
             :class="breakpoint.isXl ? 'ui-w-80' : 'ui-w-100'"
           />
-          <div class="media-body pt-2 ml-3">
+          <div class="media-body pt-2 ml-4">
             <h5 class="mb-2" :class="{ 'text-large' : !breakpoint.isXl }">{{ character.name }}</h5>
             <div class="text-success text-big mb-2">{{ status }}</div>
             <div class="mt-4 link-group">
@@ -24,7 +24,7 @@
         <AuthButtons :character="character" />
       </div>
     </div>
-  </b-col>
+  </div>
 </template>
 
 <script>

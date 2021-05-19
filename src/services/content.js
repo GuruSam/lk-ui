@@ -27,7 +27,7 @@ export default class ContentService {
     return axios.get(`/tickets/${id}/comments`, { params })
   }
 
-  getCharacters (type) {
-    return axios.get('/characters', { params: { type } })
+  getCharacters () {
+    return axios.get('/characters')
   }
 }
