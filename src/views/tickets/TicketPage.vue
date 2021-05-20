@@ -9,7 +9,7 @@
         <b-card header="Описание" header-tag="h6" class="mb-4">
           <div v-html="ticket.description" class="ticket-desc" @mouseup="showCiteButton"></div>
         </b-card>
-        <TicketComments :show-editor="!isArchived" :id="ticket.id" />
+        <TicketComments v-if="ticket.comments" :show-editor="!isArchived" :ticket-id="ticket.id" :total="ticket.comments.total" />
         <CiteButton ref="citeButton" />
       </b-col>
 

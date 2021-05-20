@@ -38,7 +38,11 @@ export default {
   name: 'TicketComments',
   props: {
     showEditor: Boolean,
-    id: Number
+    ticketId: Number,
+    total: {
+      type: Number,
+      default: 0
+    }
   },
   components: {
     Comment, CiteButton, quillEditor
@@ -46,25 +50,17 @@ export default {
   data: () => ({
     newComment: '',
     comments: [],
-    total: 0,
     pending: true,
     editorOptions: quillOptions,
     submit: false,
 
     currentPage: 1,
-    perPage: 10
+    perPage: 5
   }),
   mounted () {
+    this.updatePage()
     this.fetchComments()
     document.querySelector('.comment-section').addEventListener('pointerup', this.showCiteButton)
-
-    // let lastMove = null
-    // document.querySelector('.comment-section').addEventListener('touchstart', (evt) => {
-    //   lastMove = evt
-    // })
-    // document.querySelector('.comment-section').addEventListener('touchend', () => {
-    //   this.showCiteButton(lastMove)
-    // })
   },
   methods: {
     fetchComments () {
@@ -77,9 +73,14 @@ export default {
       return contentService.getTicketComments(this.$route.params.id, params)
         .then(({ data }) => {
           this.comments = data.items
-          this.total = data.total
         })
         .finally(() => this.pending = false)
+    },
+
+    updatePage () {
+      if (this.total) {
+        this.currentPage = Math.ceil(this.total / this.perPage)
+      }
     },
 
     showCiteButton (evt) {
@@ -98,7 +99,7 @@ export default {
     submitComment () {
       this.submit = true 
 
-      contentService.submitTicketComment(this.id, this.newComment)
+      contentService.submitTicketComment(this.ticketId, this.newComment)
         .then((comment) => {
           this.comments.push(comment)
           this.newComment = ''
