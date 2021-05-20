@@ -9,7 +9,7 @@
         <b-card header="Описание" header-tag="h6" class="mb-4">
           <div v-html="ticket.description" class="ticket-desc" @mouseup="showCiteButton"></div>
         </b-card>
-        <TicketComments :show-editor="!isArchived" />
+        <TicketComments :show-editor="!isArchived" :id="ticket.id" />
         <CiteButton ref="citeButton" />
       </b-col>
 
@@ -44,8 +44,9 @@
               <div class="text-muted">Обновлено</div>
               <div>{{ getDate(ticket.updatedAt) }}</div>
             </b-list-group-item>
-            <b-list-group-item v-if="!isCompleted" class="d-flex justify-content-center align-items-center">
-              <b-btn variant="primary">Завершить</b-btn>
+            <b-list-group-item class="d-flex justify-content-center align-items-center text-center">
+              <b-btn v-if="!isCompleted" variant="primary">Завершить</b-btn>
+              <p v-else>Вы можете переоткрыть заявку, оставив комментарий к ней.</p>
             </b-list-group-item>
           </b-list-group>
         </b-card>

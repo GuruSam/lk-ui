@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from '@/store'
 
 export default class ContentService {
   constructor () {
@@ -25,6 +26,26 @@ export default class ContentService {
 
   getTicketComments (id, params = {}) {
     return axios.get(`/tickets/${id}/comments`, { params })
+  }
+
+  submitTicketComment (id, message) {
+    const comment = {
+      text: message,
+      author: {
+        name: store.state.user.username,
+        avatar: store.state.user.avatar,
+        type: 'producer'
+      }
+    }
+
+    return axios.post(`/tickets/${id}/comments`, {
+      params: { id },
+      message
+    })
+      .then(({ data }) => {
+        comment.createdAt = data.createdAt
+        return Promise.resolve(comment)
+      })
   }
 
   getCharacters () {

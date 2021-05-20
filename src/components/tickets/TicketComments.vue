@@ -17,7 +17,7 @@
       </b-card-body>
       <b-card-footer v-if="!pending && showEditor">
         <quillEditor ref="editor" v-model="newComment" :options="editorOptions" />
-        <b-btn class="mt-4" variant="primary">Отправить</b-btn>
+        <b-btn class="mt-4" variant="primary" :disabled="submit" @click="submitComment">Отправить</b-btn>
       </b-card-footer>
     </b-overlay>
   </b-card>
@@ -37,7 +37,8 @@ import { contentService } from '@/services'
 export default {
   name: 'TicketComments',
   props: {
-    showEditor: Boolean
+    showEditor: Boolean,
+    id: Number
   },
   components: {
     Comment, CiteButton, quillEditor
@@ -48,6 +49,7 @@ export default {
     total: 0,
     pending: true,
     editorOptions: quillOptions,
+    submit: false,
 
     currentPage: 1,
     perPage: 10
@@ -91,6 +93,17 @@ export default {
     setPage (page) {
       this.currentPage = page
       this.fetchComments()
+    },
+
+    submitComment () {
+      this.submit = true 
+
+      contentService.submitTicketComment(this.id, this.newComment)
+        .then((comment) => {
+          this.comments.push(comment)
+          this.newComment = ''
+        })
+        .finally(() => this.submit = false)
     }
   }
 }

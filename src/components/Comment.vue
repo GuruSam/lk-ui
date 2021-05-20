@@ -35,8 +35,9 @@ export default {
         case 'producer':
           return 'text-primary'
         case 'gm':
-        case 'system':
           return 'text-danger'
+        case 'system':
+          return 'text-success'
       }
     },
 
