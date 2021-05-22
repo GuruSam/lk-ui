@@ -3,7 +3,10 @@ import BootstrapVue from 'bootstrap-vue'
 import Notifications from 'vue-notification'
 import VueProgressBar from 'vue-progressbar'
 import Breakpoint from './breakpoint'
+import VueQuillEditor from 'vue-quill-editor'
 import './dayjs.js'
+
+import { quillOptions } from './editor/options'
 
 const progressBarOptions = {
   color: '#01cae2',
@@ -15,3 +18,4 @@ Vue.use(BootstrapVue)
 Vue.use(Notifications)
 Vue.use(VueProgressBar, progressBarOptions)
 Vue.use(Breakpoint)
+Vue.use(VueQuillEditor, quillOptions)

@@ -54,10 +54,7 @@ export default {
     },
 
     cite () {
-      const bq = `<blockquote data-source="${this.source}">${this.selectedText}</blockquote><br>`
-      const editor = document.querySelector('.ql-editor')
-      
-      editor.innerHTML = editor.textContent ? editor.innerHTML + bq : bq
+      this.$root.$emit('quote', this.source, this.selectedText)
       this.showCiteBtn = false
       document.getSelection().removeAllRanges()
     }

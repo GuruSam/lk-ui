@@ -16,8 +16,11 @@
         <p class="text-muted text-italic">Комментариев еще нет.</p>
       </b-card-body>
       <b-card-footer v-if="!pending && showEditor">
-        <quillEditor ref="editor" v-model="newComment" :options="editorOptions" />
-        <b-btn class="mt-4" variant="primary" :disabled="submit" @click="submitComment">Отправить</b-btn>
+        <Editor ref="editor" />
+        <b-btn class="mt-4" variant="primary" :disabled="submit" @click="submitComment">
+          Отправить
+          <b-spinner v-if="submit" class="ml-1"></b-spinner>
+        </b-btn>
       </b-card-footer>
     </b-overlay>
   </b-card>
@@ -28,10 +31,9 @@
 <style src="@/plugins/editor/styles.css"></style>
 
 <script>
-import { quillEditor } from 'vue-quill-editor'
-import { quillOptions } from '@/plugins/editor/options'
 import CiteButton from '../CiteButton'
 import Comment from '../Comment'
+import Editor from '../Editor'
 import { contentService } from '@/services'
 
 export default {
@@ -45,13 +47,11 @@ export default {
     }
   },
   components: {
-    Comment, CiteButton, quillEditor
+    Comment, CiteButton, Editor
   },
   data: () => ({
-    newComment: '',
     comments: [],
     pending: true,
-    editorOptions: quillOptions,
     submit: false,
 
     currentPage: 1,
@@ -73,6 +73,7 @@ export default {
       return contentService.getTicketComments(this.$route.params.id, params)
         .then(({ data }) => {
           this.comments = data.items
+          this.$emit('update:total', data.total)
         })
         .finally(() => this.pending = false)
     },
@@ -86,7 +87,7 @@ export default {
     showCiteButton (evt) {
       const comment = evt.target.closest('.comment')
       
-      if (comment) {
+      if (comment && this.showEditor) {
         this.$refs.citeButton.trigger(evt, comment.dataset.author)
       }
     },
@@ -97,14 +98,17 @@ export default {
     },
 
     submitComment () {
-      this.submit = true 
+      this.submit = true
+      const newComment = this.$refs.editor.getContent()
 
-      contentService.submitTicketComment(this.ticketId, this.newComment)
+      contentService.submitTicketComment(this.ticketId, newComment)
         .then((comment) => {
           this.comments.push(comment)
-          this.newComment = ''
+          this.$refs.editor.resetContent()
         })
-        .finally(() => this.submit = false)
+        .finally(() => {
+          this.submit = false
+        })
     }
   }
 }

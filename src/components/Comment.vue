@@ -1,18 +1,15 @@
 <template>
-  <div class="media mb-3 comment">
+  <div class="media mb-3">
     <div class="text-center">
       <img :src="comment.author.avatar" class="ui-w-40 rounded-circle" alt>
-      <div class="text-muted small text-nowrap mt-2">
-        {{ getCommentTime(comment.createdAt) }}
-      </div>
     </div>
     <div class="media-body comment-text bg-lighter rounded py-2 px-3 ml-3">
       <div class="d-flex align-items-center mb-2">
         <div class="font-weight-semibold" :class="getCommentAuthorColor(comment.author.type)">{{ comment.author.name }}</div>
-        <!-- <div class="text-muted small ml-2 font-italic font-weight-light">01 апреля 2021, 13:30</div> -->
-        <b-badge v-if="comment.isNew" variant="primary" class="ml-auto mb-2">Новый</b-badge>
+        <div class="text-muted small ml-2 font-italic">{{ getCommentDate(comment.createdAt) }}</div>
+        <b-badge v-if="comment.isNew" variant="primary" class="mb-2 ml-auto">Новый</b-badge>
       </div>
-      <div class="comment-text" v-html="comment.text" :data-author="comment.author.name" ></div>
+      <div class="comment" v-html="comment.text" :data-author="comment.author.name" ></div>
     </div>
   </div>
 </template>
@@ -30,11 +27,7 @@ export default {
   },
   methods: {
     getCommentDate (ts) {
-      return dayjs.unix(ts).format('DD.MM.YY')
-    },
-
-    getCommentTime (ts) {
-      return dayjs.unix(ts).format('HH:mm')
+      return dayjs.unix(ts).format('DD MMM YYYY, HH:mm')
     },
 
     getCommentAuthorColor (type) {
@@ -68,7 +61,7 @@ export default {
 </script>
 
 <style>
-.comment-text blockquote {
+.comment blockquote {
   background-color: #1e1e21;
   border-left: 3px solid #a9a9a9;
   border-radius: 0.25rem;

@@ -4,16 +4,16 @@
       <b-breadcrumb :items="breadcrumb" class="font-weight-bold m-0" />
     </h4>
 
-    <b-row>
-      <b-col>
+    <div class="row">
+      <div class="col-lg-12 col-xl-8 col-xxl-9">
         <b-card header="Описание" header-tag="h6" class="mb-4">
           <div v-html="ticket.description" class="ticket-desc" @mouseup="showCiteButton"></div>
         </b-card>
-        <TicketComments v-if="ticket.comments" :show-editor="!isArchived" :ticket-id="ticket.id" :total="ticket.comments.total" />
+        <TicketComments v-if="ticket.comments" :show-editor="!isArchived" :ticket-id="ticket.id" :total.sync="ticket.comments.total" />
         <CiteButton ref="citeButton" />
-      </b-col>
+      </div>
 
-      <b-col md="4" xl="3">
+      <div class="col-md-6 col-xl-4 col-xxl-3">
         <div>
           <b-card class="mb-4 status-block">
             <div class="d-flex align-items-center">
@@ -50,8 +50,8 @@
             </b-list-group-item>
           </b-list-group>
         </b-card>
-      </b-col>
-    </b-row>
+      </div>
+    </div>
   </b-container>
 </template>
 
