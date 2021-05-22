@@ -1,10 +1,19 @@
 <template>
-  <quill-editor ref="editor" v-model="content" />
+  <quill-editor ref="editor" v-model="content" :disabled="disabled" />
 </template>
+
+<style src="quill/dist/quill.core.css"></style>
+<style src="quill/dist/quill.snow.css"></style>
+<style src="@/plugins/editor/styles.css"></style>
 
 <script>
 export default {
   name: 'Editor',
+  props: {
+    disabled: {
+      type: Boolean, default: false
+    }
+  },
   data: () => ({
     content: ''
   }),

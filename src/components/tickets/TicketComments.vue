@@ -16,7 +16,7 @@
         <p class="text-muted text-italic">Комментариев еще нет.</p>
       </b-card-body>
       <b-card-footer v-if="!pending && showEditor">
-        <Editor ref="editor" />
+        <Editor ref="editor" :disabled="submit" />
         <b-btn class="mt-4" variant="primary" :disabled="submit" @click="submitComment">
           Отправить
           <b-spinner v-if="submit" class="ml-1"></b-spinner>
@@ -25,10 +25,6 @@
     </b-overlay>
   </b-card>
 </template>
-
-<style src="quill/dist/quill.core.css"></style>
-<style src="quill/dist/quill.snow.css"></style>
-<style src="@/plugins/editor/styles.css"></style>
 
 <script>
 import CiteButton from '../CiteButton'
@@ -58,30 +54,26 @@ export default {
     perPage: 5
   }),
   mounted () {
-    this.updatePage()
-    this.fetchComments()
+    if (this.total) {
+      const page = Math.ceil(this.total / this.perPage)
+      this.setPage(page)
+    } else {
+      this.fetchComments()
+    }
+
     document.querySelector('.comment-section').addEventListener('pointerup', this.showCiteButton)
   },
   methods: {
     fetchComments () {
       this.pending = true
-      const params = { 
-        limit: this.perPage,
-        offset: this.currentPage * this.perPage - this.perPage
-      }
+      const offset = this.currentPage * this.perPage - this.perPage
 
-      return contentService.getTicketComments(this.$route.params.id, params)
+      return contentService.getTicketComments(this.$route.params.id, this.perPage, offset)
         .then(({ data }) => {
           this.comments = data.items
           this.$emit('update:total', data.total)
         })
         .finally(() => this.pending = false)
-    },
-
-    updatePage () {
-      if (this.total) {
-        this.currentPage = Math.ceil(this.total / this.perPage)
-      }
     },
 
     showCiteButton (evt) {
