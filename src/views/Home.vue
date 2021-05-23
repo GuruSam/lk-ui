@@ -6,12 +6,22 @@
         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
           <div class="row">
             <div class="col">
-              <data-table type="tickets" title="Активные заявки" :data="tickets.items" />
+              <info-table 
+                type="tickets" 
+                title="Активные заявки"
+                empty="Активных заявок нет"
+                :data="tickets.items"
+              />
             </div>
           </div>
           <div class="row">
             <div class="col">
-              <data-table type="tasks" title="Задания в процессе" :data="tasks.items" />
+              <info-table 
+                type="tasks"
+                title="Задания в процессе" 
+                empty="Активных заданий нет"
+                :data="tasks.items" 
+              />
             </div>
           </div>
           <div v-if="characters.favorites && characters.favorites.length">
@@ -37,7 +47,7 @@
 </template>
 
 <script>
-import Table from '@/components/dashboard/Table'
+import InfoTable from '@/components/dashboard/InfoTable'
 import InfoCard from '@/components/dashboard/InfoCard'
 import SmallCard from '@/components/characters/SmallCard'
 import { contentService } from '@/services'
@@ -48,7 +58,7 @@ export default {
     title: 'Главная'
   },
   components: {
-    'data-table': Table,
+    'info-table': InfoTable,
     'info-card': InfoCard,
     'character': SmallCard
   },

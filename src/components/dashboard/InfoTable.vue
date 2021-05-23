@@ -8,7 +8,10 @@
       <tbody v-if="data.length">
         <tr v-for="el in data" :key="el.id">
           <td>{{ el.name }}</td>
-          <td><span class="badge" :class="getTicketStatusColor(el.status, true)">{{ ticketStatus[el.status] }}</span></td>
+          <td>
+            <span v-if="isTickets" class="badge" :class="getTicketStatusColor(el.status, true)">{{ ticketStatus[el.status] }}</span>
+            <span v-if="isTasks" class="badge">{{ el.status }}</span>
+          </td>
           <td>{{ getDate(el.updatedAt) }}</td>
           <td class="text-right">
             <router-link :to="'/tickets/' + el.id"><i class="ion ion-md-eye"></i></router-link>
@@ -17,7 +20,9 @@
       </tbody>
       <tbody v-else>
         <tr>
-          <td class="text-muted"><em>{{ getEmptyMessage() }}</em></td>
+          <td class="text-muted">
+            <em>{{ empty }}</em>
+          </td>
         </tr>
       </tbody>
       </table>
@@ -29,7 +34,7 @@
 import { contentMixin } from '@/mixins/content'
 
 export default {
-  name: 'data-table',
+  name: 'InfoTable',
   mixins: [contentMixin],
   props: {
     title: String,
@@ -37,16 +42,19 @@ export default {
       type: Array,
       default: () => []
     },
-    type: String
+    type: String,
+    empty: {
+      type: String,
+      default: 'Данных нет'
+    }
   },
-  methods: {
-    getEmptyMessage () {
-      switch (this.type) {
-        case 'tickets':
-          return 'Активных заявок нет'
-        case 'tasks':
-          return 'Активных заданий нет'
-      } 
+  computed: {
+    isTickets () {
+      return this.type === 'tickets'
+    },
+
+    isTasks () {
+      return this.type === 'tasks'
     }
   }
 }
