@@ -1,11 +1,11 @@
 <template>
   <div class="media mb-3">
-    <div class="text-center">
+    <div v-if="!breakpoint.isXs" class="text-center">
       <img :src="comment.author.avatar" class="ui-w-40 rounded-circle" alt>
     </div>
-    <div class="media-body comment-text bg-lighter rounded py-2 px-3 ml-3">
+    <div class="media-body comment-text bg-lighter rounded py-2 px-3" :class="{ 'ml-3' : !breakpoint.isXs }">
       <div class="d-flex align-items-center mb-2">
-        <div class="font-weight-semibold" :class="getCommentAuthorColor(comment.author.type)">{{ comment.author.name }}</div>
+        <div id="username" class="font-weight-semibold" :class="getCommentAuthorColor(comment.author.type)">{{ comment.author.name }}</div>
         <div class="text-muted small ml-2 font-italic">{{ getCommentDate(comment.createdAt) }}</div>
         <b-badge v-if="comment.isNew" variant="primary" class="mb-2 ml-auto">Новый</b-badge>
       </div>
