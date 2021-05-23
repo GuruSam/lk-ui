@@ -11,8 +11,6 @@ Vue.mixin({
   data: globals
 })
 
-store.dispatch('setLoadingState', true)
-
 new Vue({
   router,
   store,

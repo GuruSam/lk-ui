@@ -23,7 +23,7 @@
           </div>
         </div>
       </div>
-      <notifications group="notifications" />
+      <Notification />
       <div class="layout-overlay" @click="closeSidenav"></div>
     </div>
   </div>
@@ -41,6 +41,7 @@ import Navbar from '@/components/layout/Navbar'
 import Sidenav from '@/components/layout/Sidenav'
 import AppLoader from '@/components/loaders/AppLoader'
 import ErrorPage from '@/views/ErrorPage'
+import Notification from '@/components/Notification'
 import { mapState } from 'vuex'
 
 export default {
@@ -49,7 +50,8 @@ export default {
     Navbar,
     Sidenav,
     AppLoader,
-    ErrorPage
+    ErrorPage,
+    Notification
   },
   computed: {
     ...mapState({

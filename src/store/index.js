@@ -7,7 +7,7 @@ Vue.use(Vuex)
 
 const state = {
   appLoaded: false,
-  showLoader: false,
+  showLoader: true,
   error: null
 }
 
