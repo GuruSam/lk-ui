@@ -37,7 +37,7 @@
 import { authService } from '@/services'
 
 export default {
-  name: 'auth-buttons',
+  name: 'AuthButtons',
   props: ['character'],
   data: () => ({
     pwdCopied: false,
