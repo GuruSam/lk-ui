@@ -14,12 +14,6 @@
 <script>
 export default {
   name: 'CiteButton',
-  props: {
-    elements: {
-      type: Array,
-      default: () => []
-    }
-  },
   data: () => ({
     showCiteBtn: false,
     selectedText: '',
