@@ -1,74 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '@/views/Home'
 import store from '@/store/index'
 import { authService, userService } from '@/services'
-
-import WelcomeScreen from '@/views/WelcomeScreen'
-import TicketsList from '@/views/tickets/TicketsList'
-import CharactersList from '@/views/characters/CharactersList'
-import TicketPage from '@/views/tickets/TicketPage'
-import TicketCreate from '@/views/tickets/TicketCreate'
+import routes from './routes'
 
 Vue.use(VueRouter)
-
-const routes = [
-  {
-    path: '/',
-    redirect: '/dashboard'
-  },
-  {
-    path: '/dashboard',
-    name: 'dashboard',
-    component: Home,
-    meta: {
-      title: 'ЛК - Главная'
-    }
-  },
-  {
-    path: '/welcome',
-    name: 'welcome-page',
-    component: WelcomeScreen,
-    meta: {
-      title: 'Добро пожаловать в Лабиринт'
-    },
-    beforeEnter: (to, from, next) => {
-      userService.userFetch.finally(() => {
-        if (store.state.user.isProducer && store.state.auth.loggedIn) {
-          return next('/dashboard')
-        }
-
-        next()
-      })
-    }
-  },
-  {
-    path: '/tickets',
-    name: 'tickets',
-    component: TicketsList,
-    meta: {
-      title: 'Список заявок'
-    }
-  },
-  {
-    path: '/tickets/create',
-    name: 'ticket-create',
-    component: TicketCreate
-  },
-  {
-    path: '/tickets/:id',
-    name: 'ticket-page',
-    component: TicketPage
-  },
-  {
-    path: '/characters',
-    name: 'characters',
-    component: CharactersList,
-    meta: {
-      title: 'Мои персонажи'
-    }
-  }
-]
 
 const router = new VueRouter({
   mode: 'history',
