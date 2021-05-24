@@ -49,4 +49,14 @@ export default {
 .border-danger {
   border-left: 3px solid rgb(105, 4, 4);
 }
+.v-fade-left-enter-active,
+.v-fade-left-leave-active,
+.v-fade-left-move {
+  transition: all 1s;
+}
+.v-fade-left-enter,
+.v-fade-left-leave-to {
+  opacity: 0;
+  transform: translateX(500px) scale(0.2);
+}
 </style>
