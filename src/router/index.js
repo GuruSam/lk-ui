@@ -8,6 +8,7 @@ import WelcomeScreen from '@/views/WelcomeScreen'
 import TicketsList from '@/views/tickets/TicketsList'
 import CharactersList from '@/views/characters/CharactersList'
 import TicketPage from '@/views/tickets/TicketPage'
+import TicketCreate from '@/views/tickets/TicketCreate'
 
 Vue.use(VueRouter)
 
@@ -48,6 +49,11 @@ const routes = [
     meta: {
       title: 'Список заявок'
     }
+  },
+  {
+    path: '/tickets/create',
+    name: 'ticket-create',
+    component: TicketCreate
   },
   {
     path: '/tickets/:id',

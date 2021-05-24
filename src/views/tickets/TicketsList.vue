@@ -2,7 +2,9 @@
   <b-container fluid>
     <h3 class="d-flex justify-content-between align-items-center w-100 font-weight-bold py-3 mb-4">
       <div class="mr-2">Связь с организаторами</div>
-      <b-btn variant="primary rounded-pill" class="d-block"><span class="ion ion-md-add"></span>&nbsp; Создать заявку</b-btn>
+      <router-link to="/tickets/create" class="d-block btn btn-primary rounded-pill">
+        <span class="ion ion-md-add"></span>&nbsp; Создать заявку
+      </router-link>
     </h3>
     <TicketsFilter :charactersOptions="characterOptions" @filter="applyFilter" />
 
