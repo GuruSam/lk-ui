@@ -3,7 +3,7 @@
     <h4 class="font-weight-bold py-3 mb-4">
       Создать заявку
     </h4>
-    
+
     <b-card no-body>
       <b-card-body class="pb-2">
         <b-form-group label="Название" description="Укажите кратко тему заявки">
@@ -16,10 +16,10 @@
           <b-select v-model="character" :options="{1: 'Published', 2: 'Draft', 3: 'Deleted', null: 'Выберите персонажа...'}" />
         </b-form-group>
         <b-form-group label="Суть заявки">
-          <Editor ref="editor" />
+          <Editor ref="editor" extended />
         </b-form-group>
 
-        <div class="mt-4">
+        <div class="mt-4 mb-2">
           <b-btn variant="primary">Отправить</b-btn>&nbsp;
           <b-btn variant="default">Отменить</b-btn>
         </div>

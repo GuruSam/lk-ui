@@ -1,5 +1,5 @@
 <template>
-  <quill-editor ref="editor" v-model="content" :disabled="disabled" />
+  <quill-editor ref="editor" v-model="content" :disabled="disabled" :class="{ 'extended': extended }" />
 </template>
 
 <style src="quill/dist/quill.core.css"></style>
@@ -11,7 +11,12 @@ export default {
   name: 'Editor',
   props: {
     disabled: {
-      type: Boolean, default: false
+      type: Boolean, 
+      default: false
+    },
+    extended: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({

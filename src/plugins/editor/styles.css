@@ -29,3 +29,6 @@
 .ql-snow .ql-fill {
     fill: #adadad;
 }
+.extended .ql-container {
+    min-height: 100px;
+}
