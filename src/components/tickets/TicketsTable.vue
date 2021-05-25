@@ -13,6 +13,7 @@
           class="card-table">
 
           <template v-slot:cell(name)="data">
+            <b-badge v-if="data.item.hasNew" class="new-comments-dot mr-1" variant="primary badge-dot" title="Есть непрочитанные комментарии"></b-badge>
             <router-link class="text-white" :to="'/tickets/' + data.item.id">{{ data.item.name }}</router-link>
           </template>
           <template v-slot:cell(status)="data">
@@ -97,5 +98,8 @@ a:hover {
 }
 .nav-item .nav-link.tabs-border { 
   border-top-color: #272729 !important;
+}
+.table .badge-dot.new-comments-dot {
+  margin-left: -14px;
 }
 </style>
