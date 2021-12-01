@@ -1,33 +1,39 @@
 <template>
   <b-card header="Комментарии" header-tag="h6" class="mb-4 comment-section" no-body>
     <b-overlay :show="pending" spinner-variant="primary" bg-color="#121214">
-      <b-card-body v-if="comments.length" @mouseup="showCiteButton">
+
+      <b-card-body v-if="comments.length">
         <Comment v-for="comment in comments" :key="comment.createdAt" :comment="comment" />
+
         <b-pagination class="justify-content-center justify-content-sm-end m-0"
           v-if="total > perPage"
           v-model="currentPage"
           :total-rows="total"
           :per-page="perPage"
-          @input="setPage"
+          @input="openPage"
           size="sm" />
-        <CiteButton ref="citeButton" />
       </b-card-body>
+
       <b-card-body v-else>
         <p class="text-muted text-italic">Комментариев еще нет.</p>
       </b-card-body>
+
       <b-card-footer v-if="!pending && showEditor">
         <Editor ref="editor" :disabled="submit" />
+
+        <p v-if="error" class="error-message">{{ error }}</p>
+
         <b-btn class="mt-4" variant="primary" :disabled="submit" @click="submitComment">
           Отправить
           <b-spinner v-if="submit" class="ml-1"></b-spinner>
         </b-btn>
       </b-card-footer>
+
     </b-overlay>
   </b-card>
 </template>
 
 <script>
-import CiteButton from '../CiteButton'
 import Comment from '../Comment'
 import Editor from '../Editor'
 import { contentService } from '@/services'
@@ -35,7 +41,10 @@ import { contentService } from '@/services'
 export default {
   name: 'TicketComments',
   props: {
-    showEditor: Boolean,
+    showEditor: {
+      type: Boolean,
+      default: true
+    },
     ticketId: Number,
     total: {
       type: Number,
@@ -43,7 +52,7 @@ export default {
     }
   },
   components: {
-    Comment, CiteButton, Editor
+    Comment, Editor
   },
   data: () => ({
     comments: [],
@@ -51,12 +60,15 @@ export default {
     submit: false,
 
     currentPage: 1,
-    perPage: 5
+    perPage: 5,
+
+    error: null
   }),
   mounted () {
     if (this.total) {
       const page = Math.ceil(this.total / this.perPage)
-      this.setPage(page)
+
+      this.openPage(page)
     } else {
       this.fetchComments()
     }
@@ -84,14 +96,19 @@ export default {
       }
     },
 
-    setPage (page) {
+    openPage (page) {
       this.currentPage = page
       this.fetchComments()
     },
 
     submitComment () {
-      this.submit = true
       const newComment = this.$refs.editor.getContent()
+
+      if (!newComment) {
+        return this.error = 'Напишите что-нибудь'
+      }
+
+      this.submit = true
 
       contentService.submitTicketComment(this.ticketId, newComment)
         .then((comment) => {
@@ -100,8 +117,16 @@ export default {
         })
         .finally(() => {
           this.submit = false
+          this.error = null
         })
     }
   }
 }
 </script>
+
+<style>
+.error-message {
+  margin: 10px 0px 0px 0px;
+  color: #bf4242;
+}
+</style>

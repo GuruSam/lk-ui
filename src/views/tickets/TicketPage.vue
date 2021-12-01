@@ -9,7 +9,7 @@
         <b-card header="Описание" header-tag="h6" class="mb-4">
           <div v-html="ticket.description" class="ticket-desc"></div>
         </b-card>
-        <TicketComments v-if="ticket.comments" :show-editor="!isArchived" :ticket-id="ticket.id" :total.sync="ticket.comments.total" />
+        <TicketComments v-if="ticket.comments" :ticket-id="ticket.id" :total.sync="ticket.comments.total" />
       </div>
 
       <div class="col-md-6 col-xl-4 col-xxl-3">
