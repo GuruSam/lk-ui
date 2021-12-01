@@ -7,10 +7,9 @@
     <div class="row">
       <div class="col-lg-12 col-xl-8 col-xxl-9">
         <b-card header="Описание" header-tag="h6" class="mb-4">
-          <div v-html="ticket.description" class="ticket-desc" @mouseup="showCiteButton"></div>
+          <div v-html="ticket.description" class="ticket-desc"></div>
         </b-card>
         <TicketComments v-if="ticket.comments" :show-editor="!isArchived" :ticket-id="ticket.id" :total.sync="ticket.comments.total" />
-        <CiteButton ref="citeButton" />
       </div>
 
       <div class="col-md-6 col-xl-4 col-xxl-3">
@@ -58,14 +57,13 @@
 <script>
 import { contentService } from '@/services'
 import { contentMixin } from '@/mixins/content'
-import CiteButton from '@/components/CiteButton'
 import TicketComments from '@/components/tickets/TicketComments'
 
 export default {
   name: 'TicketPage',
   mixins: [contentMixin],
   components: {
-    CiteButton, TicketComments
+    TicketComments
   },
   data: () => ({
     ticket: {
