@@ -35,7 +35,11 @@ export default {
   },
   methods: {
     getContent () {
-      return this.content
+      if (this.quill.getText().trim().length > 0) {
+        return this.content
+      }
+
+      return ''
     },
 
     resetContent () {
