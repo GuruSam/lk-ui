@@ -29,6 +29,10 @@ export default class ContentService {
     return axios.get(`/tickets/${id}/comments`, { params })
   }
 
+  getTicketForm () {
+    return axios.get('/tickets/form')
+  }
+
   submitTicketComment (id, message) {
     const comment = {
       text: message,
