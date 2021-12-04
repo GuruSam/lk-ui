@@ -12,7 +12,7 @@
 
           <div class="layout-content">
             <div class="router-transitions flex-grow-1 container-p-y" :class="{ 'container-fluid' : !breakpoint.isXs }">
-              <ErrorPage v-if="appError.message" />
+              <ErrorScreen v-if="appError.message" />
               <router-view v-else />
               <vue-progress-bar></vue-progress-bar>
             </div>
@@ -40,7 +40,7 @@
 import Navbar from '@/components/layout/Navbar'
 import Sidenav from '@/components/layout/Sidenav'
 import AppLoader from '@/components/loaders/AppLoader'
-import ErrorPage from '@/views/ErrorPage'
+import ErrorScreen from '@/views/ErrorScreen'
 import Notification from '@/components/Notification'
 import { mapState } from 'vuex'
 
@@ -50,7 +50,7 @@ export default {
     Navbar,
     Sidenav,
     AppLoader,
-    ErrorPage,
+    ErrorScreen,
     Notification
   },
   computed: {

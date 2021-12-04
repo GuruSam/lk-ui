@@ -43,8 +43,7 @@ export default class ApiService {
     }, async error => {
       switch (error.response.status) {
         case 401:
-          this._handle401(error)
-          break;
+          return this._handle401(error)
 
         case 403:
           authService.userLogout()
