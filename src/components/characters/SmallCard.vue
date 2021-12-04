@@ -59,9 +59,10 @@ export default {
 </script>
 
 <style scoped>
-.character-card { 
-  background-image: linear-gradient( #1212148c, #121214 ),url(https://playlabirint.ru/img/bg3.jpg);
-  background-size: cover;
+.character-card {
+  background: linear-gradient(-45deg, #111a1a, #081212, #03252a, #050d0e);
+  background-size: 400% 400%;
+  animation: gradient 8s ease infinite;
 }
 .avatar { 
   border: 2px solid #087482;
@@ -76,6 +77,42 @@ export default {
 .link-icon:hover {
   cursor: pointer;
   color: #028291 !important;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+@-webkit-keyframes gradient {
+  0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+@-moz-keyframes gradient {
+  0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }
 </style>
 
