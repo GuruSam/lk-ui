@@ -12,7 +12,7 @@
 
           <div class="layout-content">
             <div class="router-transitions flex-grow-1 container-p-y" :class="{ 'container-fluid' : !breakpoint.isXs }">
-              <ErrorPage v-if="error" />
+              <ErrorPage v-if="appError.message" />
               <router-view v-else />
               <vue-progress-bar></vue-progress-bar>
             </div>
@@ -58,7 +58,7 @@ export default {
       appLoaded: state => state.appLoaded,
       showLoader: state => state.showLoader,
       loggedIn: state => state.auth.loggedIn && state.user.isProducer,
-      error: state => state.error
+      appError: state => state.appError
     })
   },
 

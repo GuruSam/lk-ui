@@ -8,7 +8,10 @@ Vue.use(Vuex)
 const state = {
   appLoaded: false,
   showLoader: true,
-  error: null
+  appError: {
+    code: null,
+    message: null
+  }
 }
 
 const mutations = {
@@ -16,7 +19,8 @@ const mutations = {
     state.appLoaded = payload
   },
   setError: (state, payload) => {
-    state.error = payload
+    state.appError.code = payload.code
+    state.appError.message = payload.message
   },
   toggleLoader: (state, payload) => {
     state.showLoader = payload
@@ -32,16 +36,18 @@ const actions = {
       ctx.commit('toggleLoader', false)
     }
   },
-  setError: (ctx, payload) => {
-    ctx.commit('setError', payload)
-  }
+  setError: (ctx, payload) => ctx.commit('setError', payload)
+}
+
+const getters = {
+  appLoading: state => state.appLoaded === false && state.showLoader === true
 }
 
 export default new Vuex.Store({
   state,
   mutations,
   actions,
-  getters: {},
+  getters,
   modules: {
     user, auth
   }

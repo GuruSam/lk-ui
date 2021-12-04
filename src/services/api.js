@@ -1,12 +1,11 @@
 import Vue from 'vue'
 import axios from 'axios'
-import { authService, tokenService } from './index'
+import { authService, tokenService, userService } from './index'
+import store from '@/store'
 
 export default class ApiService {
   constructor () {
-    this._mount401Interceptor()
-    this._mount403Interceptor()
-    this._mount500Interceptor()
+    this._mountErrorHandler()
     this.setAuthHeader()
 
     this.refreshPending = null
@@ -38,49 +37,57 @@ export default class ApiService {
     return this.refreshPending
   }
 
-  _mount401Interceptor () {
+  _mountErrorHandler () {
     axios.interceptors.response.use(response => {
       return response
-    }, error => {
-      if (error.response.status === 401 && error.response.config) {
-        return this.getAuthToken()
-          .then((accessToken) => {
-            this.setAuthHeader()
-            error.response.config.headers['AccessToken'] = accessToken
+    }, async error => {
+      switch (error.response.status) {
+        case 401:
+          this._handle401(error)
+          break;
 
-            return axios.request(error.config)
-          })
+        case 403:
+          authService.userLogout()
+          break;
+
+        case 404:
+          this._handle404()
+          break;
+
+        default:
+          this._handleError(error)
+          break;
       }
 
       return Promise.reject(error)
     })
   }
 
-  _mount403Interceptor () {
-    axios.interceptors.response.use(response => {
-      return response
-    }, async error => {
-      if (error.response.status === 403) {
-        authService.userLogout()
-      }
+  _handle401 (error) {
+    if (error.response.config) {
+      return this.getAuthToken()
+        .then((accessToken) => {
+          this.setAuthHeader()
+          error.response.config.headers['AccessToken'] = accessToken
 
-      return Promise.reject(error)
-    })
-  }
-
-  _mount500Interceptor () {
-    axios.interceptors.response.use(response => {
-      return response
-    }, async error => {
-      if (error.response.status === 500) {
-        Vue.notify({
-          group: 'custom-notification',
-          type: 'error',
-          text: error.response.data.message
+          return axios.request(error.config)
         })
-      }
+    }
+  }
 
-      return Promise.reject(error)
+  _handle404 () {
+    if (store.getters.appLoading) {
+      store.dispatch('setError', { code: '404', message: 'Страница не найдена' })
+      userService.userFetch
+        .then(() => store.dispatch('setLoadingState', false))
+    }
+  }
+
+  _handleError (error) {
+    Vue.notify({
+      group: 'custom-notification',
+      type: 'error',
+      text: error.response.data.message ?? 'Ошибка. Попробуйте еще раз'
     })
   }
 }

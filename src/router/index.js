@@ -23,7 +23,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.beforeResolve((to, from, next) => {
-  if (!store.state.appLoaded && store.state.showLoader) {
+  if (store.getters.appLoading) {
     return userService.userFetch.finally(() => {
         store.dispatch('setLoadingState', false)
         next()

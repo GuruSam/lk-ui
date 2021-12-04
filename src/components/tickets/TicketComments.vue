@@ -112,6 +112,8 @@ export default {
 
       contentService.submitTicketComment(this.ticketId, newComment)
         .then((comment) => {
+          comment.isNew = true
+          
           this.comments.push(comment)
           this.$refs.editor.resetContent()
         })
