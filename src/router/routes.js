@@ -3,8 +3,13 @@ import { userService } from '@/services'
 
 import Home from '@/views/Home'
 import WelcomeScreen from '@/views/WelcomeScreen'
-import TicketsList from '@/views/tickets/TicketsList'
+import ErrorScreen from '@/views/ErrorScreen'
+
+// Characters
 import CharactersList from '@/views/characters/CharactersList'
+
+// Tickets
+import TicketsList from '@/views/tickets/TicketsList'
 import TicketPage from '@/views/tickets/TicketPage'
 import TicketCreate from '@/views/tickets/TicketCreate'
 
@@ -12,6 +17,15 @@ export default [
   {
     path: '/',
     redirect: '/dashboard'
+  },
+  {
+    path: '*',
+    name: 'not-found',
+    component: ErrorScreen,
+    props: {
+      code: '404',
+      error: 'Страница не найдена'
+    }
   },
   {
     path: '/dashboard',
@@ -43,7 +57,7 @@ export default [
     name: 'tickets',
     component: TicketsList,
     meta: {
-      title: 'Список заявок'
+      title: 'ЛК - Список заявок'
     }
   },
   {
@@ -51,7 +65,7 @@ export default [
     name: 'ticket-create',
     component: TicketCreate,
     meta: {
-      title: 'Создать заявку'
+      title: 'ЛК - Создать заявку'
     }
   },
   {
@@ -64,7 +78,7 @@ export default [
     name: 'characters',
     component: CharactersList,
     meta: {
-      title: 'Мои персонажи'
+      title: 'ЛК - Мои персонажи'
     }
   }
 ]
