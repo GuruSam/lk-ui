@@ -39,6 +39,8 @@ export default {
       switch (type) {
         case 'error':
           return 'ion-ios-sad text-danger'
+        case 'success':
+          return 'ion-ios-done-all text-success'
       }
     }
   }
@@ -49,11 +51,17 @@ export default {
 .border-danger {
   border-left: 3px solid rgb(105, 4, 4);
 }
+
+.border-success {
+  border-left: 3px solid #04692e;
+}
+
 .v-fade-left-enter-active,
 .v-fade-left-leave-active,
 .v-fade-left-move {
   transition: all 1s;
 }
+
 .v-fade-left-enter,
 .v-fade-left-leave-to {
   opacity: 0;
