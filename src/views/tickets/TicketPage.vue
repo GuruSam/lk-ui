@@ -44,7 +44,7 @@
               <div>{{ getDate(ticket.updatedAt) }}</div>
             </b-list-group-item>
             <b-list-group-item class="d-flex justify-content-center align-items-center text-center">
-              <b-btn v-if="!isCompleted" variant="primary">Завершить</b-btn>
+              <b-btn v-if="!isCompleted" variant="primary" @click="completeTicket">Завершить</b-btn>
               <p v-else>Вы можете переоткрыть заявку, оставив комментарий к ней.</p>
             </b-list-group-item>
           </b-list-group>
@@ -69,7 +69,9 @@ export default {
     ticket: {
       category: {},
       character: {}
-    }
+    },
+    statusCompleted: 5,
+    statusArchived: 100
   }),
   computed: {
     breadcrumb () {
@@ -82,11 +84,11 @@ export default {
     },
 
     isArchived () {
-      return this.ticket.status === 100
+      return this.ticket.status === this.statusArchived
     },
 
     isCompleted () {
-      return this.ticket.status === 5 || this.ticket.status === 100
+      return this.ticket.status === this.statusCompleted || this.ticket.status === this.statusArchived
     },
 
     statusColor () {
@@ -123,6 +125,7 @@ export default {
   },
   async beforeRouteEnter (to, from, next) {
     const { data } = await contentService.getTicket(to.params.id)
+
     next(vm => vm.setData(data))
   },
   methods: {
@@ -135,6 +138,18 @@ export default {
       if (!this.isArchived) {
         this.$refs.citeButton.trigger(evt)
       }
+    },
+
+    completeTicket () {
+      contentService.completeTicket(this.ticket.id)
+        .then(() => {
+          this.ticket.status = this.statusCompleted
+          this.$notify({
+            group: 'notifications',
+            type: 'success',
+            text: `Тикет «${this.ticket.name}» успешно завершен`
+          })
+        })
     }
   }
 }
@@ -142,9 +157,10 @@ export default {
 
 <style>
 .status-block {
-  background-image: linear-gradient( #12121473, #12121473 ),url(https://playlabirint.ru/img/bg3.jpg);
+  background-image: linear-gradient(#12121473, #12121473 ),url(https://playlabirint.ru/img/bg3.jpg);
   background-size: cover;
 }
+
 .ticket-desc { 
   color: #d4d4d4;
 }
