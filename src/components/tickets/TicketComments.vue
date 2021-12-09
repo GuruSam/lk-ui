@@ -84,8 +84,19 @@ export default {
         .then(({ data }) => {
           this.comments = data.items
           this.$emit('update:total', data.total)
+          this.checkForUnreadComments()
         })
         .finally(() => this.pending = false)
+    },
+
+    checkForUnreadComments () {
+      const unread = this.comments
+        .filter(comment => comment.isNew)
+        .map(comment => comment.id)
+
+      if (unread.length) {
+        contentService.readTicketComments(this.ticketId, unread)
+      }
     },
 
     showCiteButton (evt) {

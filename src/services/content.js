@@ -61,13 +61,8 @@ export default class ContentService {
       })
   }
 
-  readTicketComments (ticketId, commentId) {
-    const params = {
-      id: ticketId,
-      commentId
-    }
-    
-    return axios.post(`/tickets/${ticketId}/comments/${commentId}/read`, { params })
+  readTicketComments (ticketId, comments) {
+    return axios.post(`/tickets/${ticketId}/comments/read/bulk`, comments)
   }
 
   getCharacters () {
