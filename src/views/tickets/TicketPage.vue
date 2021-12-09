@@ -44,7 +44,7 @@
               <div>{{ getDate(ticket.updatedAt) }}</div>
             </b-list-group-item>
             <b-list-group-item class="d-flex justify-content-center align-items-center text-center">
-              <b-btn v-if="!isCompleted" variant="primary" @click="completeTicket">Завершить</b-btn>
+              <b-btn v-if="!isCompleted" variant="primary" :disabled="submit" @click="completeTicket">Завершить</b-btn>
               <p v-else>Вы можете переоткрыть заявку, оставив комментарий к ней.</p>
             </b-list-group-item>
           </b-list-group>
@@ -71,7 +71,8 @@ export default {
       character: {}
     },
     statusCompleted: 5,
-    statusArchived: 100
+    statusArchived: 100,
+    submit: false
   }),
   computed: {
     breadcrumb () {
@@ -134,6 +135,13 @@ export default {
       this.ticket = data
     },
 
+    async reopenTicket () {
+      const { data } = await contentService.getTicket(this.ticket.id)
+      
+      this.setData(data)
+      this.$notify({ group: 'notifications', type: 'success', text: 'Тикет переоткрыт' })
+    },
+
     showCiteButton (evt) {
       if (!this.isArchived) {
         this.$refs.citeButton.trigger(evt)
@@ -141,15 +149,18 @@ export default {
     },
 
     completeTicket () {
+      this.submit = true
+
       contentService.completeTicket(this.ticket.id)
         .then(() => {
           this.ticket.status = this.statusCompleted
           this.$notify({
             group: 'notifications',
             type: 'success',
-            text: `Тикет «${this.ticket.name}» успешно завершен`
+            text: `Тикет «${this.ticket.name}» завершен`
           })
         })
+        .finally(() => this.submit = false)
     }
   }
 }

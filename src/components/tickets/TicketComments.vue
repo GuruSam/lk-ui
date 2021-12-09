@@ -111,11 +111,13 @@ export default {
       this.submit = true
 
       contentService.submitTicketComment(this.ticketId, newComment)
-        .then((comment) => {
-          comment.isNew = true
-          
+        .then(async comment => {
           this.comments.push(comment)
           this.$refs.editor.resetContent()
+
+          if (this.$parent.isCompleted) {
+            this.$parent.reopenTicket()
+          }
         })
         .finally(() => {
           this.submit = false
