@@ -9,7 +9,7 @@
               <h5 class="mb-2">{{ user.username }}</h5>
               <p class="text-muted small">{{ balance }}</p>
             </div>
-            <div class="card-footer text-center p-0">
+            <!-- <div class="card-footer text-center p-0">
               <div class="row no-gutters row-bordered">
                 <a href="#" class="d-flex col flex-column text-body py-3">
                   <i class="ion d-block ion-md-notifications icon-size">
@@ -20,7 +20,7 @@
                   <i class="ion d-block ion-md-settings icon-size"></i>
                 </a>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <sidenav-router-link icon="ion ion-md-speedometer" to="/dashboard" :active="isMenuActive('/dashboard')" :exact="true">Главная</sidenav-router-link>
@@ -91,45 +91,53 @@ export default {
 </script>
 
 <style>
+.sidenav-horizontal {
+  border-bottom: 1px solid #262626;
+}
+
 .sidenav.layout-sidenav {
   background-color: #131315;
   border-right: 3px solid #00abc12d;
   color: #ffffff;
-  /* border-right: 2px solid #145b61; */
 }
+
 .sidenav a.sidenav-link {
   color: #e1e2e4;
 }
+
 .sidenav-item.active,
 .sidenav-item:hover {
   background-color: #00acc1;
 }
+
 .sidenav a.sidenav-link {
   color: #ffffff;
 }
+
 .icon-size {
   font-size: 1.2rem;
 }
+
 .card-body.user-block {
   min-height: 230px;
 }
+
 .layout-collapsed:not(.layout-sidenav-hover) .user-block {
   width: 70px;
   padding: 0;
 }
+
 .layout-collapsed:not(.layout-sidenav-hover) .user-block > h5,
 .layout-collapsed:not(.layout-sidenav-hover) .user-block > p {
   display: none;
 }
+
 .layout-collapsed:not(.layout-sidenav-hover) .user-block > .avatar {
   width: 45px;
 }
+
 .layout-sidenav-hover .user-block > .avatar,
 .user-block .avatar {
   width: 100px;
 }
-/* .user-block {
-  background: linear-gradient(to right top, rgb(2 2 2 / 44%), rgb(10 16 16 / 47%)), url('/images/blur-background.jpg');
-  background-size: cover;
-} */
 </style>
