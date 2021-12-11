@@ -28,9 +28,9 @@ pipeline {
                 sshagent(credentials: ['thesimscc']) {
                     sh "rm -rf ${WORKSPACE}/dist"
                     sh "docker cp ${PROJECT}:/dist ${WORKSPACE}"
-					sh "ssh -o StrictHostKeyChecking=no root@82.146.51.146 \"mkdir -p /var/www/${PROJECT} && mv /var/www/${PROJECT} /var/www/${PROJECT}_bkp\""
-					sh "scp -r ${WORKSPACE}/dist root@82.146.51.146:/var/www/${PROJECT}"
-                    sh "ssh -o StrictHostKeyChecking=no root@82.146.51.146 \"rm -rf /var/www/${PROJECT}_bkp\""
+					sh "ssh -o StrictHostKeyChecking=no root@${SERVER_IP} \"mkdir -p /var/www/${PROJECT} && mv /var/www/${PROJECT} /var/www/${PROJECT}_bkp\""
+					sh "scp -r ${WORKSPACE}/dist root@${SERVER_IP}:/var/www/${PROJECT}"
+                    sh "ssh -o StrictHostKeyChecking=no root@${SERVER_IP} \"rm -rf /var/www/${PROJECT}_bkp\""
                     bitbucketStatusNotify(buildState: 'SUCCESSFUL')
                 }
             }
@@ -40,7 +40,7 @@ pipeline {
     	unsuccessful {
 			sshagent(credentials: ['thesimscc']) {
                 bitbucketStatusNotify(buildState: 'FAILED')
-				sh "ssh -o StrictHostKeyChecking=no root@82.146.51.146 \"[ ! -d \"/var/www/${PROJECT}\" ] && mkdir -p /var/www/${PROJECT}_bkp && mv /var/www/${PROJECT}_bkp /var/www/${PROJECT}\""
+				sh "ssh -o StrictHostKeyChecking=no root@${SERVER_IP} \"[ ! -d \"/var/www/${PROJECT}\" ] && mkdir -p /var/www/${PROJECT}_bkp && mv /var/www/${PROJECT}_bkp /var/www/${PROJECT}\""
 			}
 		}
         always {
