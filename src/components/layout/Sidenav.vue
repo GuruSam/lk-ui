@@ -27,8 +27,8 @@
         <sidenav-router-link icon="ion ion-ios-contacts" to="/characters" :active="isMenuActive('/characters')" :exact="true">Мои персонажи</sidenav-router-link>
         <sidenav-router-link icon="ion ion-md-contacts" to="/npc" :active="isMenuActive('/npc')" :exact="true">Мои NPC</sidenav-router-link>
         <sidenav-router-link icon="ion ion-ios-mail" to="/tickets" :active="isMenuActive('/tickets')" :exact="true">Мои заявки</sidenav-router-link>
-        <sidenav-router-link icon="ion ion-ios-list-box" to="/tasks" :active="isMenuActive('/tasks')" :exact="true">Задания</sidenav-router-link>
-        <sidenav-router-link icon="ion ion-logo-freebsd-devil" to="/pets-constructor" :active="isMenuActive('/pets-constructor')" :exact="true">Конструктор существ</sidenav-router-link>
+        <sidenav-router-link icon="ion ion-ios-list-box" to="/tasks" :active="isMenuActive('/tasks')" :exact="true" :disabled="true">Задания</sidenav-router-link>
+        <sidenav-router-link icon="ion ion-logo-freebsd-devil" to="/pets-constructor" :active="isMenuActive('/pets-constructor')" :exact="true" :disabled="true">Конструктор существ</sidenav-router-link>
       </div>
     </sidenav>
   </div>
@@ -106,7 +106,7 @@ export default {
 }
 
 .sidenav-item.active,
-.sidenav-item:hover {
+.sidenav-item:hover:not(.disabled) {
   background-color: #00acc1;
 }
 
@@ -139,5 +139,10 @@ export default {
 .layout-sidenav-hover .user-block > .avatar,
 .user-block .avatar {
   width: 100px;
+}
+
+.sidenav-item.disabled .sidenav-link {
+  pointer-events: none;
+  color: grey
 }
 </style>
