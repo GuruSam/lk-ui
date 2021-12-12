@@ -24,9 +24,14 @@
           </div>
         </div>
         <sidenav-router-link icon="ion ion-md-speedometer" to="/dashboard" :active="isMenuActive('/dashboard')" :exact="true">Главная</sidenav-router-link>
-        <sidenav-router-link icon="ion ion-ios-contacts" to="/characters" :active="isMenuActive('/characters')" :exact="true">Мои персонажи</sidenav-router-link>
-        <sidenav-router-link icon="ion ion-md-contacts" to="/npc" :active="isMenuActive('/npc')" :exact="true">Мои NPC</sidenav-router-link>
-        <sidenav-router-link icon="ion ion-ios-mail" to="/tickets" :active="isMenuActive('/tickets')" :exact="true">Мои заявки</sidenav-router-link>
+        <sidenav-router-link icon="ion ion-ios-mail" to="/tickets" :active="isMenuActive('/tickets')" :exact="true">Заявки</sidenav-router-link>
+        <sidenav-router-link icon="ion ion-ios-contacts" to="/characters" :active="isMenuActive('/characters')" :exact="true">Персонажи</sidenav-router-link>
+        <sidenav-menu icon="ion ion-md-contacts" :open="true">
+          <template slot="link-text">NPC</template>
+
+          <sidenav-router-link to="/npc/personal" :active="isMenuActive('/npc/personal')" :exact="true">Личные</sidenav-router-link>
+          <sidenav-router-link to="/npc/general" :active="isMenuActive('/npc/general')" :exact="true">Общие</sidenav-router-link>
+        </sidenav-menu>
         <sidenav-router-link icon="ion ion-ios-list-box" to="/tasks" :active="isMenuActive('/tasks')" :exact="true" :disabled="true">Задания</sidenav-router-link>
         <sidenav-router-link icon="ion ion-logo-freebsd-devil" to="/pets-constructor" :active="isMenuActive('/pets-constructor')" :exact="true" :disabled="true">Конструктор существ</sidenav-router-link>
       </div>
@@ -105,9 +110,9 @@ export default {
   color: #e1e2e4;
 }
 
-.sidenav-item.active,
-.sidenav-item:hover:not(.disabled) {
-  background-color: #00acc1;
+.sidenav-item.active .sidenav-link:not(.sidenav-toggle),
+.sidenav-item:not(.disabled) .sidenav-link:hover {
+  background-color: #008797;
 }
 
 .sidenav a.sidenav-link {
