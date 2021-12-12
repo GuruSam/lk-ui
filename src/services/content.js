@@ -34,7 +34,7 @@ export default class ContentService {
   }
 
   createTicket (data) {
-    return axios.post('/tickets', { ...data })
+    return axios.post('/tickets', data)
   }
 
   completeTicket (id) {

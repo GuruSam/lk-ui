@@ -126,7 +126,6 @@ export default {
   },
   async beforeRouteEnter (to, from, next) {
     const { data } = await contentService.getTicket(to.params.id)
-
     next(vm => vm.setData(data))
   },
   methods: {
