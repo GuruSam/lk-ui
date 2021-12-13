@@ -1,65 +1,63 @@
 <template>
-  <div>
-    <section class="container-fluid">
-      <h1 class="font-weight-bold py-3 mb-4 h4">Создать заявку</h1>
+  <section class="container-fluid">
+    <h1 class="font-weight-bold py-3 mb-4 h4">Создать заявку</h1>
 
-      <div class="card mb-4" ref="formContainer">
-        <div class="card-body">
-          <form>
-            <div class="form-group position-relative">
-              <label class="form-label" for="name">Название</label>
-              <input class="form-control" :class="{'is-invalid' : errors.name}" id="name" type="text" v-model="formData.name" @change="validate('name')">
+    <div class="card mb-4" ref="formContainer">
+      <div class="card-body">
+        <form>
+          <div class="form-group position-relative">
+            <label class="form-label" for="name">Название</label>
+            <input class="form-control" :class="{'is-invalid' : errors.name}" id="name" type="text" v-model="formData.name" @change="validate('name')">
 
-              <div v-if="errors.name" class="invalid-tooltip">Это поле не может быть пустым.</div>
-              <small class="form-text text-muted">
-                Укажите кратко тему заявки
-              </small>
-            </div>
+            <div v-if="errors.name" class="invalid-tooltip">Это поле не может быть пустым.</div>
+            <small class="form-text text-muted">
+              Укажите кратко тему заявки
+            </small>
+          </div>
 
-            <div class="form-group position-relative">
-              <label class="form-label" for="category">Категория</label>
-              <select class="custom-select" :class="{'is-invalid' : errors.categoryId}" id="category" v-model="formData.categoryId" @change="validate('categoryId')">
-                <option selected hidden></option>
-                <option v-for="category in categories" :key="category.id" :value="category.id">
-                  {{ category.name }}
-                </option>
-              </select>
+          <div class="form-group position-relative">
+            <label class="form-label" for="category">Категория</label>
+            <select class="custom-select" :class="{'is-invalid' : errors.categoryId}" id="category" v-model="formData.categoryId" @change="validate('categoryId')">
+              <option selected hidden></option>
+              <option v-for="category in categories" :key="category.id" :value="category.id">
+                {{ category.name }}
+              </option>
+            </select>
 
-              <div v-if="errors.categoryId" class="invalid-tooltip">Выберите категорию.</div>
-              <small class="form-text text-muted">
-                Выберите тему заявки. Если затрудняетесь отнести свой вопрос к существующим категориям, выберите 'другое'
-              </small>
-            </div>
+            <div v-if="errors.categoryId" class="invalid-tooltip">Выберите категорию.</div>
+            <small class="form-text text-muted">
+              Выберите тему заявки. Если затрудняетесь отнести свой вопрос к существующим категориям, выберите 'другое'
+            </small>
+          </div>
 
-            <div class="form-group">
-              <label class="form-label" for="character">Персонаж</label>
-              <select class="custom-select" id="character" v-model="formData.characterId">
-                <option selected></option>
-                <option v-for="character in characters" :key="character.id" :value="character.id">
-                  {{ character.name }}
-                </option>
-              </select>
-              <small class="form-text text-muted">
-                Если заявка не относится к персонажу, оставьте поле пустым
-              </small>
-            </div>
+          <div class="form-group">
+            <label class="form-label" for="character">Персонаж</label>
+            <select class="custom-select" id="character" v-model="formData.characterId">
+              <option selected></option>
+              <option v-for="character in characters" :key="character.id" :value="character.id">
+                {{ character.name }}
+              </option>
+            </select>
+            <small class="form-text text-muted">
+              Если заявка не относится к персонажу, оставьте поле пустым
+            </small>
+          </div>
 
-            <div class="form-group position-relative">
-              <label class="form-label">Суть заявки</label>
-              <quill-editor ref="editor" v-model="formData.message" :disabled="submit" class="extended" @blur="validateEditor" />
+          <div class="form-group position-relative">
+            <label class="form-label">Суть заявки</label>
+            <quill-editor ref="editor" v-model="formData.message" :disabled="submit" class="extended" @blur="validateEditor" />
 
-              <div v-if="errors.message" class="invalid-tooltip">Это поле не может быть пустым.</div>
-            </div>
+            <div v-if="errors.message" class="invalid-tooltip">Это поле не может быть пустым.</div>
+          </div>
 
-            <div class="mt-4 mb-2">
-              <button class="btn btn-primary" type="button" :disabled="submit" @click="createTicket">Создать</button>&nbsp;
-              <button class="btn btn-default" type="button">Отменить</button>
-            </div>
-          </form>
-        </div>
+          <div class="mt-4 mb-2">
+            <button class="btn btn-primary" type="button" :disabled="submit" @click="createTicket">Создать</button>&nbsp;
+            <button class="btn btn-default" type="button">Отменить</button>
+          </div>
+        </form>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 </template>
 
 <script>

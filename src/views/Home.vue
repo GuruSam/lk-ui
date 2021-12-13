@@ -70,9 +70,7 @@ export default {
   }),
   beforeRouteEnter (to, from, next) {
     contentService.getDashboardInfo()
-      .then(({ data }) => {
-        next(vm => vm.setData(data))
-      })
+      .then(({ data }) => next(vm => vm.setData(data)))
       .catch(() => next())
   },
   computed: {
@@ -89,11 +87,13 @@ export default {
     }
   },
   methods: {
-    setData ({ tickets, tasks, characters, npc }) {
-      this.tickets = tickets || this.tickets
-      this.tasks = tasks || this.tasks
-      this.characters = characters || this.characters
-      this.npc = npc || this.npc
+    setData ({ tickets = {}, tasks = {}, characters = {}, npc = {} }) {
+      characters.favorites.forEach(char => char.isFavorite = true)
+
+      this.tickets = tickets
+      this.tasks = tasks
+      this.characters = characters
+      this.npc = npc
     }
   }
 }

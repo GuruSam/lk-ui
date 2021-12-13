@@ -1,15 +1,16 @@
 <template>
-  <b-container fluid>
-    <h3 class="mb-4">Мои персонажи</h3>
-    <h4>В игре</h4>
-    <b-row v-if="active.length" class="contacts-col-view mt-3">
-      <character v-for="char in active" :key="char.id" :character="char" />
-    </b-row>
-    <h4 class="mt-4">Вне игры</h4>
-    <b-row v-if="idle.length" class="contacts-col-view mt-3">
-      <character v-for="char in idle" :key="char.id" :character="char" />
-    </b-row>
-  </b-container>
+  <section class="container-fluid">
+    <h1 class="mb-4 h3">Мои персонажи</h1>
+
+    <div v-if="active.length" class="row mt-3">
+      <character v-for="character in active" :key="character.id" :character="character" />
+    </div>
+
+    <h2 class="h5" :class="{'mt-5' : active.length}">Неактивные</h2>
+    <div v-if="idle.length" class="row mt-3">
+      <character v-for="character in idle" :key="character.id" :character="character" />
+    </div>
+  </section>
 </template>
 
 <script>

@@ -11,7 +11,7 @@
           />
           <div class="media-body pt-2 ml-4">
             <h5 class="mb-2" :class="{ 'text-large' : !breakpoint.isXl }">{{ character.name }}</h5>
-            <div class="text-success text-big mb-2">{{ status }}</div>
+            <div class="text-big mb-2" :class="statusColor">{{ status }}</div>
             <div class="mt-4 link-group">
               <a href="#"><span class="h5 ion ion-ios-contact link-icon mr-2 text-white"></span></a>
               <a href="#"><span class="h5 ion ion-ios-clipboard link-icon mr-2 text-white"></span></a>
@@ -20,15 +20,21 @@
           </div>
         </div>
       </div>
-      <div class="card-footer py-3">
+      <footer class="card-footer py-3">
         <AuthButtons :character="character" />
-      </div>
+        <span 
+          class="ion ion-ios-star link-icon favorite-icon" 
+          :class="{'is-favorite' : character.isFavorite}"
+          @click="onFavoriteClick"
+        ></span>
+      </footer>
     </div>
   </div>
 </template>
 
 <script>
 import AuthButtons from './AuthButtons'
+import { contentService } from '@/services'
 
 export default {
   name: 'small-card',
@@ -53,30 +59,70 @@ export default {
         default:
           return 'Неизвестно'
       }
+    },
+
+    statusColor () {
+      switch (this.character.status) {
+        case 0:
+          return 'text-danger'
+        case 1: 
+          return 'text-success'
+        case 2:
+          return 'text-warning'
+        default:
+          return 'text-primary'
+      }
+    }
+  },
+
+  methods: {
+    onFavoriteClick () {
+      if (this.character.isFavorite) {
+        return contentService.removeFromFavorites(this.character)
+      }
+
+      return contentService.addToFavorites(this.character)
     }
   }
 }
 </script>
 
 <style scoped>
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+}
+
 .character-card {
   background: linear-gradient(-45deg, #111a1a, #081212, #03252a, #050d0e);
   background-size: 400% 400%;
   animation: gradient 8s ease infinite;
 }
+
 .avatar { 
   border: 2px solid #087482;
   box-shadow: 0px 0px 12px #025661;
 }
+
 .link-group {
   margin-bottom: -25px;
 }
+
 .link-icon {
   transition: all 0.2s ease-in-out;
 }
+
 .link-icon:hover {
   cursor: pointer;
   color: #028291 !important;
+}
+
+.favorite-icon {
+  font-size: 1.3rem;
+}
+
+.is-favorite {
+  color: #00acc1;
 }
 
 @keyframes gradient {

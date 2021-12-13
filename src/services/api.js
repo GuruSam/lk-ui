@@ -84,7 +84,7 @@ export default class ApiService {
 
   _handleError (error) {
     Vue.notify({
-      group: 'custom-notification',
+      group: 'notifications',
       type: 'error',
       text: error.response.data.message ?? 'Ошибка. Попробуйте еще раз'
     })

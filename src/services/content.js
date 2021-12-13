@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import axios from 'axios'
 import store from '@/store'
 
@@ -67,5 +68,21 @@ export default class ContentService {
 
   getCharacters () {
     return axios.get('/characters')
+  }
+
+  addToFavorites (character) {
+    axios.post(`/characters/${character.id}/favorite`)
+      .then(() => {
+        character.isFavorite = true
+        Vue.notify({ group: 'notifications', type: 'success', text: `${character.name} добавлен(а) в избранные` })
+      })
+  }
+
+  removeFromFavorites (character) {
+    axios.delete(`/characters/${character.id}/favorite`)
+      .then(() => {
+        character.isFavorite = false
+        Vue.notify({ group: 'notifications', type: 'success', text: `${character.name} удален(а) из избранных` })
+      })
   }
 }
