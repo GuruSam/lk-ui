@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form ref="authForm" method="post" action="https://playlabirint.ru/game/login/login">
+    <form ref="authForm" method="post" action="https://playlabirint.ru/game/login/login" target="_blank">
       <input type="hidden" name="login" :value="character.name" />
       <input type="hidden" name="password" :value="character.password" />
       <input type="hidden" name="remember" value="1" />
