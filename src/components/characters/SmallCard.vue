@@ -13,9 +13,14 @@
             <h5 class="mb-2" :class="{ 'text-large' : !breakpoint.isXl }">{{ character.name }}</h5>
             <div class="text-big mb-2" :class="statusColor">{{ status }}</div>
             <div class="mt-4 link-group">
-              <a href="#"><span class="h5 ion ion-ios-contact link-icon mr-2 text-white"></span></a>
-              <a href="#"><span class="h5 ion ion-ios-clipboard link-icon mr-2 text-white"></span></a>
-              <a href="#"><span class="h5 ion ion-ios-book link-icon text-white"></span></a>
+              <a :href="'https://playlabirint.ru/character/profile/' + character.id" target="_blank" class="text-white mr-2 character-link">
+                <span class="h5 ion ion-ios-contact link-icon mr-1 text-white"></span>
+                <span class="mr-2">Профиль</span>
+              </a>
+              <a :href="character.wikiUrl" target="_blank" class="text-white mr-2 character-link">
+                <span class="h5 ion ion-ios-clipboard link-icon mr-1 text-white"></span>
+                <span class="mr-2">Wiki</span>
+              </a>
             </div>
           </div>
         </div>
@@ -97,6 +102,10 @@ export default {
   background: linear-gradient(-45deg, #111a1a, #081212, #03252a, #050d0e);
   background-size: 400% 400%;
   animation: gradient 8s ease infinite;
+}
+
+.character-link:not(:last-child) {
+  border-right: 1px solid #a1a1a1;
 }
 
 .avatar { 
