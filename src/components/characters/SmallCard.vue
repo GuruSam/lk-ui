@@ -3,33 +3,38 @@
     <div class="card card-bordered character-card mb-4">
       <div class="card-body">
         <div class="media">
-          <img 
+          <img
+            width="100"
+            height="100"
+            alt="Аватар персонажа." 
             :src="character.avatar" 
-            alt="avatar" 
-            class="rounded-circle avatar" 
-            :class="breakpoint.isXl ? 'ui-w-80' : 'ui-w-100'"
+            class="avatar mr-4" 
           />
-          <div class="media-body pt-2 ml-4">
-            <h5 class="mb-2" :class="{ 'text-large' : !breakpoint.isXl }">{{ character.name }}</h5>
-            <div class="text-big mb-2" :class="statusColor">{{ status }}</div>
-            <div class="mt-4 link-group">
+
+          <div class="media-body pt-2">
+            <h3 class="text-large mb-2 ">{{ character.name }}</h3>
+
+            <div class="text-big mb-4" :class="statusColor">{{ status }}</div>
+
+            <div class="link-group">
               <a :href="'https://playlabirint.ru/character/profile/' + character.id" target="_blank" class="text-white mr-2 character-link">
-                <span class="h5 ion ion-ios-contact link-icon mr-1 text-white"></span>
+                <span class="ion ion-ios-contact link-icon mr-1"></span>
                 <span class="mr-2">Профиль</span>
               </a>
               <a :href="character.wikiUrl" target="_blank" class="text-white mr-2 character-link">
-                <span class="h5 ion ion-ios-clipboard link-icon mr-1 text-white"></span>
+                <span class="ion ion-ios-clipboard link-icon mr-1"></span>
                 <span class="mr-2">Wiki</span>
               </a>
             </div>
           </div>
         </div>
       </div>
+
       <footer class="card-footer py-3">
         <AuthButtons :character="character" />
         <span 
-          class="ion ion-ios-star link-icon favorite-icon" 
-          :class="{'is-favorite' : character.isFavorite}"
+          class="ion favorite-icon" 
+          :class="character.isFavorite ? 'ion-md-star is-favorite' : 'ion-md-star-outline'"
           @click="onFavoriteClick"
         ></span>
       </footer>
@@ -110,6 +115,7 @@ export default {
 
 .avatar { 
   border: 2px solid #087482;
+  border-radius: 50%;
   box-shadow: 0px 0px 12px #025661;
 }
 
@@ -117,21 +123,28 @@ export default {
   margin-bottom: -25px;
 }
 
-.link-icon {
+.link-icon,
+.favorite-icon {
   transition: all 0.2s ease-in-out;
 }
 
-.link-icon:hover {
+.link-icon:hover,
+.favorite-icon:hover {
   cursor: pointer;
-  color: #028291 !important;
+  color: #89e6f1;
 }
 
 .favorite-icon {
   font-size: 1.3rem;
 }
 
+.link-icon {
+  font-size: 1rem;
+  color: #ffffff;
+}
+
 .is-favorite {
-  color: #00acc1;
+  color: #89e6f1;
 }
 
 @keyframes gradient {
