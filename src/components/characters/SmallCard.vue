@@ -1,29 +1,33 @@
 <template>
-  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-4">
-    <div class="card card-bordered character-card mb-4">
+  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+    <div class="card card-bordered character-card mb-4" :class="{'character-card--shrink' : isCardShrunk}" ref="card">
       <div class="card-body">
         <div class="media">
           <img
+            class="avatar" 
             width="100"
             height="100"
             alt="Аватар персонажа." 
-            :src="character.avatar" 
-            class="avatar mr-4" 
+            :src="character.avatar"
           />
 
           <div class="media-body pt-2">
-            <h3 class="text-large mb-2 ">{{ character.name }}</h3>
+            <h3 class="character-name mb-2">{{ character.name }}</h3>
 
-            <div class="text-big mb-4" :class="statusColor">{{ status }}</div>
+            <div class="text-big character-status" :class="statusColor">{{ status }}</div>
 
             <div class="link-group">
-              <a :href="'https://playlabirint.ru/character/profile/' + character.id" target="_blank" class="text-white mr-2 character-link">
+              <a class="text-white character-link character-link--bordered" 
+                target="_blank"
+                :href="'https://playlabirint.ru/character/profile/' + character.id" 
+              >
                 <span class="ion ion-ios-contact link-icon mr-1"></span>
-                <span class="mr-2">Профиль</span>
+                <span v-if="!isCardShrunk" class="mr-2">Профиль</span>
               </a>
-              <a :href="character.wikiUrl" target="_blank" class="text-white mr-2 character-link">
+
+              <a :href="character.wikiUrl" target="_blank" class="text-white character-link">
                 <span class="ion ion-ios-clipboard link-icon mr-1"></span>
-                <span class="mr-2">Wiki</span>
+                <span v-if="!isCardShrunk" class="mr-2">Wiki</span>
               </a>
             </div>
           </div>
@@ -57,6 +61,27 @@ export default {
   components: {
     AuthButtons
   },
+
+  data: () => ({
+    cardWidth: 0
+  }),
+
+  mounted() {
+    const card = this.$refs.card
+    this.cardWidth = card.clientWidth
+
+    let timeout = null
+    window.addEventListener('resize', () => {
+      clearTimeout(timeout)
+
+      timeout = setTimeout(() => {
+        this.cardWidth = card.clientWidth
+
+        clearTimeout(timeout)
+      }, 250)
+    })
+  },
+
   computed: {
     status () {
       switch (this.character.status) {
@@ -82,22 +107,22 @@ export default {
         default:
           return 'text-primary'
       }
+    },
+
+    isCardShrunk () {
+      return this.cardWidth < 350
     }
   },
 
   methods: {
     onFavoriteClick () {
-      if (this.character.isFavorite) {
-        return contentService.removeFromFavorites(this.character)
-      }
-
-      return contentService.addToFavorites(this.character)
+      return this.character.isFavorite ? contentService.removeFromFavorites(this.character) : contentService.addToFavorites(this.character)
     }
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .card-footer {
   display: flex;
   justify-content: space-between;
@@ -107,20 +132,69 @@ export default {
   background: linear-gradient(-45deg, #111a1a, #081212, #03252a, #050d0e);
   background-size: 400% 400%;
   animation: gradient 8s ease infinite;
+
+  &--shrink {
+    .card-body {
+      padding: 1.3rem 1.3rem 0.8rem;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+    }
+
+    .character-name {
+      font-size: 130%;
+    }
+
+    .character-link--bordered {
+      border: none;
+
+      &:not(:last-child) {
+        margin: 0;
+      }
+    }
+
+    .character-status {
+      margin-bottom: 1rem;
+    }
+  }
 }
 
-.character-link:not(:last-child) {
-  border-right: 1px solid #a1a1a1;
+.character-name {
+  font-size: 150%;
 }
 
-.avatar { 
+.character-status {
+  margin-bottom: 1.5rem;
+}
+
+.character-link {
+  &:not(:last-child) {
+    margin-right: 0.5rem;
+  }
+
+  &--bordered {
+    border-right: 1px solid #a1a1a1;
+  }
+}
+
+.direction-column {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.direction-column .avatar {
+  margin-right: 0;
+}
+
+.avatar {
+  max-width: 100px;
+  margin-right: 1.5rem;
   border: 2px solid #087482;
   border-radius: 50%;
   box-shadow: 0px 0px 12px #025661;
-}
-
-.link-group {
-  margin-bottom: -25px;
 }
 
 .link-icon,
@@ -135,6 +209,7 @@ export default {
 }
 
 .favorite-icon {
+  align-self: center;
   font-size: 1.3rem;
 }
 
