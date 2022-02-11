@@ -1,5 +1,4 @@
 import layoutHelpers from '@/components/layout/helpers.js'
-import dayjs from 'dayjs'
 
 export default function () {
   return {
@@ -80,12 +79,6 @@ export default function () {
         default:
           return phrases[2]
       }
-    },
-
-    getDate (ts, format = 'DD MMMM YYYY, HH:mm') {
-      const isSameHour = dayjs().diff(dayjs.unix(ts), 'hour') ? false : true
-
-      return isSameHour ? dayjs.unix(ts).fromNow() : dayjs.unix(ts).format(format)
     }
   }
 }

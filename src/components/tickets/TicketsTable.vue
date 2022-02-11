@@ -20,10 +20,10 @@
             <span class="badge" :class="getTicketStatusColor(data.item.status)">{{ ticketStatus[data.item.status] }}</span>
           </template>
           <template v-slot:cell(createdAt)="data">
-            {{ getDate(data.item.createdAt) }}
+            <Date :value="data.item.createdAt" />
           </template>
           <template v-slot:cell(updatedAt)="data">
-            {{ getDate(data.item.updatedAt) }}
+            <Date :value="data.item.updatedAt" />
           </template>
         </b-table>
 
@@ -50,16 +50,19 @@
 </template>
 
 <script>
+import Date from '@/components/Date'
 import { contentMixin } from '@/mixins/content'
 
 export default {
   name: 'TicketsTable',
   mixins: [contentMixin],
+  components: { Date },
   props: {
     busy: Boolean,
     tickets: Array,
     total: Number
   },
+
   data: () => ({
     fields: [
       { key: 'id', label: '#', thClass: 'text-nowrap text-primary', tdClass: 'align-middle py-3' },
@@ -74,11 +77,13 @@ export default {
     currentPage: 1,
     perPage: 12
   }),
+
   computed: {
     totalPages () {
       return Math.ceil(this.total / this.perPage)
     }
   },
+
   methods: {
     setPage (page) {
       this.$emit('pagination', {

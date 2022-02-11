@@ -12,7 +12,9 @@
             <span v-if="isTickets" class="badge" :class="getTicketStatusColor(el.status, true)">{{ ticketStatus[el.status] }}</span>
             <span v-if="isTasks" class="badge">{{ el.status }}</span>
           </td>
-          <td>{{ getDate(el.updatedAt) }}</td>
+          <td>
+            <Date :value="el.updatedAt" />
+          </td>
           <td class="text-right">
             <router-link :to="'/tickets/' + el.id"><i class="ion ion-md-eye"></i></router-link>
           </td>
@@ -31,11 +33,13 @@
 </template>
 
 <script>
+import Date from '@/components/Date'
 import { contentMixin } from '@/mixins/content'
 
 export default {
   name: 'InfoTable',
   mixins: [contentMixin],
+  components: { Date },
   props: {
     title: String,
     data: {

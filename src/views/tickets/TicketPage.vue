@@ -37,11 +37,11 @@
             </b-list-group-item>
             <b-list-group-item class="d-flex justify-content-between align-items-center">
               <div class="text-muted">Создано</div>
-              <div>{{ createdAt }}</div>
+              <Date :value="ticket.createdAt" />
             </b-list-group-item>
             <b-list-group-item class="d-flex justify-content-between align-items-center">
               <div class="text-muted">Обновлено</div>
-              <div>{{ updatedAt }}</div>
+              <Date :value="ticket.updatedAt" />
             </b-list-group-item>
             <b-list-group-item class="d-flex justify-content-center align-items-center text-center">
               <b-btn v-if="!isCompleted" variant="primary" :disabled="submit" @click="completeTicket">Завершить</b-btn>
@@ -58,6 +58,7 @@
 import { contentService } from '@/services'
 import { contentMixin } from '@/mixins/content'
 import TicketComments from '@/components/tickets/TicketComments'
+import Date from '@/components/Date'
 
 const STATUS_COMPLETED = 5
 const STATUS_ARCHIVED = 100
@@ -66,20 +67,15 @@ export default {
   name: 'TicketPage',
   mixins: [contentMixin],
   components: {
-    TicketComments
+    TicketComments, Date
   },
   data: () => ({
     ticket: {
       category: {},
       character: {}
     },
-    submit: false,
-    now: Date.now()
+    submit: false
   }),
-
-  created() {
-    setInterval(() => this.now = Date.now(), 60000)
-  },
 
   computed: {
     breadcrumb () {
@@ -129,16 +125,6 @@ export default {
         default:
           return 'ion-ios-archive'
       }
-    },
-
-    createdAt () {
-      this.now
-      return this.getDate(this.ticket.createdAt)
-    },
-
-    updatedAt () {
-      this.now
-      return this.getDate(this.ticket.updatedAt)
     }
   },
 
