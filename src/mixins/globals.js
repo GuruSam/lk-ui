@@ -82,12 +82,10 @@ export default function () {
       }
     },
 
-    getDate (ts) {
-      const diff = dayjs().diff(dayjs.unix(ts), 'hour')
-      if (!diff) {
-        return dayjs.unix(ts).fromNow()
-      }
-      return dayjs.unix(ts).format('DD MMMM YYYY, HH:mm')
+    getDate (ts, format = 'DD MMMM YYYY, HH:mm') {
+      const isSameHour = dayjs().diff(dayjs.unix(ts), 'hour') ? false : true
+
+      return isSameHour ? dayjs.unix(ts).fromNow() : dayjs.unix(ts).format(format)
     }
   }
 }

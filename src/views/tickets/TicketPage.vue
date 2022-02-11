@@ -37,11 +37,11 @@
             </b-list-group-item>
             <b-list-group-item class="d-flex justify-content-between align-items-center">
               <div class="text-muted">Создано</div>
-              <div>{{ getDate(ticket.createdAt) }}</div>
+              <div>{{ createdAt }}</div>
             </b-list-group-item>
             <b-list-group-item class="d-flex justify-content-between align-items-center">
               <div class="text-muted">Обновлено</div>
-              <div>{{ getDate(ticket.updatedAt) }}</div>
+              <div>{{ updatedAt }}</div>
             </b-list-group-item>
             <b-list-group-item class="d-flex justify-content-center align-items-center text-center">
               <b-btn v-if="!isCompleted" variant="primary" :disabled="submit" @click="completeTicket">Завершить</b-btn>
@@ -59,6 +59,9 @@ import { contentService } from '@/services'
 import { contentMixin } from '@/mixins/content'
 import TicketComments from '@/components/tickets/TicketComments'
 
+const STATUS_COMPLETED = 5
+const STATUS_ARCHIVED = 100
+
 export default {
   name: 'TicketPage',
   mixins: [contentMixin],
@@ -70,10 +73,14 @@ export default {
       category: {},
       character: {}
     },
-    statusCompleted: 5,
-    statusArchived: 100,
-    submit: false
+    submit: false,
+    now: Date.now()
   }),
+
+  created() {
+    setInterval(() => this.now = Date.now(), 60000)
+  },
+
   computed: {
     breadcrumb () {
       const ticketName = this.ticket && this.ticket.name ? this.ticket.name : 'Заявка'
@@ -85,11 +92,11 @@ export default {
     },
 
     isArchived () {
-      return this.ticket.status === this.statusArchived
+      return this.ticket.status === STATUS_ARCHIVED
     },
 
     isCompleted () {
-      return this.ticket.status === this.statusCompleted || this.ticket.status === this.statusArchived
+      return this.ticket.status === STATUS_COMPLETED || this.ticket.status === STATUS_ARCHIVED
     },
 
     statusColor () {
@@ -122,12 +129,24 @@ export default {
         default:
           return 'ion-ios-archive'
       }
+    },
+
+    createdAt () {
+      this.now
+      return this.getDate(this.ticket.createdAt)
+    },
+
+    updatedAt () {
+      this.now
+      return this.getDate(this.ticket.updatedAt)
     }
   },
+
   async beforeRouteEnter (to, from, next) {
     const { data } = await contentService.getTicket(to.params.id)
     next(vm => vm.setData(data))
   },
+
   methods: {
     setData (data) {
       document.title = data.name

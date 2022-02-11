@@ -6,7 +6,7 @@
     <div class="media-body comment-text bg-lighter rounded py-2 px-3" :class="{ 'ml-3' : !breakpoint.isXs }">
       <div class="d-flex align-items-center mb-2">
         <div id="username" class="font-weight-semibold" :class="getCommentAuthorColor(comment.author.type)">{{ comment.author.name }}</div>
-        <div class="text-muted small ml-2 font-italic">{{ getCommentDate(comment.createdAt) }}</div>
+        <div class="text-muted small ml-2 font-italic">{{ date }}</div>
         <b-badge v-if="comment.isNew" variant="primary" class="mb-2 ml-auto">Новый</b-badge>
       </div>
       <div class="comment" v-html="comment.text" :data-author="comment.author.name" ></div>
@@ -15,21 +15,28 @@
 </template>
 
 <script>
-import dayjs from 'dayjs'
-
 export default {
   name: 'CommentSection',
   props: {
     comment: Object
   },
+  data: () => ({
+    now: Date.now()
+  }),
+
   created () {
     this.parseBlockquotes()
+    setInterval(() => this.now = Date.now(), 60000)
   },
-  methods: {
-    getCommentDate (ts) {
-      return dayjs.unix(ts).format('DD MMM YYYY, HH:mm')
-    },
 
+  computed: {
+    date () {
+      this.now
+      return this.getDate(this.comment.createdAt, 'DD MMM YYYY, HH:mm')
+    }
+  },
+
+  methods: {
     getCommentAuthorColor (type) {
       switch (type) {
         case 'producer':
