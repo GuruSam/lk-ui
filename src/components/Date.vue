@@ -28,8 +28,9 @@ export default {
     },
 
     textDate () {
-      this.now
-      return this.isSameHour ? dayjs.unix(this.value).fromNow() : dayjs.unix(this.value).format(this.format)
+      return this.isSameHour 
+        ? dayjs.unix(this.value).fromNow() 
+        : dayjs.unix(this.value).format(this.format)
     }
   },
 
