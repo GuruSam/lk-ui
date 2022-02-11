@@ -1,5 +1,5 @@
 <template>
-  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-4">
     <div class="card card-bordered character-card mb-4" :class="{'character-card--shrink' : isCardShrunk}" ref="card">
       <div class="card-body">
         <div class="media">
@@ -116,7 +116,9 @@ export default {
 
   methods: {
     onFavoriteClick () {
-      return this.character.isFavorite ? contentService.removeFromFavorites(this.character) : contentService.addToFavorites(this.character)
+      return this.character.isFavorite 
+        ? contentService.removeFromFavorites(this.character) 
+        : contentService.addToFavorites(this.character)
     }
   }
 }
