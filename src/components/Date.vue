@@ -28,9 +28,11 @@ export default {
     },
 
     textDate () {
+      const format = dayjs().isSame(dayjs.unix(this.value), 'day') ? 'Сегодня, HH:mm' : this.format
+
       return this.isSameHour 
         ? dayjs.unix(this.value).fromNow() 
-        : dayjs.unix(this.value).format(this.format)
+        : dayjs.unix(this.value).format(format)
     }
   },
 
