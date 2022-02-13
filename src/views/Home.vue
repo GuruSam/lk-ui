@@ -2,6 +2,11 @@
   <div>
     <b-container fluid>
       <h2 class="font-weight-bold py-3 mb-4">Главная</h2>
+      <div class="alert alert-custom" role="alert">
+        <img class="warning-icon" src="/images/warning-sign.png" alt="Знак предупреждения." width="60" height="52">
+        Добро пожаловать! Личный кабинет продюсера находится в активной разработке, поэтому возможны баги.
+        Если вы заметили ошибку, не стесняйтесь сообщить об этом <a href="https://t.me/gurusamius" target="_blank">@gurusamius</a>.
+      </div>
       <div class="row">
         <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
           <div class="row">
@@ -98,3 +103,16 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.alert-custom {
+  background-color: #131315;
+  color: #c3c3c3;
+  font-style: italic;
+}
+
+.warning-icon {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+</style>
