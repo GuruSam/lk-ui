@@ -25,11 +25,10 @@
 
       <footer class="card-footer py-3">
         <AuthButtons :character="character" />
-        <span 
-          class="ion favorite-icon" 
+        <span class="ion favorite-icon" 
           :class="character.isFavorite ? 'ion-md-star is-favorite' : 'ion-md-star-outline'"
-          @click="onFavoriteClick"
           :title="character.isFavorite ? 'Удалить из избранных' : 'Добавить в избранные'"
+          @click="onFavoriteClick"
         ></span>
       </footer>
     </div>
