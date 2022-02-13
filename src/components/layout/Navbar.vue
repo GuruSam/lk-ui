@@ -16,11 +16,11 @@
 
     <b-collapse is-nav id="app-layout-navbar">
       <b-navbar-nav class="align-items-lg-center">
-        <b-nav-item href="#">Сайт Лабиринта</b-nav-item>
-        <b-nav-item href="#">Игра</b-nav-item>
-        <b-nav-item href="#">Пограничье</b-nav-item>
-        <b-nav-item href="#">ЛабStore</b-nav-item>
-        <b-nav-item href="#">База знаний</b-nav-item>
+        <b-nav-item href="https://playlabirint.ru/">Сайт Лабиринта</b-nav-item>
+        <b-nav-item href="https://playlabirint.ru/game/">Игра</b-nav-item>
+        <b-nav-item href="https://thesims.cc/forums/pograniche.226/">Пограничье</b-nav-item>
+        <b-nav-item href="https://store.playlabirint.ru/">ЛабStore</b-nav-item>
+        <b-nav-item href="https://wiki.playlabirint.ru/Заглавная_страница">База знаний</b-nav-item>
       </b-navbar-nav>
 
       <b-navbar-nav class="align-items-lg-center ml-auto">

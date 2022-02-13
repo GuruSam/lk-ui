@@ -29,6 +29,7 @@
           class="ion favorite-icon" 
           :class="character.isFavorite ? 'ion-md-star is-favorite' : 'ion-md-star-outline'"
           @click="onFavoriteClick"
+          :title="character.isFavorite ? 'Удалить из избранных' : 'Добавить в избранные'"
         ></span>
       </footer>
     </div>
