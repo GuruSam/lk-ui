@@ -130,15 +130,14 @@ export default {
 
   async beforeRouteEnter (to, from, next) {
     const { data } = await contentService.getTicket(to.params.id)
-    next(vm => vm.setData(data))
+
+    next(vm => {
+      document.title = 'ЛК - ' + data.name
+      vm.ticket = data
+    })
   },
 
   methods: {
-    setData (data) {
-      document.title = data.name
-      this.ticket = data
-    },
-
     async reopenTicket () {
       const { data } = await contentService.getTicket(this.ticket.id)
       

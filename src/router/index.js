@@ -13,8 +13,6 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title || from.meta.title || document.title
-
   if (!store.state.auth.loggedIn) {
     return authService.redirectToLogin()
   }
@@ -23,6 +21,8 @@ router.beforeEach((to, from, next) => {
 })
 
 router.beforeResolve((to, from, next) => {
+  document.title = to.meta.title || document.title
+
   if (store.getters.appLoading) {
     return userService.userFetch.finally(() => {
         store.dispatch('setLoadingState', false)
