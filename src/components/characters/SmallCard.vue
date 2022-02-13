@@ -1,35 +1,24 @@
 <template>
   <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-4">
-    <div class="card card-bordered character-card mb-4" :class="{'character-card--shrink' : isCardShrunk}" ref="card">
-      <div class="card-body">
-        <div class="media">
-          <img
-            class="avatar" 
-            width="100"
-            height="100"
-            alt="Аватар персонажа." 
-            :src="character.avatar"
-          />
+    <div class="card card-bordered character-card" :class="{'character-card--shrink' : isCardShrunk}" ref="card">
+      <div class="card-body media">
+        <img class="avatar" width="100" height="100" alt="Аватар персонажа." :src="character.avatar" />
 
-          <div class="media-body pt-2">
-            <h3 class="character-name mb-2">{{ character.name }}</h3>
+        <div class="media-body pt-2">
+          <h3 class="character-name mb-2">{{ character.name }}</h3>
 
-            <div class="text-big character-status" :class="statusColor">{{ status }}</div>
+          <div class="text-big character-status" :class="statusColor">{{ status }}</div>
 
-            <div class="link-group">
-              <a class="text-white character-link character-link--bordered" 
-                target="_blank"
-                :href="'https://playlabirint.ru/character/profile/' + character.id" 
-              >
-                <span class="ion ion-ios-contact link-icon mr-1"></span>
-                <span v-if="!isCardShrunk" class="mr-2">Профиль</span>
-              </a>
+          <div class="link-group">
+            <a class="character-link" target="_blank" :href="profileUrl">
+              <span class="character-link__icon ion ion-ios-contact mr-1"></span>
+              <span v-if="!isCardShrunk" class="mr-2">Профиль</span>
+            </a>
 
-              <a :href="character.wikiUrl" target="_blank" class="text-white character-link">
-                <span class="ion ion-ios-clipboard link-icon mr-1"></span>
-                <span v-if="!isCardShrunk" class="mr-2">Wiki</span>
-              </a>
-            </div>
+            <a class="character-link" target="_blank" :href="wikiUrl">
+              <span class="character-link__icon ion ion-ios-clipboard mr-1"></span>
+              <span v-if="!isCardShrunk" class="mr-2">Wiki</span>
+            </a>
           </div>
         </div>
       </div>
@@ -111,6 +100,14 @@ export default {
 
     isCardShrunk () {
       return this.cardWidth < 350
+    },
+
+    wikiUrl () {
+      return this.character.wikiUrl || 'https://wiki.playlabirint.ru/' + this.character.name.replace(' ', '_')
+    },
+
+    profileUrl () {
+      return 'https://playlabirint.ru/character/profile/' + this.character.id
     }
   },
 
@@ -131,6 +128,7 @@ export default {
 }
 
 .character-card {
+  margin-bottom: 1.5rem;
   background: linear-gradient(-45deg, #111a1a, #081212, #03252a, #050d0e);
   background-size: 400% 400%;
   animation: gradient 8s ease infinite;
@@ -172,23 +170,17 @@ export default {
 }
 
 .character-link {
+  font-size: 0.8rem;
+  color: #e0e1e1;
+
   &:not(:last-child) {
     margin-right: 0.5rem;
-  }
-
-  &--bordered {
     border-right: 1px solid #a1a1a1;
   }
-}
 
-.direction-column {
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.direction-column .avatar {
-  margin-right: 0;
+  &:hover {
+    color: #ffffff;
+  }
 }
 
 .avatar {
@@ -199,25 +191,28 @@ export default {
   box-shadow: 0px 0px 12px #025661;
 }
 
-.link-icon,
-.favorite-icon {
+.character-link__icon,
+.favorite-icon,
+.character-link {
   transition: all 0.2s ease-in-out;
 }
 
-.link-icon:hover,
+.character-link__icon:hover,
 .favorite-icon:hover {
   cursor: pointer;
+}
+
+.character-link__icon {
+  font-size: 1rem;
+}
+
+.favorite-icon:hover {
   color: #89e6f1;
 }
 
 .favorite-icon {
   align-self: center;
   font-size: 1.3rem;
-}
-
-.link-icon {
-  font-size: 1rem;
-  color: #ffffff;
 }
 
 .is-favorite {
