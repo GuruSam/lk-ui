@@ -33,14 +33,16 @@ const actions = {
       ctx.commit('toggleLoader', true)
     } else {
       ctx.commit('appLoaded', true)
-      ctx.commit('toggleLoader', false)
+      // Чтобы избежать дергания содержимого страницы после appLoaded = true
+      setTimeout(() => ctx.commit('toggleLoader', false), 0)
     }
   },
   setError: (ctx, payload) => ctx.commit('setError', payload)
 }
 
 const getters = {
-  appLoading: state => state.appLoaded === false && state.showLoader === true
+  appLoading: state => state.appLoaded === false && state.showLoader === true,
+  hasError: state => state.appError.code || state.appError.message ? true : false
 }
 
 export default new Vuex.Store({

@@ -62,6 +62,9 @@ export default class TokenService {
     return token.accessToken !== undefined || token.refreshToken !== undefined
   }
 
+  /**
+   * @returns boolean
+   */
   xfTokenExists () {
     const token = Cookie.get(XF_TOKEN_KEY)
 

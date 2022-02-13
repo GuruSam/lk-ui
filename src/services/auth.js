@@ -71,14 +71,5 @@ export default class AuthService {
 
   getXfToken () {
     return axios.get('/user/xf-token', { withCredentials: true })
-      .catch(({ response }) => {
-        Vue.notify({
-          group: 'notifications',
-          type: 'error',
-          title: 'Не удалось авторизовать персонажа',
-          text: response.data.message,
-          duration: -1
-        })
-      })
   }
 }

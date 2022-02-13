@@ -30,6 +30,10 @@ router.beforeResolve((to, from, next) => {
       })
   }
 
+  if (store.getters.hasError) {
+    store.dispatch('setError', { code: null, message: null })
+  }
+
   next()
 })
 

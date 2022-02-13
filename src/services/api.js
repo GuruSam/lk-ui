@@ -24,6 +24,9 @@ export default class ApiService {
     axios.defaults.headers.common = {}
   }
 
+  /**
+   * @returns {Promise}
+   */
   getAuthToken () {
     if (!this.refreshPending) {
       this.refreshPending = authService.refreshToken()
@@ -62,6 +65,10 @@ export default class ApiService {
     })
   }
 
+  /**
+   * @param {Object} error 
+   * @returns {Promise}
+   */
   _handle401 (error) {
     if (error.response.config) {
       return this.getAuthToken()
@@ -77,16 +84,20 @@ export default class ApiService {
   _handle404 () {
     if (store.getters.appLoading) {
       store.dispatch('setError', { code: '404', message: 'Страница не найдена' })
+
       userService.userFetch
         .then(() => store.dispatch('setLoadingState', false))
     }
   }
 
+  /**
+   * @param {Object} error 
+   */
   _handleError (error) {
     Vue.notify({
       group: 'notifications',
       type: 'error',
-      text: error.response.data.message ?? 'Ошибка. Попробуйте еще раз'
+      text: error.response.data.message ?? 'Упс! Произошла ошибка. Попробуйте еще раз'
     })
   }
 }

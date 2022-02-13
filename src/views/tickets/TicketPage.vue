@@ -37,11 +37,11 @@
             </b-list-group-item>
             <b-list-group-item class="d-flex justify-content-between align-items-center">
               <div class="text-muted">Создано</div>
-              <Date :value="ticket.createdAt" />
+              <Date class="text-right" :value="ticket.createdAt" />
             </b-list-group-item>
             <b-list-group-item class="d-flex justify-content-between align-items-center">
               <div class="text-muted">Обновлено</div>
-              <Date :value="ticket.updatedAt" />
+              <Date class="text-right" :value="ticket.updatedAt" />
             </b-list-group-item>
             <b-list-group-item class="d-flex justify-content-center align-items-center text-center">
               <b-btn v-if="!isCompleted" variant="primary" :disabled="submit" @click="completeTicket">Завершить</b-btn>
