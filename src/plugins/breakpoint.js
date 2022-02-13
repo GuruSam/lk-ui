@@ -12,6 +12,7 @@ function install (Vue) {
       breakpoint.isXs = xsBreakpoint.matches
     })
   } else {
+    // Safari support
     xsBreakpoint.addListener(() => {
       breakpoint.isXs = xsBreakpoint.matches
     })
@@ -22,6 +23,7 @@ function install (Vue) {
       breakpoint.isXl = xlBreakpoint.matches
     })
   } else {
+    // Safari support
     xlBreakpoint.addListener(() => {
       breakpoint.isXl = xlBreakpoint.matches
     })
