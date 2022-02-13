@@ -7,12 +7,25 @@ function install (Vue) {
   breakpoint.isXs = xsBreakpoint.matches
   breakpoint.isXl = xlBreakpoint.matches
 
-  xsBreakpoint.addEventListener('change', () => {
-    breakpoint.isXs = xsBreakpoint.matches
-  })
-  xlBreakpoint.addEventListener('change', () => {
-    breakpoint.isXl = xlBreakpoint.matches
-  })
+  if (typeof xsBreakpoint.addEventListener === 'function') {
+    xsBreakpoint.addEventListener('change', () => {
+      breakpoint.isXs = xsBreakpoint.matches
+    })
+  } else {
+    xsBreakpoint.addListener(() => {
+      breakpoint.isXs = xsBreakpoint.matches
+    })
+  }
+
+  if (typeof xlBreakpoint.addEventListener === 'function') {
+    xlBreakpoint.addEventListener('change', () => {
+      breakpoint.isXl = xlBreakpoint.matches
+    })
+  } else {
+    xlBreakpoint.addListener(() => {
+      breakpoint.isXl = xlBreakpoint.matches
+    })
+  }
 
   Vue.mixin({
     data: () => ({
