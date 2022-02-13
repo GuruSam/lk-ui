@@ -12,13 +12,11 @@
 
           <div class="layout-content">
             <div class="router-transitions flex-grow-1 container-p-y" :class="{ 'container-fluid' : !breakpoint.isXs }">
-              <ErrorScreen v-if="appError.message" />
+              <ErrorScreen v-if="hasError" />
               <router-view v-else />
               <vue-progress-bar></vue-progress-bar>
             </div>
-            <div class="background-fade d-none d-lg-block">
-              <div class="background-fade-image"></div>
-            </div>
+            <LabBackground />
             <!-- <app-layout-footer /> -->
           </div>
         </div>
@@ -42,6 +40,7 @@ import Sidenav from '@/components/layout/Sidenav'
 import AppLoader from '@/components/loaders/AppLoader'
 import ErrorScreen from '@/views/ErrorScreen'
 import Notification from '@/components/Notification'
+import LabBackground from '@/components/LabBackground'
 import { mapState } from 'vuex'
 
 export default {
@@ -51,15 +50,18 @@ export default {
     Sidenav,
     AppLoader,
     ErrorScreen,
-    Notification
+    Notification,
+    LabBackground
   },
   computed: {
     ...mapState({
       appLoaded: state => state.appLoaded,
       showLoader: state => state.showLoader,
-      loggedIn: state => state.auth.loggedIn && state.user.isProducer,
-      appError: state => state.appError
-    })
+      loggedIn: state => state.auth.loggedIn && state.user.isProducer
+    }),
+    hasError() {
+      return this.$store.getters.hasError
+    }
   },
 
   created () {
@@ -95,44 +97,15 @@ export default {
 body {
   background-color: #141414;
 }
-.background-fade {
-  position: fixed;
-  top: 64px;
-  left: 0;
-  right: 0;
-  overflow: hidden;
-  z-index: -1;
-}
 
-.background-fade-image {
-  position: relative;
-}
-
-.background-fade-image::before {
-  background-image: url(https://store.playlabirint.ru/images/page-background.jpg);
-  height: calc(50vw);
-  background-size: cover;
-  background-position: 50% 0;
-  background-repeat: no-repeat;
-  content: '';
-  display: block;
-}
-
-.background-fade-image::after {
-  background-image: linear-gradient(to bottom, rgba(17, 17, 17, 0) 0, #111111 95%);
-  height: 50%;
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-}
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }
+
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+
 #app .layout-inner .layout-container {
   padding-top: 66px !important;
 }
