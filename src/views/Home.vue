@@ -119,6 +119,16 @@ export default {
   margin: 0;
 }
 
+@media (max-width: 450px) {
+  .alert-custom {
+    flex-direction: column;
+  }
+
+  .warning-icon {
+    margin: 0 0 15px 0;
+  }
+}
+
 .warning-icon {
   margin-right: 20px;
   margin-left: 10px;
