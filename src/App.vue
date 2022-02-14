@@ -3,7 +3,7 @@
     <transition name="fade">
       <AppLoader v-if="showLoader" />
     </transition>
-    <div v-if="appLoaded" class="layout-wrapper layout-1">
+    <div v-if="appLoaded" class="layout-wrapper">
       <div class="layout-inner">
         <Navbar />
 
@@ -11,11 +11,11 @@
           <Sidenav v-if="loggedIn" />
 
           <div class="layout-content">
-            <div class="router-transitions flex-grow-1 container-p-y" :class="{ 'container-fluid' : !breakpoint.isXs }">
-              <ErrorScreen v-if="hasError" />
+            <section class="router-transitions flex-grow-1 container-p-y" :class="{ 'container-p-x' : !breakpoint.isXs }">
+              <ErrorScreen v-if="appHasError" />
               <router-view v-else />
               <vue-progress-bar></vue-progress-bar>
-            </div>
+            </section>
             <LabBackground />
             <!-- <app-layout-footer /> -->
           </div>
@@ -59,7 +59,7 @@ export default {
       showLoader: state => state.showLoader,
       loggedIn: state => state.auth.loggedIn && state.user.isProducer
     }),
-    hasError() {
+    appHasError() {
       return this.$store.getters.hasError
     }
   },

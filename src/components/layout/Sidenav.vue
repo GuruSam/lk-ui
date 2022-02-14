@@ -1,42 +1,40 @@
 <template>
-  <div>
-    <sidenav orientation="vertical" class="sidenav-vertical layout-sidenav">
-      <div class="sidenav-inner">
-        <div class="sidenav-horizontal">
-          <div class="card bg-transparent">
-            <div class="card-body text-center user-block">
-              <img :src="user.avatar" alt class="rounded-circle mt-2 mb-3 avatar">
-              <h5 class="mb-2">{{ user.username }}</h5>
-              <p class="text-muted small">{{ balance }}</p>
-            </div>
-            <!-- <div class="card-footer text-center p-0">
-              <div class="row no-gutters row-bordered">
-                <a href="#" class="d-flex col flex-column text-body py-3">
-                  <i class="ion d-block ion-md-notifications icon-size">
-                    <span class="badge badge-danger indicator">12</span>
-                  </i>
-                </a>
-                <a href="#" class="d-flex col flex-column text-body py-3">
-                  <i class="ion d-block ion-md-settings icon-size"></i>
-                </a>
-              </div>
-            </div> -->
+  <sidenav orientation="vertical" class="sidenav-vertical layout-sidenav">
+    <div class="sidenav-inner">
+      <div class="sidenav-horizontal">
+        <div class="card bg-transparent">
+          <div class="card-body text-center user-block">
+            <img :src="user.avatar" alt class="rounded-circle mt-2 mb-3 avatar">
+            <h5 class="mb-2">{{ user.username }}</h5>
+            <p class="text-muted small">{{ balance }}</p>
           </div>
+          <!-- <div class="card-footer text-center p-0">
+            <div class="row no-gutters row-bordered">
+              <a href="#" class="d-flex col flex-column text-body py-3">
+                <i class="ion d-block ion-md-notifications icon-size">
+                  <span class="badge badge-danger indicator">12</span>
+                </i>
+              </a>
+              <a href="#" class="d-flex col flex-column text-body py-3">
+                <i class="ion d-block ion-md-settings icon-size"></i>
+              </a>
+            </div>
+          </div> -->
         </div>
-        <sidenav-router-link icon="ion ion-md-speedometer" to="/dashboard" :active="isMenuActive('/dashboard')" :exact="true">Главная</sidenav-router-link>
-        <sidenav-router-link icon="ion ion-ios-mail" to="/tickets" :active="isMenuActive('/tickets')" :exact="true">Заявки</sidenav-router-link>
-        <sidenav-router-link icon="ion ion-ios-contacts" to="/characters" :active="isMenuActive('/characters')" :exact="true">Персонажи</sidenav-router-link>
-        <sidenav-menu icon="ion ion-md-contacts" :open="true">
-          <template slot="link-text">NPC</template>
-
-          <sidenav-router-link to="/npc/personal" :active="isMenuActive('/npc/personal')" :exact="true">Личные</sidenav-router-link>
-          <sidenav-router-link to="/npc/general" :active="isMenuActive('/npc/general')" :exact="true">Общие</sidenav-router-link>
-        </sidenav-menu>
-        <sidenav-router-link icon="ion ion-ios-list-box" to="/tasks" :active="isMenuActive('/tasks')" :exact="true" :disabled="true">Задания</sidenav-router-link>
-        <sidenav-router-link icon="ion ion-logo-freebsd-devil" to="/pets-constructor" :active="isMenuActive('/pets-constructor')" :exact="true" :disabled="true">Конструктор существ</sidenav-router-link>
       </div>
-    </sidenav>
-  </div>
+      <sidenav-router-link icon="ion ion-md-speedometer" to="/dashboard" :active="isMenuActive('/dashboard')" :exact="true">Главная</sidenav-router-link>
+      <sidenav-router-link icon="ion ion-ios-mail" to="/tickets" :active="isMenuActive('/tickets')" :exact="true">Заявки</sidenav-router-link>
+      <sidenav-router-link icon="ion ion-ios-contacts" to="/characters" :active="isMenuActive('/characters')" :exact="true">Персонажи</sidenav-router-link>
+      <sidenav-menu icon="ion ion-md-contacts" :open="true">
+        <template slot="link-text">NPC</template>
+
+        <sidenav-router-link to="/npc/personal" :active="isMenuActive('/npc/personal')" :exact="true">Личные</sidenav-router-link>
+        <sidenav-router-link to="/npc/general" :active="isMenuActive('/npc/general')" :exact="true">Общие</sidenav-router-link>
+      </sidenav-menu>
+      <sidenav-router-link icon="ion ion-ios-list-box" to="/tasks" :active="isMenuActive('/tasks')" :exact="true" :disabled="true">Задания</sidenav-router-link>
+      <sidenav-router-link icon="ion ion-logo-freebsd-devil" to="/pets-constructor" :active="isMenuActive('/pets-constructor')" :exact="true" :disabled="true">Конструктор существ</sidenav-router-link>
+    </div>
+  </sidenav>
 </template>
 
 <script>
@@ -96,6 +94,10 @@ export default {
 </script>
 
 <style>
+.sidenav-vertical {
+  max-width: 250px;
+}
+
 .sidenav-horizontal {
   border-bottom: 1px solid #262626;
 }

@@ -1,16 +1,18 @@
 <template>
-  <b-container class="mt-4">
-    <b-row>
-      <b-col>
-        <b-card class="text-center mb-4">
-          <Ghost />
-          <h1 v-if="errorCode" class="display-1 mt-4 mb-0">{{ errorCode }}</h1>
-          <p class="card-title mb-4 lead">{{ errorMessage }}</p>
-          <b-button variant="primary" to="/dashboard">Вернуться</b-button>
-        </b-card>
-      </b-col>
-    </b-row>
-  </b-container>
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col">
+        <div class="card text-center mb-4">
+          <div class="card-body">
+            <Ghost />
+            <h1 v-if="errorCode" class="display-1 mt-4 mb-0">{{ errorCode }}</h1>
+            <p class="card-title mb-4 lead">{{ errorMessage }}</p>
+            <router-link to="/dashboard" class="btn btn-primary">Вернуться</router-link>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
