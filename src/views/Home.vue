@@ -56,6 +56,7 @@ import InfoTable from '@/components/dashboard/InfoTable'
 import InfoCard from '@/components/dashboard/InfoCard'
 import SmallCard from '@/components/characters/SmallCard'
 import { contentService } from '@/services'
+import { declOfNum } from '@/helpers.js'
 
 export default {
   name: 'Home',
@@ -80,15 +81,15 @@ export default {
   },
   computed: {
     charactersInGame () {
-      return this.declOfNum(this.characters.total, ['персонаж', 'персонажа', 'персонажей']) + ' в игре' 
+      return declOfNum(this.characters.total, ['персонаж', 'персонажа', 'персонажей']) + ' в игре' 
     },
 
     ticketsPending () {
-      return this.declOfNum(this.tickets.needAnswerCount, ['заявка', 'заявки', 'заявок']) + ' ' + this.declOfNum(this.tickets.needAnswerCount, ['ждёт', 'ждут', 'ждут']) + ' Вашего ответа'
+      return declOfNum(this.tickets.needAnswerCount, ['заявка', 'заявки', 'заявок']) + ' ' + declOfNum(this.tickets.needAnswerCount, ['ждёт', 'ждут', 'ждут']) + ' Вашего ответа'
     },
 
     activeTasks () {
-      return this.declOfNum(this.tasks.total, ['задание', 'задания', 'заданий']) + ' в процессе'
+      return declOfNum(this.tasks.total, ['задание', 'задания', 'заданий']) + ' в процессе'
     }
   },
   methods: {
