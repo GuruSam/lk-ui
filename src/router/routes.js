@@ -8,6 +8,9 @@ import ErrorScreen from '@/views/ErrorScreen'
 // Characters
 import CharactersList from '@/views/characters/CharactersList'
 
+// NPC
+import NpcList from '@/views/npc/NpcList'
+
 // Tickets
 import TicketsList from '@/views/tickets/TicketsList'
 import TicketPage from '@/views/tickets/TicketPage'
@@ -79,6 +82,14 @@ export default [
     component: CharactersList,
     meta: {
       title: 'ЛК - Мои персонажи'
+    }
+  },
+  {
+    path: '/npc/general',
+    name: 'npc-general',
+    component: NpcList,
+    meta: {
+      title: 'ЛК - Общие NPC'
     }
   }
 ]
