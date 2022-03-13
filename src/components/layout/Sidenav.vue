@@ -40,6 +40,7 @@
 <script>
 import { Sidenav, SidenavLink, SidenavRouterLink, SidenavMenu, SidenavHeader, SidenavBlock, SidenavDivider } from '@/vendor/libs/sidenav'
 import { mapState } from 'vuex'
+import { declOfNum } from '@/helpers.js'
 
 export default {
   name: 'app-layout-sidenav',
@@ -66,7 +67,7 @@ export default {
       user: state => state.user
     }),
     balance () {
-      return this.user.balance + ' ' + this.declOfNum(this.user.balance, ['лабрик', 'лабрика', 'лабриков'])
+      return this.user.balance + ' ' + declOfNum(this.user.balance, ['лабрик', 'лабрика', 'лабриков'])
     }
 
   },
