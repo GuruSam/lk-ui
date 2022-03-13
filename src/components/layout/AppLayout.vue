@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import Navbar from '@/components/layout/Navbar'
+import Navbar from '@/components/layout/Navbar-2'
 import Sidenav from '@/components/layout/Sidenav'
 import Notification from '@/components/Notification'
 import LabBackground from '@/components/LabBackground'
