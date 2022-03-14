@@ -9,7 +9,8 @@ import ErrorScreen from '@/views/ErrorScreen'
 import CharactersList from '@/views/characters/CharactersList'
 
 // NPC
-import NpcList from '@/views/npc/NpcList'
+import GeneralNpcList from '@/views/npc/GeneralNpcList'
+import PersonalNpcList from '@/views/npc/PersonalNpcList'
 
 // Tickets
 import TicketsList from '@/views/tickets/TicketsList'
@@ -21,6 +22,7 @@ export default [
     path: '/',
     redirect: '/dashboard'
   },
+  
   {
     path: '*',
     name: 'not-found',
@@ -30,6 +32,7 @@ export default [
       error: 'Страница не найдена'
     }
   },
+
   {
     path: '/dashboard',
     name: 'dashboard',
@@ -38,6 +41,7 @@ export default [
       title: 'ЛК - Главная'
     }
   },
+
   {
     path: '/welcome',
     name: 'welcome-page',
@@ -55,6 +59,7 @@ export default [
       })
     }
   },
+
   {
     path: '/tickets',
     name: 'tickets',
@@ -63,6 +68,7 @@ export default [
       title: 'ЛК - Список заявок'
     }
   },
+
   {
     path: '/tickets/create',
     name: 'ticket-create',
@@ -71,11 +77,13 @@ export default [
       title: 'ЛК - Создать заявку'
     }
   },
+
   {
     path: '/tickets/:id',
     name: 'ticket-page',
     component: TicketPage
   },
+
   {
     path: '/characters',
     name: 'characters',
@@ -84,12 +92,27 @@ export default [
       title: 'ЛК - Мои персонажи'
     }
   },
+
+  {
+    path: '/npc',
+    redirect: '/npc/personal'
+  },
+
   {
     path: '/npc/general',
     name: 'npc-general',
-    component: NpcList,
+    component: GeneralNpcList,
     meta: {
       title: 'ЛК - Общие NPC'
+    }
+  },
+
+  {
+    path: '/npc/personal',
+    name: 'npc-general',
+    component: PersonalNpcList,
+    meta: {
+      title: 'ЛК - Личные NPC'
     }
   }
 ]

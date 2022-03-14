@@ -1,17 +1,19 @@
 <template>
   <section class="container-fluid">
-    <h1 class="mb-4 h3">Список общих NPC</h1>
+    <div class="d-flex justify-content-between align-items-center py-3 mb-4">
+      <h1 class="h3 mb-0 mr-2">Список общих NPC</h1>
 
-    <div class="row justify-content-end px-3">
-      <label class="npc-filter mr-3">
-        <span class="mr-2">Имя:</span>
-        <input class="form-control" v-model="filterByName" type="search" placeholder="Введите имя..." @input="filterHandler">
-      </label>
+      <div class="row justify-content-end px-3">
+        <label class="npc-filter mr-3">
+          <span class="mr-2">Имя:</span>
+          <input class="form-control" v-model="filterByName" type="search" placeholder="Введите имя..." @input="filterHandler">
+        </label>
 
-      <label class="npc-filter">
-        <span class="mr-2">Роль:</span>
-        <input class="form-control" v-model="filterByRole" type="search" placeholder="Введите роль..." @input="filterHandler">
-      </label>
+        <label class="npc-filter">
+          <span class="mr-2">Роль:</span>
+          <input class="form-control" v-model="filterByRole" type="search" placeholder="Введите роль..." @input="filterHandler">
+        </label>
+      </div>
     </div>
 
     <div class="row mt-3">
@@ -90,9 +92,7 @@ export default {
     },
 
     filterHandler () {
-      if (this.filterDebounce) {
-        clearTimeout(this.filterDebounce)
-      }
+      clearTimeout(this.filterDebounce)
 
       this.filterDebounce = setTimeout(() => {
         this.npcList = []
