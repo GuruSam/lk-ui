@@ -53,7 +53,6 @@
 
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style src="@/vendor/libs/vue-multiselect/vue-multiselect.scss" lang="scss"></style>
-<style src="@/vendor/libs/bootstrap-slider/bootstrap-slider.css"></style>
 
 <script>
 import Multiselect from 'vue-multiselect'
