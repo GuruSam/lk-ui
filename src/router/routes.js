@@ -11,6 +11,7 @@ import CharactersList from '@/views/characters/CharactersList'
 // NPC
 import GeneralNpcList from '@/views/npc/GeneralNpcList'
 import PersonalNpcList from '@/views/npc/PersonalNpcList'
+import NpcCreate from '@/views/npc/NpcCreate'
 
 // Tickets
 import TicketsList from '@/views/tickets/TicketsList'
@@ -109,10 +110,19 @@ export default [
 
   {
     path: '/npc/personal',
-    name: 'npc-general',
+    name: 'npc-personal',
     component: PersonalNpcList,
     meta: {
       title: 'ЛК - Личные NPC'
+    }
+  },
+
+  {
+    path: '/npc/create',
+    name: 'npc-create',
+    component: NpcCreate,
+    meta: {
+      title: 'ЛК - Создать NPC'
     }
   }
 ]
