@@ -66,10 +66,10 @@ export default {
     ...mapState({
       user: state => state.user
     }),
+
     balance () {
       return this.user.balance + ' ' + declOfNum(this.user.balance, ['лабрик', 'лабрика', 'лабриков'])
     }
-
   },
 
   watch: {
@@ -77,6 +77,69 @@ export default {
       if (this.layoutHelpers.isSmallScreen()) {
         this.layoutHelpers.setCollapsed(true)
       }
+    }
+  },
+
+  mounted () {
+    if (this.layoutHelpers.isSmallScreen()) {
+      const sideNav = this.layoutHelpers.getSidenav()
+      const width = sideNav.getBoundingClientRect().width
+
+      let clientX = null
+      let clientY = null
+      let xDiff = null
+      let yDiff = null
+      let transformed = false
+      let isCollapsed = this.layoutHelpers.isCollapsed()
+      let moves = 0
+
+      document.addEventListener('touchstart', evt => {
+        clientX = evt.touches[0].clientX
+        clientY = evt.touches[0].clientY
+      })
+
+      document.addEventListener('touchmove', evt => {
+        xDiff = evt.touches[0].clientX - clientX
+
+        if (moves === 0 && isCollapsed) {
+          yDiff = evt.touches[0].clientY - clientY
+
+          if (Math.abs(xDiff) > Math.abs(yDiff) && xDiff > 0) {
+            sideNav.style.transform = `translate3d(-${width - xDiff}px, 0, 0)`
+            transformed = true
+          }
+
+          return moves++
+        }
+
+        if (transformed) {
+          sideNav.style.transform = `translate3d(-${width - xDiff}px, 0, 0)`
+        }
+      })
+
+      document.addEventListener('touchend', () => {
+        if (transformed) {
+          sideNav.style.transform = `translate3d(-${width}px, 0, 0)`
+
+          if (xDiff >= 200) {
+            this.layoutHelpers.setCollapsed(false)
+          } else {
+            this.layoutHelpers.setCollapsed(true)
+          }
+
+          clientX = 0
+          clientY = 0
+          xDiff = 0
+          yDiff = 0
+          transformed = false
+        }
+
+        moves = 0
+      })
+
+      this.layoutHelpers.on('toggle', () => 
+        isCollapsed = this.layoutHelpers.isCollapsed()
+      )
     }
   },
 
