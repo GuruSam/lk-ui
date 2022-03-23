@@ -5,6 +5,7 @@ import VueProgressBar from 'vue-progressbar'
 import Breakpoint from './breakpoint'
 import VueQuillEditor from 'vue-quill-editor'
 import './dayjs.js'
+import './vee-validate.js'
 
 import { quillOptions } from './editor/options'
 

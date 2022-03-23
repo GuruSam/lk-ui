@@ -21,6 +21,13 @@
       </span>
     </div>
 
+    <div class="mb-4 mt-4" v-if="selectedSchools.size > 0">
+      <span>Школы выбраны: </span>
+      <span v-for="school in selectedSchools" :key="school" class="badge badge-secondary badge-pill mr-2">
+        {{ school }}
+      </span>
+    </div>
+
     <table class="table">
       <thead>
         <tr>
@@ -116,6 +123,7 @@ export default {
   watch: {
     magicClass() {
       this.fetchData()
+      this.skills = [{}]
     }
   },
 
@@ -186,6 +194,16 @@ export default {
       )
 
       return this.skillsByCategories.filter(skill => categories.has(skill.category))
+    },
+
+    getMagic () {
+      return {
+        lvl: this.ordinar,
+        skills: this.skills.map(skill => ({ 
+          id: skill.data.id, 
+          lvl: skill.lvl 
+        }))
+      }
     }
   }
 }
