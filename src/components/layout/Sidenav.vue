@@ -82,16 +82,18 @@ export default {
 
   mounted () {
     if (this.layoutHelpers.isSmallScreen()) {
-      const sideNav = this.layoutHelpers.getSidenav()
-      const width = sideNav.getBoundingClientRect().width
+      // const sideNav = this.layoutHelpers.getSidenav()
+      // const width = sideNav.getBoundingClientRect().width
 
       let clientX = null
       let clientY = null
       let xDiff = null
       let yDiff = null
-      let transformed = false
+      // let transformed = false
       let isCollapsed = this.layoutHelpers.isCollapsed()
       let moves = 0
+
+      let timeout = null
 
       document.addEventListener('touchstart', evt => {
         clientX = evt.touches[0].clientX
@@ -101,41 +103,71 @@ export default {
       document.addEventListener('touchmove', evt => {
         xDiff = evt.touches[0].clientX - clientX
 
-        if (moves === 0 && isCollapsed) {
+        if (moves === 0 && !timeout) {
           yDiff = evt.touches[0].clientY - clientY
 
-          if (Math.abs(xDiff) > Math.abs(yDiff) && xDiff > 0) {
-            sideNav.style.transform = `translate3d(-${width - xDiff}px, 0, 0)`
-            transformed = true
+          if (Math.abs(xDiff) > Math.abs(yDiff) && xDiff !== 0) {
+            timeout = setTimeout(() => {
+              console.log(xDiff)
+              if (xDiff >= 200 && isCollapsed) {
+                this.layoutHelpers.setCollapsed(false)
+              } else if (xDiff <= -200 && !isCollapsed) {
+                this.layoutHelpers.setCollapsed(true)
+              }
+
+              xDiff = 0
+              yDiff = 0
+              timeout = null
+            }, 200)
           }
 
-          return moves++
-        }
-
-        if (transformed) {
-          sideNav.style.transform = `translate3d(-${width - xDiff}px, 0, 0)`
+          moves++
         }
       })
 
       document.addEventListener('touchend', () => {
-        if (transformed) {
-          sideNav.style.transform = `translate3d(-${width}px, 0, 0)`
-
-          if (xDiff >= 200) {
-            this.layoutHelpers.setCollapsed(false)
-          } else {
-            this.layoutHelpers.setCollapsed(true)
-          }
-
-          clientX = 0
-          clientY = 0
-          xDiff = 0
-          yDiff = 0
-          transformed = false
-        }
-
+        clientX = 0
+        clientY = 0
         moves = 0
       })
+
+      // document.addEventListener('touchmove', evt => {
+      //   xDiff = evt.touches[0].clientX - clientX
+
+      //   if (moves === 0 && isCollapsed) {
+      //     yDiff = evt.touches[0].clientY - clientY
+
+      //     if (Math.abs(xDiff) > Math.abs(yDiff) && xDiff > 0) {
+      //       transformed = true
+      //     }
+
+      //     moves++
+      //   }
+
+      //   if (transformed) {
+      //     sideNav.style.transform = `translate3d(-${width - xDiff}px, 0, 0)`
+      //   }
+      // })
+
+      // document.addEventListener('touchend', () => {
+      //   if (transformed) {
+      //     sideNav.style.transform = `translate3d(-${width}px, 0, 0)`
+
+      //     if (xDiff >= 200) {
+      //       this.layoutHelpers.setCollapsed(false)
+      //     } else {
+      //       this.layoutHelpers.setCollapsed(true)
+      //     }
+
+      //     clientX = 0
+      //     clientY = 0
+      //     xDiff = 0
+      //     yDiff = 0
+      //     transformed = false
+      //   }
+
+      //   moves = 0
+      // })
 
       this.layoutHelpers.on('toggle', () => 
         isCollapsed = this.layoutHelpers.isCollapsed()
