@@ -1,12 +1,10 @@
 <template>
   <section class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center py-3 mb-4">
-      <h1 class="h3 mb-0 mr-2">Список личных NPC</h1>
-
+    <page-title title="Список личных NPC">
       <router-link to="/npc/create" class="d-block btn btn-primary rounded-pill">
         <span class="ion ion-md-add"></span>&nbsp; Создать нового NPC
       </router-link>
-    </div>
+    </page-title>
 
     <div class="row mt-3">
       <character v-for="character in npcList" :key="character.id" :character="character" />
@@ -18,6 +16,7 @@
 </template>
 
 <script>
+import PageTitle from '@/components/PageTitle'
 import SmallCard from '@/components/npc/SmallCard'
 import DataLoader from '@/components/loaders/DataLoader'
 import axios from 'axios'
@@ -25,6 +24,7 @@ import axios from 'axios'
 export default {
   name: 'NpcList',
   components: {
+    'page-title': PageTitle,
     'character': SmallCard,
     'loader': DataLoader
   },

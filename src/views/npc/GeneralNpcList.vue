@@ -1,8 +1,6 @@
 <template>
   <section class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center py-3 mb-4">
-      <h1 class="h3 mb-0 mr-2">Список общих NPC</h1>
-
+    <page-title title="Список общих NPC">
       <div class="row justify-content-end px-3">
         <label class="npc-filter mr-3">
           <span class="mr-2">Имя:</span>
@@ -14,7 +12,7 @@
           <input class="form-control" v-model="filterByRole" type="search" placeholder="Введите роль..." @input="filterHandler">
         </label>
       </div>
-    </div>
+    </page-title>
 
     <div class="row mt-3">
       <character v-for="character in npcList" :key="character.id" :character="character" />
@@ -26,6 +24,7 @@
 </template>
 
 <script>
+import PageTitle from '@/components/PageTitle'
 import SmallCard from '@/components/npc/SmallCard'
 import DataLoader from '@/components/loaders/DataLoader'
 import axios from 'axios'
@@ -33,6 +32,7 @@ import axios from 'axios'
 export default {
   name: 'NpcList',
   components: {
+    'page-title': PageTitle,
     'character': SmallCard,
     'loader': DataLoader
   },

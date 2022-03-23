@@ -1,11 +1,11 @@
 <template>
   <b-container fluid>
-    <h3 class="d-flex justify-content-between align-items-center w-100 font-weight-bold py-3 mb-4">
-      <div class="mr-2">Связь с организаторами</div>
-      <router-link to="/tickets/create" class="d-block btn btn-primary rounded-pill">
+    <PageTitle title="Заявки" sub-title="Связь с организаторами">
+      <router-link class="d-block btn btn-primary rounded-pill" to="/tickets/create">
         <span class="ion ion-md-add"></span>&nbsp; Создать заявку
       </router-link>
-    </h3>
+    </PageTitle>
+
     <TicketsFilter :charactersOptions="characterOptions" @filter="applyFilter" />
 
     <b-tabs no-fade class="nav-tabs-top mb-4" active-nav-item-class="tabs-border" @activate-tab="applyType">
@@ -22,13 +22,14 @@
 </template>
 
 <script>
+import PageTitle from '@/components/PageTitle'
 import TicketsFilter from '@/components/tickets/TicketsFilter'
 import TicketsTable from '@/components/tickets/TicketsTable'
 import { contentService } from '@/services'
 
 export default {
   name: 'tickets',
-  components: { TicketsFilter, TicketsTable },
+  components: { PageTitle, TicketsFilter, TicketsTable },
 
   data: () => ({
     busy: false,
