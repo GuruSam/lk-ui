@@ -90,6 +90,18 @@ export default {
       let moves = 0
       let timeout = null
 
+      const checkForSwipe = function () {
+        if (xDiff >= 200 && isCollapsed) {
+          this.layoutHelpers.setCollapsed(false)
+        } else if (xDiff <= -150 && !isCollapsed) {
+          this.layoutHelpers.setCollapsed(true)
+        }
+
+        xDiff = 0
+        yDiff = 0
+        timeout = null
+      }
+
       document.addEventListener('touchstart', evt => {
         clientX = evt.touches[0].clientX
         clientY = evt.touches[0].clientY
@@ -102,17 +114,7 @@ export default {
           yDiff = evt.touches[0].clientY - clientY
 
           if (Math.abs(xDiff) > Math.abs(yDiff) && xDiff !== 0) {
-            timeout = setTimeout(() => {
-              if (xDiff >= 200 && isCollapsed) {
-                this.layoutHelpers.setCollapsed(false)
-              } else if (xDiff <= -150 && !isCollapsed) {
-                this.layoutHelpers.setCollapsed(true)
-              }
-
-              xDiff = 0
-              yDiff = 0
-              timeout = null
-            }, 200)
+            timeout = setTimeout(checkForSwipe, 200)
           }
 
           moves++
@@ -128,6 +130,12 @@ export default {
       this.layoutHelpers.on('toggle', () => 
         isCollapsed = this.layoutHelpers.isCollapsed()
       )
+
+      const table = document.querySelector('.table-responsive')
+
+      if (table) {
+        table.addEventListener('touchmove', evt => evt.stopPropagation())
+      }
     }
   },
 
