@@ -16,7 +16,8 @@ import NpcCreate from '@/views/npc/NpcCreate'
 // Tickets
 import TicketsList from '@/views/tickets/TicketsList'
 import TicketPage from '@/views/tickets/TicketPage'
-import TicketCreate from '@/views/tickets/TicketCreate'
+// import TicketCreate from '@/views/tickets/TicketCreate'
+import TicketCreate from '@/views/tickets/TicketCreate2'
 
 export default [
   {
