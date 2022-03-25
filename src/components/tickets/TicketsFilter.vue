@@ -1,25 +1,35 @@
 <template>
-  <b-card class="mb-3">
-    <b-row>
-      <b-col lg="2" md="4" sm="4">
-        <label class="form-label">Статус</label>
-        <b-select v-model="status" size="sm" :options="statusOptions" />
-      </b-col>
-      <b-col lg="2" md="4" sm="4">
-        <label class="form-label">Персонаж</label>
-        <b-select v-model="characterId" size="sm" :options="charactersOptions" />
-      </b-col>
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="row">
 
-      <b-col lg="2" md="2" sm="2">
-        <label class="form-label d-none d-md-block">&nbsp;</label>
-        <b-btn variant="secondary" size="sm" :block="true" @click="applyFilter">Показать</b-btn>
-      </b-col>
-      <b-col lg="2" md="2" sm="2">
-        <label class="form-label d-none d-md-block">&nbsp;</label>
-        <b-btn variant="primary" size="sm" :disabled="!status && !characterId" :block="true" @click="resetFilter">Сбросить</b-btn>
-      </b-col>
-    </b-row>
-  </b-card>
+        <div class="col-sm-4 col-md-4 col-lg-2">
+          <label class="form-label">Статус</label>
+          <select class="custom-select custom-select-sm" id="status" v-model="status">
+            <option v-for="option in statusOptions" :key="option.value" :value="option.value">{{ option.text }}</option>
+          </select>
+        </div>
+
+        <div class="col-sm-4 col-md-4 col-lg-2">
+          <label class="form-label">Персонаж</label>
+          <select class="custom-select custom-select-sm" id="status" v-model="characterId">
+            <option v-for="option in charactersOptions" :key="option.value" :value="option.value">{{ option.text }}</option>
+          </select>
+        </div>
+        
+        <div class="col-sm-2 col-md-2 col-lg-2">
+          <label class="form-label d-none d-md-block">&nbsp;</label>
+          <button class="btn btn-secondary btn-sm btn-block" @click="applyFilter">Показать</button>
+        </div>
+
+        <div class="col-sm-2 col-md-2 col-lg-2">
+          <label class="form-label d-none d-md-block">&nbsp;</label>
+          <button class="btn btn-primary btn-sm btn-block" :disabled="!status && !characterId" @click="resetFilter">Сбросить</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

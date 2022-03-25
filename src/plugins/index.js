@@ -1,9 +1,9 @@
 import Vue from 'vue'
-import BootstrapVue from 'bootstrap-vue'
 import Notifications from 'vue-notification'
 import VueProgressBar from 'vue-progressbar'
 import Breakpoint from './breakpoint'
 import VueQuillEditor from 'vue-quill-editor'
+import './bootstrap-vue.js'
 import './dayjs.js'
 import './vee-validate.js'
 
@@ -15,7 +15,6 @@ const progressBarOptions = {
   thickness: '3px'
 }
 
-Vue.use(BootstrapVue)
 Vue.use(Notifications)
 Vue.use(VueProgressBar, progressBarOptions)
 Vue.use(Breakpoint)

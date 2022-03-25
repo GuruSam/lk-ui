@@ -1,5 +1,5 @@
 <template>
-  <section class="container-fluid">
+  <div class="container-fluid">
     <page-title title="Список личных NPC">
       <router-link to="/npc/create" class="d-block btn btn-primary rounded-pill">
         <span class="ion ion-md-add"></span>&nbsp; Создать нового NPC
@@ -12,7 +12,7 @@
     </div>
 
     <loader v-if="fetching" />
-  </section>
+  </div>
 </template>
 
 <script>

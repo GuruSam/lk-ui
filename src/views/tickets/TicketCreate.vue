@@ -1,5 +1,5 @@
 <template>
-  <section class="container-fluid">
+  <div class="container-fluid">
     <h1 class="font-weight-bold py-3 mb-4 h4">Создать заявку</h1>
 
     <div class="card mb-4" ref="formContainer">
@@ -57,7 +57,7 @@
         </form>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>

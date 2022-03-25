@@ -10,3 +10,16 @@ export function declOfNum (number, phrases) {
       return phrases[2]
   }
 }
+
+export function generateString (length) {
+  const symbols = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  const symLength = symbols.length
+  
+  let string = ''
+
+  for (let i = 0; i < length; i++) {
+    string += symbols[Math.floor(Math.random() * symLength)]
+  }
+
+  return string
+}

@@ -8,28 +8,19 @@
       <input type="hidden" name="_xfRedirect" value="https://playlabirint.ru/game" />
       <input type="hidden" name="_xfToken" :value="xfToken" />
     </form>
-    <b-btn 
-      class="login-btn"
-      variant="primary" 
-      size="sm" pill 
-      @click="loginCharacter" 
-      :disabled="submit"
-    >
+
+    <button class="btn btn-primary btn-sm rounded-pill login-btn" type="button" :disabled="submit" @click="loginCharacter">
       <div v-if="!submit">
         <i class="ion ion-md-key"></i>
         &nbsp; Войти
       </div>
-      <b-spinner v-else></b-spinner>
-    </b-btn>
-    <a 
-      href="#" 
-      class="btn btn-sm rounded-pill" 
-      :class="{ 'btn-success' : pwdCopied }"
-      @click="copyPassword"
-    >
+      <span v-else aria-hidden="true" class="spinner-border" />
+    </button>
+
+    <button class="btn btn-sm rounded-pill" :class="{'btn-success' : pwdCopied}" @click="copyPassword">
       <i class="ion mr-1" :class="pwdCopied ? 'ion-md-checkmark' : 'ion-md-copy'"></i>
       {{ pwdCopied ? 'Пароль скопирован' : 'Скопировать пароль' }}
-    </a>
+    </button>
   </div>
 </template>
 

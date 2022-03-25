@@ -9,7 +9,7 @@
         <div class="text-muted small ml-2 font-italic">
           <Date :value="comment.createdAt" format="DD MMM YYYY, HH:mm" />
         </div>
-        <b-badge v-if="comment.isNew" variant="primary" class="mb-2 ml-auto">Новый</b-badge>
+        <span v-if="comment.isNew" class="badge badge-primary ml-auto mb-2">Новый</span>
       </div>
       <div class="comment" v-html="comment.text" :data-author="comment.author.name" ></div>
     </div>

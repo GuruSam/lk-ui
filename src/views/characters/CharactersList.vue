@@ -1,5 +1,5 @@
 <template>
-  <section class="container-fluid">
+  <div class="container-fluid">
     <page-title class="mb-0" title="Мои персонажи" />
 
     <div v-if="active.length" class="row mt-3">
@@ -10,7 +10,7 @@
     <div v-if="idle.length" class="row mt-3">
       <character v-for="character in idle" :key="character.id" :character="character" />
     </div>
-  </section>
+  </div>
 </template>
 
 <script>

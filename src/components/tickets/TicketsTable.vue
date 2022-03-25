@@ -1,5 +1,5 @@
 <template>
-  <b-card no-body>
+  <div class="card">
     <b-overlay :show="busy" spinner-variant="primary" bg-color="#121214">
       <div class="table-responsive">
         <b-table
@@ -13,7 +13,7 @@
           class="card-table">
 
           <template v-slot:cell(name)="data">
-            <b-badge v-if="data.item.hasNew" class="new-comments-dot mr-1" variant="primary badge-dot" title="Есть непрочитанные комментарии"></b-badge>
+            <span v-if="data.item.hasNew" class="badge badge-primary badge-dot new-comments-dot mr-1" title="Есть непрочитанные комментарии" />
             <router-link class="text-white" :to="'/tickets/' + data.item.id">{{ data.item.name }}</router-link>
           </template>
           <template v-slot:cell(status)="data">
@@ -30,7 +30,7 @@
       </div>
     </b-overlay>
     <hr v-if="tickets.length" class="border-light m-0">
-    <b-card-body v-if="tickets.length" class="pt-0 pb-3">
+    <div v-if="tickets.length" class="card-body pt-0 pb-3">
       <div class="row">
         <div class="col-sm text-sm-left text-center pt-3">
           <span class="text-muted">Страница {{ currentPage }} из {{ totalPages }}</span>
@@ -45,8 +45,8 @@
             size="sm" />
         </div>
       </div>
-    </b-card-body>
-  </b-card>
+    </div>
+  </div>
 </template>
 
 <script>

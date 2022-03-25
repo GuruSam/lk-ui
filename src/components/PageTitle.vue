@@ -1,7 +1,7 @@
 <template>
   <div class="page-title py-3">
     <div class="heading">
-      <h1 class="d-block h3 m-0">{{ title }}</h1>
+      <h1 class="h3 m-0">{{ title }}</h1>
       <span v-if="subTitle" class="text-muted font-weight-light h4">{{ subTitle }}</span>
     </div>
 
