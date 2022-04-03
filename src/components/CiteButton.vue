@@ -1,56 +1,83 @@
 <template>
-  <b-badge 
-    v-show="showCiteBtn"
-    ref="button"
-    class="cite-btn"
-    :class="{ 'p-2' : breakpoint.isXs }"
-    variant="primary"
-    @click="cite"
-  >
+  <div v-show="showCiteBtn" class="badge badge-primary cite-btn" ref="citeButton" @click.stop="cite" @mouseup.stop @touchend.stop>
     Цитировать
-  </b-badge>
+  </div>
 </template>
 
 <script>
 export default {
   name: 'CiteButton',
+
   data: () => ({
     showCiteBtn: false,
     selectedText: '',
-    source: 'desc'
+    source: 'desc',
+    quotableElements: []
   }),
+
+  computed: {
+    parentElement () {
+      return this.$parent.$el
+    }
+  },
+
   mounted () {
-    document.addEventListener('click', () => {
-      if (!document.getSelection().toString() && this.showCiteBtn) {
-        this.showCiteBtn = false
+    document.addEventListener('mouseup', this.onMouseUp)
+    document.addEventListener('touchend', this.onMouseUp)
+    document.addEventListener('mousedown', () => {
+      if (!document.getSelection().isCollapsed) {
+        document.getSelection().empty()
       }
     })
   },
-  methods: {
-    trigger (evt, source) {
-      if (document.getSelection().toString()) {
-        this.show(evt)
-        this.selectedText = document.getSelection().toString()
 
-        if (source) {
-          this.source = source
+  methods: {
+    onMouseUp (evt) {
+      const selection = document.getSelection()
+
+      if (!selection.isCollapsed) {
+        const anchorNode = selection.anchorNode
+        const quotable = evt.target.closest('.quotable')
+
+        if (quotable && quotable.contains(anchorNode)) {
+          this.trigger(evt, quotable.dataset.source)
         }
+
+      } else if (this.showCiteBtn) {
+        this.hide()
+      }
+    },
+
+    trigger (evt, source) {
+      this.selectedText = document.getSelection().toString()
+
+      if (this.selectedText) {
+        this.show(evt)
+        this.source = source ?? 'Цитата'
       }
     },
 
     show (evt) {
-      const x = (evt.clientX - 30) || (evt.x - 30)
-      const y = (evt.clientY - 35) || (evt.y - 35)
+      const coords = evt.changedTouches ? evt.changedTouches.item(0) : evt
+      const x = (coords.clientX - 30) || (coords.x - 30)
+      const y = (coords.clientY - 35) || (coords.y - 35)
 
-      this.$refs.button.style.top = `${y}px`
-      this.$refs.button.style.left = `${x}px`
+      this.$refs.citeButton.style.top = `${y}px`
+      this.$refs.citeButton.style.left = `${x}px`
       this.showCiteBtn = true
+    },
+
+    hide () {
+      this.showCiteBtn = false
+      this.selectedText = null
+      this.source = null
     },
 
     cite () {
       this.$root.$emit('quote', this.source, this.selectedText)
       this.showCiteBtn = false
-      document.getSelection().removeAllRanges()
+
+      document.getSelection().empty()
     }
   }
 }

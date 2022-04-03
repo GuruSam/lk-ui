@@ -72,8 +72,6 @@ export default {
     } else {
       this.fetchComments()
     }
-
-    document.querySelector('.comment-section').addEventListener('pointerup', this.showCiteButton)
   },
   methods: {
     fetchComments () {
@@ -96,14 +94,6 @@ export default {
 
       if (unread.length) {
         contentService.readTicketComments(this.ticketId, unread)
-      }
-    },
-
-    showCiteButton (evt) {
-      const comment = evt.target.closest('.comment')
-      
-      if (comment && this.showEditor) {
-        this.$refs.citeButton.trigger(evt, comment.dataset.author)
       }
     },
 
@@ -134,6 +124,10 @@ export default {
           this.submit = false
           this.error = null
         })
+    },
+
+    insertBlockquote (source, text) {
+      this.$refs.editor.insertBlockquote(source, text)
     }
   }
 }

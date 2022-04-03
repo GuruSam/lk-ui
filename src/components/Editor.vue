@@ -53,6 +53,8 @@ export default {
       if (index > 0) {
         this.quill.insertEmbed(this.quill.getLength(), 'break', true, 'user')
       }
+
+      this.quill.focus()
     }
   }
 }

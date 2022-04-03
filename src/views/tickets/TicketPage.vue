@@ -17,11 +17,12 @@
         <div class="card mb-4">
           <h6 class="card-header">Описание</h6>
 
-          <div class="card-body">
+          <div class="card-body quotable" data-source="Описание">
             <div v-html="ticket.description" class="ticket-desc"></div>
           </div>
         </div>
-        <TicketComments v-if="ticket.comments" :ticket-id="ticket.id" :total.sync="ticket.comments.total" />
+        <TicketComments v-if="ticket.comments" :ticket-id="ticket.id" :total.sync="ticket.comments.total" ref="ticketComments" />
+        <CiteButton ref="citeButton" />
       </div>
 
       <div class="col-md-6 col-xl-4 col-xxl-3">
@@ -80,6 +81,7 @@ import { contentService } from '@/services'
 import { contentMixin } from '@/mixins/content'
 import TicketComments from '@/components/tickets/TicketComments'
 import Date from '@/components/Date'
+import CiteButton from '@/components/CiteButton'
 
 const STATUS_COMPLETED = 5
 const STATUS_ARCHIVED = 100
@@ -88,7 +90,7 @@ export default {
   name: 'TicketPage',
   mixins: [contentMixin],
   components: {
-    TicketComments, Date
+    TicketComments, Date, CiteButton
   },
   data: () => ({
     ticket: {
@@ -166,12 +168,6 @@ export default {
       
       this.setData(data)
       this.$notify({ group: 'notifications', type: 'success', text: 'Тикет переоткрыт' })
-    },
-
-    showCiteButton (evt) {
-      if (!this.isArchived) {
-        this.$refs.citeButton.trigger(evt)
-      }
     },
 
     completeTicket () {
