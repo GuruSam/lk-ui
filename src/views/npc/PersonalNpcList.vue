@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <page-title title="Список личных NPC">
-      <router-link to="/npc/create" class="d-block btn btn-primary rounded-pill">
+      <router-link to="https://thesims.cc/labirint/npc/request" class="d-block btn btn-primary rounded-pill">
         <span class="ion ion-md-add"></span>&nbsp; Создать нового NPC
       </router-link>
     </page-title>
