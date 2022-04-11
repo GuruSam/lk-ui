@@ -11,15 +11,8 @@ export default {
   data: () => ({
     showCiteBtn: false,
     selectedText: '',
-    source: 'desc',
-    quotableElements: []
+    source: 'desc'
   }),
-
-  computed: {
-    parentElement () {
-      return this.$parent.$el
-    }
-  },
 
   mounted () {
     document.addEventListener('mouseup', this.onMouseUp)
