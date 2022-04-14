@@ -1,19 +1,13 @@
 <template>
   <div class="block-screen">
-    <b-container>
-      <b-row class="vh-100 text-center" align-v="center">
-        <b-col align-self="center">
-          <div class="sk-chase sk-primary sk-center">
-            <div class="sk-chase-dot"></div>
-            <div class="sk-chase-dot"></div>
-            <div class="sk-chase-dot"></div>
-            <div class="sk-chase-dot"></div>
-            <div class="sk-chase-dot"></div>
-            <div class="sk-chase-dot"></div>
-          </div>
-        </b-col>
-      </b-row>
-    </b-container>
+    <div class="sk-chase sk-primary sk-center">
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+      <div class="sk-chase-dot"></div>
+    </div>
   </div>
 </template>
 
@@ -27,6 +21,7 @@ export default {
 
 <style>
 .block-screen {
+  display: flex;
   position: fixed;
   width: 100%;
   height: 100%;

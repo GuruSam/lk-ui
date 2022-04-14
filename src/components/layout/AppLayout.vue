@@ -10,7 +10,7 @@
           <slot></slot>
           <vue-progress-bar></vue-progress-bar>
           <LabBackground />
-          <!-- <app-layout-footer /> -->
+          <AppFooter />
         </div>
       </div>
     </div>
@@ -22,6 +22,7 @@
 <script>
 import Navbar from '@/components/layout/Navbar-2'
 import Sidenav from '@/components/layout/Sidenav'
+import AppFooter from '@/components/layout/AppFooter'
 import Notification from '@/components/Notification'
 import LabBackground from '@/components/LabBackground'
 
@@ -30,6 +31,7 @@ export default {
   components: {
     Navbar,
     Sidenav,
+    AppFooter,
     Notification,
     LabBackground
   },

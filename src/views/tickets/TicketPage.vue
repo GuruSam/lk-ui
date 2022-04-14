@@ -1,20 +1,33 @@
 <template>
-  <b-container fluid>
-    <h4 class="py-3 mb-4">
-      <b-breadcrumb :items="breadcrumb" class="font-weight-bold m-0" />
-    </h4>
+  <div class="container-fluid">
+    <h1 class="sr-only">{{ ticketName }}</h1>
+
+    <ol class="breadcrumb font-weight-bold h4 py-3 mb-4">
+      <li class="breadcrumb-item">
+        <router-link to="/tickets">Мои заявки</router-link>
+      </li>
+
+      <li class="breadcrumb-item active">
+        <span>{{ ticketName }}</span>
+      </li>
+    </ol>
 
     <div class="row">
       <div class="col-lg-12 col-xl-8 col-xxl-9">
-        <b-card header="Описание" header-tag="h6" class="mb-4">
-          <div v-html="ticket.description" class="ticket-desc"></div>
-        </b-card>
-        <TicketComments v-if="ticket.comments" :ticket-id="ticket.id" :total.sync="ticket.comments.total" />
+        <div class="card mb-4">
+          <h6 class="card-header">Описание</h6>
+
+          <div class="card-body quotable" data-source="Описание">
+            <div v-html="ticket.description" class="ticket-desc"></div>
+          </div>
+        </div>
+        <TicketComments v-if="ticket.comments" :ticket-id="ticket.id" :total.sync="ticket.comments.total" ref="ticketComments" />
+        <CiteButton ref="citeButton" />
       </div>
 
       <div class="col-md-6 col-xl-4 col-xxl-3">
-        <div>
-          <b-card class="mb-4 status-block">
+        <div class="card mb-4 status-block">
+          <div class="card-body">
             <div class="d-flex align-items-center">
               <span class="display-4 ion" :class="statusIcon"></span>
               <div class="ml-3">
@@ -22,36 +35,45 @@
                 <strong class="text-big" :class="statusColor">{{ ticketStatus[ticket.status] }}</strong>
               </div>
             </div>
-          </b-card>
+          </div>
         </div>
-        <b-card no-body class="mb-4">
-          <b-card-header header-tag="h6">Детали заявки</b-card-header>
-          <b-list-group :flush="true">
-            <b-list-group-item class="d-flex justify-content-between align-items-center">
-              <div class="text-muted">Категория</div>
-              <div>{{ ticket.category.name }}</div>
-            </b-list-group-item>
-            <b-list-group-item v-if="ticket.character" class="d-flex justify-content-between align-items-center">
-              <div class="text-muted">Персонаж</div>
-              <div><a href="javascript:void(0)">{{ ticket.character.name }}</a></div>
-            </b-list-group-item>
-            <b-list-group-item class="d-flex justify-content-between align-items-center">
-              <div class="text-muted">Создано</div>
+
+        <div class="card mb-4">
+          <h6 class="card-header">Детали заявки</h6>
+
+          <div class="list-group list-group-flush">
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+              <span class="text-muted">Категория</span>
+              <span>{{ ticket.category.name }}</span>
+            </div>
+
+            <div v-if="ticket.character" class="list-group-item d-flex justify-content-between align-items-center">
+              <span class="text-muted">Персонаж</span>
+              <span>
+                <a href="javascript:void(0)">{{ ticket.character.name }}</a>
+              </span>
+            </div>
+
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+              <span class="text-muted">Создано</span>
               <Date class="text-right" :value="ticket.createdAt" />
-            </b-list-group-item>
-            <b-list-group-item class="d-flex justify-content-between align-items-center">
-              <div class="text-muted">Обновлено</div>
+            </div>
+
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+              <span class="text-muted">Обновлено</span>
               <Date class="text-right" :value="ticket.updatedAt" />
-            </b-list-group-item>
-            <b-list-group-item class="d-flex justify-content-center align-items-center text-center">
-              <b-btn v-if="!isCompleted" variant="primary" :disabled="submit" @click="completeTicket">Завершить</b-btn>
-              <p v-else>Вы можете переоткрыть заявку, оставив комментарий к ней.</p>
-            </b-list-group-item>
-          </b-list-group>
-        </b-card>
+            </div>
+
+            <div class="list-group-item d-flex justify-content-center align-items-center text-center">
+              <button v-if="!isCompleted" class="btn btn-primary" :disabled="submit" @click="completeTicket">Завершить</button>
+              <p v-else >Вы можете переоткрыть заявку, оставив комментарий к ней.</p>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
-  </b-container>
+  </div>
 </template>
 
 <script>
@@ -59,6 +81,7 @@ import { contentService } from '@/services'
 import { contentMixin } from '@/mixins/content'
 import TicketComments from '@/components/tickets/TicketComments'
 import Date from '@/components/Date'
+import CiteButton from '@/components/CiteButton'
 
 const STATUS_COMPLETED = 5
 const STATUS_ARCHIVED = 100
@@ -67,7 +90,7 @@ export default {
   name: 'TicketPage',
   mixins: [contentMixin],
   components: {
-    TicketComments, Date
+    TicketComments, Date, CiteButton
   },
   data: () => ({
     ticket: {
@@ -78,12 +101,14 @@ export default {
   }),
 
   computed: {
-    breadcrumb () {
-      const ticketName = this.ticket && this.ticket.name ? this.ticket.name : 'Заявка'
-      
+    ticketName () {
+      return this.ticket && this.ticket.name ? this.ticket.name : 'Заявка'
+    },
+
+    breadcrumb () { 
       return [
         { text: 'Мои заявки', to: { name: 'tickets' }},
-        { text: ticketName, active: true }
+        { text: this.ticketName, active: true }
       ]
     },
 
@@ -143,12 +168,6 @@ export default {
       
       this.setData(data)
       this.$notify({ group: 'notifications', type: 'success', text: 'Тикет переоткрыт' })
-    },
-
-    showCiteButton (evt) {
-      if (!this.isArchived) {
-        this.$refs.citeButton.trigger(evt)
-      }
     },
 
     completeTicket () {

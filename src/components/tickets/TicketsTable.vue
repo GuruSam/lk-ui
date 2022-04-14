@@ -1,8 +1,10 @@
 <template>
-  <b-card no-body>
+  <div class="card">
     <b-overlay :show="busy" spinner-variant="primary" bg-color="#121214">
       <div class="table-responsive">
         <b-table
+          class="card-table"
+          :class="{'table-hover' : tickets.length}"
           :items="tickets"
           :fields="fields"
           :striped="true"
@@ -10,10 +12,10 @@
           :responsive="true"
           :show-empty="true"
           empty-text="Заявок нет"
-          class="card-table">
+          @row-clicked="onRowClick">
 
           <template v-slot:cell(name)="data">
-            <b-badge v-if="data.item.hasNew" class="new-comments-dot mr-1" variant="primary badge-dot" title="Есть непрочитанные комментарии"></b-badge>
+            <span v-if="data.item.hasNew" class="badge badge-primary badge-dot new-comments-dot mr-1" title="Есть непрочитанные комментарии" />
             <router-link class="text-white" :to="'/tickets/' + data.item.id">{{ data.item.name }}</router-link>
           </template>
           <template v-slot:cell(status)="data">
@@ -30,7 +32,7 @@
       </div>
     </b-overlay>
     <hr v-if="tickets.length" class="border-light m-0">
-    <b-card-body v-if="tickets.length" class="pt-0 pb-3">
+    <div v-if="tickets.length" class="card-body pt-0 pb-3">
       <div class="row">
         <div class="col-sm text-sm-left text-center pt-3">
           <span class="text-muted">Страница {{ currentPage }} из {{ totalPages }}</span>
@@ -45,8 +47,8 @@
             size="sm" />
         </div>
       </div>
-    </b-card-body>
-  </b-card>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -89,6 +91,10 @@ export default {
       this.$emit('pagination', {
         offset: page * this.perPage - this.perPage
       })
+    },
+
+    onRowClick (item) {
+      this.$router.push('/tickets/' + item.id)
     }
   }
 }
@@ -98,13 +104,24 @@ export default {
 table.b-table[aria-busy='true'] {
   opacity: 0.6;
 }
+
 a:hover {
   text-decoration: underline;
 }
+
 .nav-item .nav-link.tabs-border { 
   border-top-color: #272729 !important;
 }
+
 .table .badge-dot.new-comments-dot {
   margin-left: -14px;
+}
+
+.table-responsive {
+  margin-bottom: 0 !important;
+}
+
+.table-hover tbody tr {
+  cursor: pointer;
 }
 </style>

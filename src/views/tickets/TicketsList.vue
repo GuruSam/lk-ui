@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid>
+  <div class="container-fluid">
     <PageTitle title="Заявки" sub-title="Связь с организаторами">
       <router-link class="d-block btn btn-primary rounded-pill" to="/tickets/create">
         <span class="ion ion-md-add"></span>&nbsp; Создать заявку
@@ -18,7 +18,7 @@
         @pagination="fetchData" 
       />
     </b-tabs>
-  </b-container>
+  </div>
 </template>
 
 <script>

@@ -1,9 +1,6 @@
 <template>
-  <b-col sm="12" md="6" lg="6" xl="12">
-    <div 
-      class="card border-0 text-white mb-4" 
-      :class="{ 'bg-primary' : light }"
-    >
+  <div class="col-sm-12 col-md-6 col-lg-6 col-xl-12">
+    <div class="card border-0 text-white mb-4" :class="{ 'bg-primary' : light }">
       <div class="card-body d-flex align-items-center">
         <span 
           class="display-2 ion" 
@@ -15,7 +12,7 @@
         </div>
       </div>
     </div>
-  </b-col>
+  </div>
 </template>
 
 <script>

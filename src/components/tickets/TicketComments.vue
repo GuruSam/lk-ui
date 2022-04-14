@@ -1,8 +1,9 @@
 <template>
-  <b-card header="Комментарии" header-tag="h6" class="mb-4 comment-section" no-body>
-    <b-overlay :show="pending" spinner-variant="primary" bg-color="#121214">
+  <div class="comment-section card mb-4">
+    <h6 class="card-header">Комментарии</h6>
 
-      <b-card-body v-if="comments.length">
+    <b-overlay :show="pending" spinner-variant="primary" bg-color="#121214">
+      <div v-if="comments.length" class="card-body">
         <Comment v-for="comment in comments" :key="comment.createdAt" :comment="comment" />
 
         <b-pagination class="justify-content-center justify-content-sm-end m-0"
@@ -12,25 +13,24 @@
           :per-page="perPage"
           @input="openPage"
           size="sm" />
-      </b-card-body>
+      </div>
 
-      <b-card-body v-else>
+      <div v-else class="card-body">
         <p class="text-muted text-italic">Комментариев еще нет.</p>
-      </b-card-body>
+      </div>
 
-      <b-card-footer v-if="!pending && showEditor">
+      <div v-if="!pending && showEditor" class="card-footer">
         <Editor ref="editor" :disabled="submit" />
 
         <p v-if="error" class="error-message">{{ error }}</p>
 
-        <b-btn class="mt-4" variant="primary" :disabled="submit" @click="submitComment">
+        <button class="btn btn-primary mt-4" :disabled="submit" @click="submitComment">
           Отправить
-          <b-spinner v-if="submit" class="ml-1"></b-spinner>
-        </b-btn>
-      </b-card-footer>
-
+          <span v-if="submit" aria-hidden="true" class="ml-1 spinner-border" />
+        </button>
+      </div>
     </b-overlay>
-  </b-card>
+  </div>
 </template>
 
 <script>
@@ -72,8 +72,6 @@ export default {
     } else {
       this.fetchComments()
     }
-
-    document.querySelector('.comment-section').addEventListener('pointerup', this.showCiteButton)
   },
   methods: {
     fetchComments () {
@@ -96,14 +94,6 @@ export default {
 
       if (unread.length) {
         contentService.readTicketComments(this.ticketId, unread)
-      }
-    },
-
-    showCiteButton (evt) {
-      const comment = evt.target.closest('.comment')
-      
-      if (comment && this.showEditor) {
-        this.$refs.citeButton.trigger(evt, comment.dataset.author)
       }
     },
 
@@ -134,6 +124,10 @@ export default {
           this.submit = false
           this.error = null
         })
+    },
+
+    insertBlockquote (source, text) {
+      this.$refs.editor.insertBlockquote(source, text)
     }
   }
 }

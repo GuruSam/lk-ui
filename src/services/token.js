@@ -2,7 +2,7 @@ import { authService } from './index.js'
 import Cookie from 'js-cookie'
 import JwtDecode from 'jwt-decode'
 import store from '@/store'
-import cryptoRandomString from 'crypto-random-string'
+import { generateString } from '@/helpers.js'
 
 const ACCESS_TOKEN_KEY = 'accessToken'
 const REFRESH_TOKEN_KEY = 'refreshToken'
@@ -72,7 +72,7 @@ export default class TokenService {
   }
 
   createXfToken () {
-    const string = cryptoRandomString({length: 16, type: 'base64'})
+    const string = generateString(16)
     const domain = authService.getDomain()
 
     Cookie.set(XF_TOKEN_KEY, string, { domain: domain })

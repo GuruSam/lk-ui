@@ -1,5 +1,5 @@
 <template>
-  <section class="container-fluid">
+  <div class="container-fluid">
     <page-title title="Список общих NPC">
       <div class="row justify-content-end px-3">
         <label class="npc-filter mr-3">
@@ -20,7 +20,7 @@
     </div>
 
     <loader v-if="fetching" />
-  </section>
+  </div>
 </template>
 
 <script>

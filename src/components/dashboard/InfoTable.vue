@@ -3,33 +3,40 @@
     <div class="card-header text-large">
       {{ title }}
     </div>
+
     <div class="table-responsive">
-      <table class="table card-table">
-      <tbody v-if="data.length">
-        <tr v-for="el in data" :key="el.id">
-          <td>{{ el.name }}</td>
-          <td>
-            <span v-if="isTickets" class="badge" :class="getTicketStatusColor(el.status, true)">{{ ticketStatus[el.status] }}</span>
-            <span v-if="isTasks" class="badge">{{ el.status }}</span>
-          </td>
-          <td>
-            <Date :value="el.updatedAt" />
-          </td>
-          <td class="text-right">
-            <router-link :to="'/tickets/' + el.id"><i class="ion ion-md-eye"></i></router-link>
-          </td>
-        </tr>
-      </tbody>
-      <tbody v-else>
-        <tr>
-          <td class="text-muted">
-            <em>{{ empty }}</em>
-          </td>
-        </tr>
-      </tbody>
+      <table class="table card-table" :class="{'table-hover' : data.length}">
+        <tbody v-if="data.length">
+          <tr v-for="el in data" :key="el.id" @click="$router.push('/tickets/' + el.id)">
+            <td>{{ el.name }}</td>
+
+            <td>
+              <span v-if="isTickets" class="badge" :class="getTicketStatusColor(el.status, true)">{{ ticketStatus[el.status] }}</span>
+              <span v-if="isTasks" class="badge">{{ el.status }}</span>
+            </td>
+
+            <td>
+              <Date :value="el.updatedAt" />
+            </td>
+
+            <td class="text-right">
+              <router-link :to="'/tickets/' + el.id">
+                <i class="ion ion-md-eye"></i>
+              </router-link>
+            </td>
+          </tr>
+        </tbody>
+
+        <tbody v-else>
+          <tr>
+            <td class="text-muted">
+              <em>{{ empty }}</em>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>

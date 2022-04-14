@@ -1,9 +1,12 @@
 <template>
-  <section class="container-fluid">
+  <div class="container-fluid">
     <page-title title="Список личных NPC">
-      <router-link to="/npc/create" class="d-block btn btn-primary rounded-pill">
+      <!-- <router-link to="https://thesims.cc/labirint/npc/request" class="d-block btn btn-primary rounded-pill">
         <span class="ion ion-md-add"></span>&nbsp; Создать нового NPC
-      </router-link>
+      </router-link> -->
+      <a class="d-block btn btn-primary rounded-pill" href="https://thesims.cc/labirint/npc/request">
+        <span class="ion ion-md-add"></span>&nbsp; Создать нового NPC
+      </a>
     </page-title>
 
     <div class="row mt-3">
@@ -12,7 +15,7 @@
     </div>
 
     <loader v-if="fetching" />
-  </section>
+  </div>
 </template>
 
 <script>

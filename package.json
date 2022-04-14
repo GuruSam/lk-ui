@@ -1,6 +1,6 @@
 {
   "name": "lk-ui",
-  "version": "0.2112.01",
+  "version": "0.2212.01",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -10,13 +10,10 @@
     "ui": "vue ui"
   },
   "dependencies": {
-    "@vuelidate/core": "^2.0.0-alpha.35",
-    "@vuelidate/validators": "^2.0.0-alpha.27",
-    "axios": "^0.21.1",
+    "axios": "^0.21.4",
     "bootstrap": "~4.4.1",
     "bootstrap-vue": "~2.11.0",
     "core-js": "^3.6.5",
-    "crypto-random-string": "^4.0.0",
     "dayjs": "^1.10.4",
     "js-cookie": "^2.2.1",
     "jwt-decode": "^3.1.2",
@@ -44,6 +41,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "node-sass": "^5.0.0",
     "sass-loader": "^10.1.1",
+    "vue-cli-plugin-webpack-bundle-analyzer": "~4.0.0",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
