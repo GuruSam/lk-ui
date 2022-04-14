@@ -50,24 +50,36 @@ export default {
   }),
 
   computed: {
-    selectedCategory () {
-      return this.category !== null ? this.category.id : null
-    },
-
     selectedForm () {
-      if (!this.selectedCategory) {
+      if (!this.category) {
         return null
       }
 
-      return this.selectedCategory === 1 ? 'NpcForm' : 'CustomForm'
+      switch (this.category.handler) {
+        case 'npc':
+          return 'NpcForm'
+        case 'custom':
+          return 'CustomForm'
+      
+        default:
+          return 'CustomForm'
+      }
     },
 
     formProps () {
-      if (!this.selectedCategory) {
+      if (!this.category) {
         return null
       }
 
-      return this.selectedCategory === 1 ? this.npc : { characters: this.characters }
+      switch (this.category.handler) {
+        case 'npc':
+          return this.npc
+        case 'custom':
+          return { characters: this.characters }
+      
+        default:
+          return {}
+      }
     }
   },
 
