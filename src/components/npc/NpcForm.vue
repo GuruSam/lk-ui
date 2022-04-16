@@ -135,14 +135,14 @@ export default {
         physics: this.physique.value,
         access: this.access,
         class: this.npcClass.value,
-        magic: this.$refs.magicCalculator.getMagic()
+        magic: this.showMagic ? this.$refs.magicCalculator.getMagic() : null
       }
     },
 
     async createNPC () {
       this.submit = true
 
-      const { success } = await this.$refs.form.validate()
+      const success = await this.$refs.form.validate()
 
       if (!success) {
         const failer = document.querySelector('.form-control.is-invalid')
