@@ -10,6 +10,8 @@
     "ui": "vue ui"
   },
   "dependencies": {
+    "@sentry/tracing": "^6.19.6",
+    "@sentry/vue": "^6.19.6",
     "axios": "^0.21.4",
     "bootstrap": "~4.4.1",
     "bootstrap-vue": "~2.11.0",
