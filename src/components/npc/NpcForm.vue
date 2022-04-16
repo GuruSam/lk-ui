@@ -64,6 +64,7 @@ import FormFile from '@/components/form/FormFile'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { ru } from 'vuejs-datepicker/dist/locale'
 import dayjs from 'dayjs'
+import axios from 'axios'
 
 export default {
   name: 'NpcForm',
@@ -134,24 +135,36 @@ export default {
         physics: this.physique.value,
         access: this.access,
         class: this.npcClass.value,
-        magic: this.$refs.magicCalculator.getMagic(),
-        avatar: this.$refs.fileInput.getFile()
+        magic: this.$refs.magicCalculator.getMagic()
       }
     },
 
-    createNPC () {
+    async createNPC () {
       this.submit = true
-      setTimeout(() => this.submit = false, 3000)
 
-      this.$refs.form.validate()
-        .then(success => {
-          if (!success) {
-            const failer = document.querySelector('.form-control.is-invalid')
-            return failer.scrollIntoView()
-          }
+      const { success } = await this.$refs.form.validate()
 
-          this.$emit('submit', this.getFormData())
-        })
+      if (!success) {
+        const failer = document.querySelector('.form-control.is-invalid')
+        this.submit = false
+        return failer.scrollIntoView()
+      }
+
+      const avatar = this.$refs.fileInput.getFile()
+      const formData = new FormData()
+      formData.append('avatar', avatar)
+      
+      const { data } = await axios.post('/npc/avatar', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+      })
+
+      const npcData = this.getFormData()
+      npcData.avatar = data.id
+
+      this.$emit('submit', npcData)
+      this.submit = false
     }
   }
 }
