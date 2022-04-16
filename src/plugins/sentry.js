@@ -9,7 +9,7 @@ Sentry.init({
   integrations: [
     new BrowserTracing({
       routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-      tracingOrigins: ['localhost', 'lk.playlabirint.ru', /^\//],
+      tracingOrigins: ['lk.playlabirint.ru', /^\//],
     }),
   ],
   tracesSampleRate: 1.0,
