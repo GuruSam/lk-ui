@@ -12,5 +12,5 @@ Sentry.init({
       tracingOrigins: ['lk.playlabirint.ru', /^\//],
     }),
   ],
-  tracesSampleRate: 1.0,
+  tracesSampleRate: 0.0,
 })
