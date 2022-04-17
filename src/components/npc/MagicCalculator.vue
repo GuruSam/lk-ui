@@ -4,8 +4,7 @@
 
     <p class="mb-3">В зависимости от выбранного ординара доступно разное количество баллов способностей и баллов уровней. Баллы способностей тратятся на выбор конкретных способностей, а баллы уровней можно распределить между ними.</p>
 
-    <label class="form-label">Ординар</label>
-    <Multiselect v-model="ordinar" :options="ordinarLevels" @input="fetchData" />
+    <FormSelect v-model="ordinar" label="Ординар" :options="ordinarLevels" @input="fetchData" />
 
     <div class="points mt-5 mb-3">
       <span class="mr-3">Баллы способностей 
@@ -28,33 +27,35 @@
       </span>
     </div>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Способность</th>
-          <th>Уровень</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(skill, index) in skills" :key="index">
-          <td>
-            <Multiselect :id="index" v-model="skill.data" :options="skillsOptions" group-values="skills" group-label="category" track-by="id" label="name" />
-          </td>
-          <td class="level-column">
-            <Multiselect :id="index" v-model="skill.lvl" :options="skillLevels" />
-          </td>
-          <td class="action-column">
-            <button v-if="index === 0" class="btn btn-primary btn-sm" :class="{'disabled' : disabled}" @click="addSkill">
-              <span class="ion ion-md-add"></span>
-            </button>
-            <button v-else class="btn btn-danger btn-sm" @click="removeSkill($event, index)">
-              <span class="ion ion-md-trash"></span>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Способность</th>
+            <th>Уровень</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(skill, index) in skills" :key="index">
+            <td>
+              <Multiselect :id="index" v-model="skill.data" :options="skillsOptions" group-values="skills" group-label="category" track-by="id" label="name" :searchable="false" />
+            </td>
+            <td class="level-column">
+              <Multiselect :id="index" v-model="skill.lvl" :options="skillLevels" :searchable="false" />
+            </td>
+            <td class="action-column">
+              <button v-if="index === 0" class="btn btn-primary btn-sm" :class="{'disabled' : disabled}" @click="addSkill">
+                <span class="ion ion-md-add"></span>
+              </button>
+              <button v-else class="btn btn-danger btn-sm" @click="removeSkill($event, index)">
+                <span class="ion ion-md-trash"></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -63,6 +64,7 @@
 
 <script>
 import Multiselect from 'vue-multiselect'
+import FormSelect from '@/components/form/FormSelect'
 import axios from 'axios'
 
 export default {
@@ -72,7 +74,7 @@ export default {
     magicClass: Number
   },
 
-  components: { Multiselect },
+  components: { Multiselect, FormSelect },
 
   data: () => ({
     points: {

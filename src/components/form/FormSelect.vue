@@ -8,7 +8,8 @@
         :track-by="trackBy"
         :label="trackLabel"
         :placeholder="placeholder"
-        :value="value" 
+        :value="value"
+        :searchable="searchable"
         @input="$emit('input', $event)"
       ></multiselect>
 
@@ -44,6 +45,10 @@ export default {
     },
     placeholder: String,
     label: String,
+    searchable: {
+      type: Boolean,
+      default: false
+    },
     rules: {
       type: String,
       default: ''
