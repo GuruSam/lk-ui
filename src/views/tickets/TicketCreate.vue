@@ -100,18 +100,35 @@ export default {
     },
 
     createTicket (formData) {
-      const additionalData = {
-        categoryId: this.category.id,
-        data: {
-          handler: this.category.handler
-        }
-      }
+      const ticketData = this.createTicketData(formData)
 
-      formData = {...formData, ...additionalData}
-
-      axios.post('/tickets', formData)
+      axios.post('/tickets', ticketData)
         .then(ticket => this.$router.push(`/tickets/${ticket.data.id}`))
         .catch(() => this.$refs.form.setSubmitState(false))
+    },
+
+    createTicketData (formData) {
+      let ticket = {
+        categoryId: this.category.id,
+        data: {}
+      }
+      const handler = this.category.handler
+
+      switch (handler) {
+        case 'npc':
+          ticket.name = 'Заявка на NPC ' + formData.name
+          ticket.message = '*'
+          ticket.data = formData
+          break;
+      
+        default:
+          ticket = {...ticket, ...formData}
+          break;
+      }
+
+      ticket.data.handler = handler
+
+      return ticket
     }
   }
 }

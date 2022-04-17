@@ -150,6 +150,15 @@ export default {
         return failer.scrollIntoView()
       }
 
+      const avatar = await this.uploadAvatar()
+      const formData = this.getFormData()
+      formData.avatar = avatar.id
+
+      this.$emit('submit', formData)
+      this.submit = false
+    },
+
+    async uploadAvatar () {
       const avatar = this.$refs.fileInput.getFile()
       const formData = new FormData()
       formData.append('avatar', avatar)
@@ -160,11 +169,7 @@ export default {
         }
       })
 
-      const npcData = this.getFormData()
-      npcData.avatar = data.id
-
-      this.$emit('submit', npcData)
-      this.submit = false
+      return data
     }
   }
 }
