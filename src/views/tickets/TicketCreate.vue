@@ -1,89 +1,86 @@
 <template>
-  <div class="container-fluid">
+  <section class="container-fluid">
     <h1 class="font-weight-bold py-3 mb-4 h4">Создать заявку</h1>
 
     <div class="card mb-4" ref="formContainer">
       <div class="card-body">
-        <form>
-          <div class="form-group position-relative">
-            <label class="form-label" for="name">Название</label>
-            <input class="form-control" :class="{'is-invalid' : errors.name}" id="name" type="text" v-model="formData.name" @change="validate('name')">
-
-            <div v-if="errors.name" class="invalid-tooltip">Это поле не может быть пустым.</div>
-            <small class="form-text text-muted">
-              Укажите кратко тему заявки
-            </small>
-          </div>
-
-          <div class="form-group position-relative">
-            <label class="form-label" for="category">Категория</label>
-            <select class="custom-select" :class="{'is-invalid' : errors.categoryId}" id="category" v-model="formData.categoryId" @change="validate('categoryId')">
-              <option selected hidden></option>
-              <option v-for="category in categories" :key="category.id" :value="category.id">
-                {{ category.name }}
-              </option>
-            </select>
-
-            <div v-if="errors.categoryId" class="invalid-tooltip">Выберите категорию.</div>
-            <small class="form-text text-muted">
-              Выберите тему заявки. Если затрудняетесь отнести свой вопрос к существующим категориям, выберите 'другое'
-            </small>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label" for="character">Персонаж</label>
-            <select class="custom-select" id="character" v-model="formData.characterId">
-              <option selected></option>
-              <option v-for="character in characters" :key="character.id" :value="character.id">
-                {{ character.name }}
-              </option>
-            </select>
-            <small class="form-text text-muted">
-              Если заявка не относится к персонажу, оставьте поле пустым
-            </small>
-          </div>
-
-          <div class="form-group position-relative">
-            <label class="form-label">Суть заявки</label>
-            <quill-editor ref="editor" v-model="formData.message" :disabled="submit" class="extended" @blur="validateEditor" />
-
-            <div v-if="errors.message" class="invalid-tooltip">Это поле не может быть пустым.</div>
-          </div>
-
-          <div class="mt-4 mb-2">
-            <button class="btn btn-primary" type="button" :disabled="submit" @click="createTicket">Создать</button>&nbsp;
-            <button class="btn btn-default" type="button">Отменить</button>
-          </div>
-        </form>
+        <FormSelect v-model="category" :options="categories" track-by="id" track-label="name" label="Категория" placeholder="Выберите категорию">
+          <small class="form-text text-muted">
+            Выберите тему заявки. Если затрудняетесь отнести свой вопрос к существующим категориям, выберите 'другое'
+          </small>
+        </FormSelect>
+      </div>
+      
+      <div class="card-body" v-if="selectedForm">
+        <DataLoader v-if="formLoading" />
+        <component v-else :is="selectedForm" v-bind="formProps" ref="form" @submit="createTicket" />
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
-import { contentService } from '@/services'
+import FormSelect from '@/components/form/FormSelect'
+import DataLoader from '@/components/loaders/DataLoader'
+import NpcForm from '@/components/npc/NpcForm'
+import CustomForm from '@/components/tickets/CustomForm'
+import axios from 'axios'
 
 export default {
   name: 'TicketCreate',
 
+  components: {
+    FormSelect,
+    DataLoader,
+    NpcForm,
+    CustomForm
+  },
+
   data: () => ({
-    formData: {
-      name: '',
-      categoryId: null,
-      characterId: null,
-      message: null,
-    },
-    required: ['name', 'categoryId'],
-
-    characters: [],
+    formData: {},
     categories: [],
+    characters: [],
+    category: null,
+    formLoading: false,
 
-    submit: false,
-    errors: {}
+    npc: {
+      physiqueOptions: [],
+      classOptions: []
+    }
   }),
 
+  computed: {
+    selectedForm () {
+      if (!this.category) {
+        return null
+      }
+
+      switch (this.category.handler) {
+        case 'npc':
+          return 'NpcForm'
+        case 'custom':
+          return 'CustomForm'
+      
+        default:
+          return 'CustomForm'
+      }
+    },
+
+    formProps () {
+      if (!this.category) {
+        return null
+      }
+
+      if (this.category.handler === 'custom') {
+        return { characters: this.characters }
+      }
+
+      return {}
+    }
+  },
+
   async beforeRouteEnter (to, from, next) {
-    const { data } = await contentService.getTicketForm()
+    const { data } = await axios.get('/tickets/form')
 
     next(vm => {
       vm.categories = data.categories
@@ -92,52 +89,40 @@ export default {
   },
 
   methods: {
-    formHasErrors () {
-      return Object.values(this.errors).some(error => error)
+    async fetchNpcOptions () {
+      this.formLoading = true
+
+      const { data } = await axios.get('/npc/form')
+
+      this.npc.physiqueOptions = data.physics
+      this.npc.classOptions = data.class
+      this.formLoading = false
     },
 
-    validate (field) {
-      const fieldValue = this.formData[field]
-      const errorExists = this.required.includes(field) && !fieldValue ? true : false
-
-      this.$set(this.errors, field, errorExists)
-    },
-
-    validateEditor () {
-      const editor = this.$refs.editor.quill
-      const errorExists = editor.getText().trim().length > 0 ? false : true
-
-      this.$set(this.errors, 'message', errorExists)
-    },
-
-    createTicket () {
-      this.validate('name')
-      this.validate('categoryId')
-      this.validateEditor()
-
-      if (this.formHasErrors()) {
-        return this.$refs.formContainer.scrollIntoView()
+    createTicket (formData) {
+      const additionalData = {
+        categoryId: this.category.id,
+        data: {
+          handler: this.category.handler
+        }
       }
 
-      this.submit = true
-        
-      contentService.createTicket(this.formData)
-        .catch(() => this.submit = false)
-        .then((ticket) => 
-          this.$router.push(`/tickets/${ticket.data.id}`)
-        )
+      formData = {...formData, ...additionalData}
+
+      axios.post('/tickets', formData)
+        .then(ticket => this.$router.push(`/tickets/${ticket.data.id}`))
+        .catch(() => this.$refs.form.setSubmitState(false))
     }
   }
 }
 </script>
 
-<style scope>
-.invalid-tooltip {
-  display: inline-block !important;
-  top: initial !important;
+<style scoped>
+.card-body:first-child {
+  padding-bottom: 0.5rem !important;
+}
+
+.card-body:not(:last-child) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.09);
 }
 </style>
-
-<style src="quill/dist/quill.core.css"></style>
-<style src="quill/dist/quill.snow.css"></style>
-<style src="@/plugins/editor/styles.css"></style>
