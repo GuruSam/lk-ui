@@ -19,24 +19,29 @@ export default {
       default: false
     }
   },
+
   data: () => ({
     content: ''
   }),
+
   computed: {
     quill () {
       return this.$refs.editor.quill
     }
   },
+
   mounted () {
     this.$root.$on('quote', this.insertBlockquote)
   },
+
   beforeDestroy () {
     this.$root.$off('quote', this.insertBlockquote)
   },
+
   methods: {
     getContent () {
       if (this.quill.getText().trim().length > 0) {
-        return this.content
+        return this.trimEmptyLines(this.content)
       }
 
       return ''
@@ -55,6 +60,10 @@ export default {
       }
 
       this.quill.focus()
+    },
+
+    trimEmptyLines (comment) {
+      return comment.replace(/^(<p><br><\/p>)+|(<p><br><\/p>)+$/g, '')
     }
   }
 }
