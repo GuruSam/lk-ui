@@ -32,7 +32,7 @@
         Перечислите основные черты характера через запятую. Например: добрый, общительный, отзывчивый. Рекомендуется не более 500 символов.
       </small>
     </FormTextarea>
-    <FormInput v-model="signs" id="signs" type="text" label="Особые приметы">
+    <FormInput v-model="signs" id="signs" type="text" label="Особые приметы" rules="required">
       <small class="form-text text-muted">
         Например: родимое пятно на левой половине лица.
       </small>
@@ -47,6 +47,7 @@
     <FormSelect v-model="npcClass" :options="classOptions" label="Тип" track-by="name" track-label="name" placeholder="Выберите тип" rules="required" />
     <MagicCalculator v-if="showMagic" :magicClass="npcClass.value" ref="magicCalculator" />
 
+    <span v-if="magicError" class="d-block text-danger mb-2">{{ magicError }}</span>
     <button class="btn btn-primary" type="button" :disabled="submit" @click="createNPC">Отправить заявку</button>
   </observer>
 </template>
@@ -112,6 +113,7 @@ export default {
         { value: 1, name: 'Личный' }
       ],
       submit: false,
+      magicError: null,
       ru
     }
   },
@@ -129,33 +131,51 @@ export default {
         role: this.role,
         info: this.info,
         birthday: dayjs(this.birthdate).format('YYYY-MM-DD'),
-        growth: this.height,
+        growth: Number(this.height),
         character: this.character,
         signs: this.signs,
-        physics: this.physique.value,
-        access: this.access,
-        class: this.npcClass.value,
+        physics: this.physique ? this.physique.value : null,
+        private: Boolean(this.access),
+        class: this.npcClass ? this.npcClass.value : null,
         magic: this.showMagic ? this.$refs.magicCalculator.getMagic() : null
       }
     },
 
+    getReadableData () {
+      const formData = this.getFormData()
+
+      formData.physics = this.physique.name
+      formData.class = this.npcClass.name
+      formData.access = formData.private ? 'Личный' : 'Общий'
+
+      return formData
+    },
+
     async createNPC () {
       this.submit = true
+      this.magicError = null
 
       const success = await this.$refs.form.validate()
 
       if (!success) {
         const failer = document.querySelector('.form-control.is-invalid')
         this.submit = false
+
         return failer.scrollIntoView()
       }
 
-      const avatar = await this.uploadAvatar()
       const formData = this.getFormData()
-      formData.avatar = avatar.id
+
+      if (formData.magic.levelPoints < 0) {
+        this.magicError = 'Доступных баллов уровней не может быть меньше 0'
+        
+        return this.submit = false
+      }
+
+      const avatar = await this.uploadAvatar()
+      formData.avatarId = avatar.id
 
       this.$emit('submit', formData)
-      this.submit = false
     },
 
     async uploadAvatar () {
@@ -170,6 +190,10 @@ export default {
       })
 
       return data
+    },
+
+    setSubmitState (state) {
+      this.submit = state
     }
   }
 }

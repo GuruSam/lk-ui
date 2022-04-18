@@ -4,7 +4,7 @@
 
     <div class="card mb-4">
       <div class="card-body">
-        <NpcForm :physiqueOptions="physics" :classOptions="magicClass" />
+        <NpcForm :physiqueOptions="physics" :classOptions="magicClass" ref="form" @submit="createNPC" />
       </div>
     </div>
   </div>
@@ -13,6 +13,7 @@
 <script>
 import NpcForm from '@/components/npc/NpcForm'
 import axios from 'axios'
+import { getNPCMarkup } from '@/helpers'
 
 export default {
   name: 'NpcCreate',
@@ -33,6 +34,24 @@ export default {
       vm.physics = data.physics
       vm.magicClass = data.class
     })
+  },
+
+  methods: {
+    createNPC (formData) {
+      const readableData = this.$refs.form.getReadableData()
+      const ticket = {
+        name: 'Заявка на NPC ' + formData.name,
+        message: getNPCMarkup(readableData),
+        categoryId: 14,
+        data: formData
+      }
+
+      ticket.data.handler = 'npc'
+
+      axios.post('/tickets', ticket)
+        .then(ticket => this.$router.push(`/tickets/${ticket.data.id}`))
+        .catch(() => this.$refs.form.setSubmitState(false))
+    }
   }
 }
 </script>

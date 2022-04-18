@@ -1,4 +1,4 @@
-export function declOfNum (number, phrases) {
+function declOfNum (number, phrases) {
   switch (true) {
     case number % 10 === 1 && number !== 11:
       return phrases[0]
@@ -11,7 +11,7 @@ export function declOfNum (number, phrases) {
   }
 }
 
-export function generateString (length) {
+function generateString (length) {
   const symbols = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
   const symLength = symbols.length
   
@@ -23,3 +23,17 @@ export function generateString (length) {
 
   return string
 }
+
+function getNPCMarkup (data) {
+  return `- **Имя**:  ${data.name}
+    - **Роль**:  ${data.role}
+    - **Класс**: ${data.class}
+    - **День рождения**: ${data.birthday}
+    - **Рост**: ${data.growth}
+    - **Характер**: ${data.character}
+    - **Особые приметы**: ${data.signs}
+    - **Уровень физической подготовки**: ${data.physics}
+    - **Уровень доступа**: ${data.access}`
+}
+
+export { declOfNum, generateString, getNPCMarkup }

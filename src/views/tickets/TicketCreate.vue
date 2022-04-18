@@ -4,7 +4,7 @@
 
     <div class="card mb-4" ref="formContainer">
       <div class="card-body">
-        <FormSelect v-model="category" :options="categories" track-by="id" track-label="name" label="Категория" placeholder="Выберите категорию">
+        <FormSelect v-model="category" :options="categories" track-by="id" track-label="name" label="Категория" placeholder="Выберите категорию" @input="onCategoryChange">
           <small class="form-text text-muted">
             Выберите тему заявки. Если затрудняетесь отнести свой вопрос к существующим категориям, выберите 'другое'
           </small>
@@ -43,10 +43,7 @@ export default {
     category: null,
     formLoading: false,
 
-    npc: {
-      physiqueOptions: [],
-      classOptions: []
-    }
+    npc: {}
   }),
 
   computed: {
@@ -67,15 +64,16 @@ export default {
     },
 
     formProps () {
-      if (!this.category) {
-        return null
-      }
+      switch (this.selectedForm) {
+        case 'CustomForm':
+          return { characters: this.characters }
 
-      if (this.category.handler === 'custom') {
-        return { characters: this.characters }
+        case 'NpcForm':
+          return this.npc
+      
+        default:
+          return {}
       }
-
-      return {}
     }
   },
 
@@ -89,6 +87,12 @@ export default {
   },
 
   methods: {
+    onCategoryChange() {
+      if (this.category.id === 14) {
+        this.fetchNpcOptions()
+      }
+    },
+
     async fetchNpcOptions () {
       this.formLoading = true
 
@@ -108,11 +112,11 @@ export default {
     },
 
     createTicketData (formData) {
+      const handler = this.category.handler
       let ticket = {
         categoryId: this.category.id,
         data: {}
       }
-      const handler = this.category.handler
 
       switch (handler) {
         case 'npc':

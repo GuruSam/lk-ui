@@ -14,10 +14,12 @@
 
     <div class="row">
       <div class="col-lg-12 col-xl-8 col-xxl-9">
+        <NpcHeader v-if="isNpcTicket" :data="ticket.entity" />
         <div class="card mb-4">
           <h6 class="card-header">Описание</h6>
 
-          <div class="card-body quotable" data-source="Описание">
+          <NpcDescription v-if="isNpcTicket" :data="ticket.entity" />
+          <div v-else class="card-body quotable" data-source="Описание">
             <div v-html="ticket.description" class="ticket-desc"></div>
           </div>
         </div>
@@ -82,6 +84,8 @@ import { contentMixin } from '@/mixins/content'
 import TicketComments from '@/components/tickets/TicketComments'
 import Date from '@/components/Date'
 import CiteButton from '@/components/CiteButton'
+import NpcDescription from '@/components/tickets/npc/NpcDescription'
+import NpcHeader from '@/components/tickets/npc/NpcHeader'
 
 const STATUS_COMPLETED = 5
 const STATUS_ARCHIVED = 100
@@ -90,7 +94,7 @@ export default {
   name: 'TicketPage',
   mixins: [contentMixin],
   components: {
-    TicketComments, Date, CiteButton
+    TicketComments, Date, CiteButton, NpcDescription, NpcHeader
   },
   data: () => ({
     ticket: {
@@ -110,6 +114,10 @@ export default {
         { text: 'Мои заявки', to: { name: 'tickets' }},
         { text: this.ticketName, active: true }
       ]
+    },
+
+    isNpcTicket () {
+      return this.ticket.entity && this.ticket.entity.handler === 'npc'
     },
 
     isArchived () {

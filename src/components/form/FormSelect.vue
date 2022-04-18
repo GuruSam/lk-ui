@@ -30,7 +30,7 @@ export default {
   name: 'FormSelect',
 
   props: {
-    value: [String, Object],
+    value: [String, Object, Number],
     options: {
       type: Array,
       default: () => []
