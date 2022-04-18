@@ -92,10 +92,13 @@ const STATUS_ARCHIVED = 100
 
 export default {
   name: 'TicketPage',
+
   mixins: [contentMixin],
+
   components: {
     TicketComments, Date, CiteButton, NpcDescription, NpcHeader
   },
+  
   data: () => ({
     ticket: {
       category: {},
@@ -174,7 +177,7 @@ export default {
     async reopenTicket () {
       const { data } = await contentService.getTicket(this.ticket.id)
       
-      this.setData(data)
+      this.ticket = data
       this.$notify({ group: 'notifications', type: 'success', text: 'Тикет переоткрыт' })
     },
 
@@ -183,7 +186,7 @@ export default {
 
       contentService.completeTicket(this.ticket.id)
         .then(() => {
-          this.ticket.status = this.statusCompleted
+          this.ticket.status = STATUS_COMPLETED
           this.$notify({
             group: 'notifications',
             type: 'success',
