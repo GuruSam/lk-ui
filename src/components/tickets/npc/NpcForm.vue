@@ -27,7 +27,7 @@
       </validation>
     </div>
 
-    <FormTextarea v-model="character" id="character" rows="2" label="Характер">
+    <FormTextarea v-model="character" id="character" rows="2" label="Характер" rules="required">
       <small class="form-text text-muted">
         Перечислите основные черты характера через запятую. Например: добрый, общительный, отзывчивый. Рекомендуется не более 500 символов.
       </small>
@@ -48,7 +48,7 @@
     <MagicCalculator v-if="showMagic" :magicClass="npcClass.value" ref="magicCalculator" />
 
     <span v-if="magicError" class="d-block text-danger mb-2">{{ magicError }}</span>
-    <button class="btn btn-primary" type="button" :disabled="submit" @click="createNPC">Отправить заявку</button>
+    <Button :loading="submit" @click.prevent="createNPC">Отправить заявку</Button>
   </observer>
 </template>
 
@@ -62,6 +62,7 @@ import FormTextarea from '@/components/form/FormTextarea'
 import FormSelect from '@/components/form/FormSelect'
 import FormRadio from '@/components/form/FormRadio'
 import FormFile from '@/components/form/FormFile'
+import Button from '@/components/Button'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { ru } from 'vuejs-datepicker/dist/locale'
 import dayjs from 'dayjs'
@@ -100,6 +101,7 @@ export default {
     FormSelect,
     FormRadio,
     FormFile,
+    Button,
     'validation': ValidationProvider,
     'observer': ValidationObserver
   },

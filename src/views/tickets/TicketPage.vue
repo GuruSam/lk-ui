@@ -67,7 +67,7 @@
             </div>
 
             <div class="list-group-item d-flex justify-content-center align-items-center text-center">
-              <button v-if="!isCompleted" class="btn btn-primary" :disabled="submit" @click="completeTicket">Завершить</button>
+              <Button v-if="!isCompleted" :loading="submit" @click="completeTicket">Завершить</Button>
               <p v-else >Вы можете переоткрыть заявку, оставив комментарий к ней.</p>
             </div>
           </div>
@@ -86,6 +86,7 @@ import Date from '@/components/Date'
 import CiteButton from '@/components/CiteButton'
 import NpcDescription from '@/components/tickets/npc/NpcDescription'
 import NpcHeader from '@/components/tickets/npc/NpcHeader'
+import Button from '@/components/Button'
 
 const STATUS_COMPLETED = 5
 const STATUS_ARCHIVED = 100
@@ -96,7 +97,7 @@ export default {
   mixins: [contentMixin],
 
   components: {
-    TicketComments, Date, CiteButton, NpcDescription, NpcHeader
+    TicketComments, Date, CiteButton, NpcDescription, NpcHeader, Button
   },
   
   data: () => ({

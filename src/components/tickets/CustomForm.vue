@@ -23,13 +23,14 @@
       </validation>
     </div>
 
-    <button class="btn btn-primary" type="button" :disabled="submit" @click="submitForm">Отправить заявку</button>
+    <Button :loading="submit" @click.prevent="submitForm">Отправить заявку</Button>
   </observer>
 </template>
 
 <script>
 import FormInput from '@/components/form/FormInput'
 import FormSelect from '@/components/form/FormSelect'
+import Button from '@/components/Button'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 
 export default {
@@ -38,6 +39,7 @@ export default {
   components: {
     FormInput,
     FormSelect,
+    Button,
     'validation': ValidationProvider,
     'observer': ValidationObserver
   },

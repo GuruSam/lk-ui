@@ -22,12 +22,8 @@
       <div v-if="!pending && showEditor" class="card-footer">
         <Editor ref="editor" :disabled="submit" />
 
-        <p v-if="error" class="error-message">{{ error }}</p>
-
-        <button class="btn btn-primary mt-4" :disabled="submit" @click="submitComment">
-          Отправить
-          <span v-if="submit" aria-hidden="true" class="ml-1 spinner-border" />
-        </button>
+        <p v-if="error" class="text-danger mt-2 mb-0">{{ error }}</p>
+        <Button class="mt-4" :loading="submit" @click="submitComment">Отправить</Button>
       </div>
     </b-overlay>
   </div>
@@ -36,6 +32,7 @@
 <script>
 import Comment from '../Comment'
 import Editor from '../Editor'
+import Button from '@/components/Button'
 import { contentService } from '@/services'
 
 export default {
@@ -52,7 +49,7 @@ export default {
     }
   },
   components: {
-    Comment, Editor
+    Comment, Editor, Button
   },
   data: () => ({
     comments: [],
@@ -132,10 +129,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.error-message {
-  margin: 10px 0px 0px 0px;
-  color: #bf4242;
-}
-</style>
