@@ -4,11 +4,10 @@
     <div class="card-body">
       <div class="row mb-2" v-for="(value, key) in fieldsMap" :key="key">
         <span class="col-md-2 text-muted">{{ value + ':' }}</span>
-        <span class="col-md-9">{{ entity[key] }}</span>
+        <span v-if="entity[key]" class="col-md-9">{{ entity[key] }}</span>
       </div>
     </div>
 
-    <!-- <hr class="m-0"> -->
     <h6 v-if="entity.magic" class="card-header">Магия</h6>
     <div v-if="entity.magic" class="card-body">
       <div class="row mb-2">

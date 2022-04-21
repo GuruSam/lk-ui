@@ -88,7 +88,7 @@ export default {
 
   methods: {
     onCategoryChange() {
-      if (this.category.id === 14) {
+      if (this.category.handler === 'npc') {
         this.fetchNpcOptions()
       }
     },
