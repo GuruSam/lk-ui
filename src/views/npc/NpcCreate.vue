@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import NpcForm from '@/components/npc/NpcForm'
+import NpcForm from '@/components/tickets/npc/NpcForm'
 import axios from 'axios'
 import { getNPCMarkup } from '@/helpers'
 

@@ -15,11 +15,11 @@
     <div class="row">
       <div class="col-lg-12 col-xl-8 col-xxl-9">
         <NpcHeader v-if="isNpcTicket" :data="ticket.entity" />
-        <div class="card mb-4">
+        <NpcDescription v-if="isNpcTicket" :data="ticket.entity" />
+        <div v-else class="card mb-4">
           <h6 class="card-header">Описание</h6>
 
-          <NpcDescription v-if="isNpcTicket" :data="ticket.entity" />
-          <div v-else class="card-body quotable" data-source="Описание">
+          <div class="card-body quotable" data-source="Описание">
             <div v-html="ticket.description" class="ticket-desc"></div>
           </div>
         </div>

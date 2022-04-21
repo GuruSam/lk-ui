@@ -56,7 +56,7 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker'
-import MagicCalculator from '@/components/npc/MagicCalculator'
+import MagicCalculator from '@/components/tickets/npc/MagicCalculator'
 import FormInput from '@/components/form/FormInput'
 import FormTextarea from '@/components/form/FormTextarea'
 import FormSelect from '@/components/form/FormSelect'

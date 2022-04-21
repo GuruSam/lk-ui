@@ -1,44 +1,26 @@
 <template>
-  <div class="card-body">
-    <div class="row mb-2">
-      <div class="col-md-2 text-muted">Имя:</div>
-      <div class="col-md-9">{{ this.data.name }}</div>
+  <div class="card mb-4">
+    <h6 class="card-header">Описание</h6>
+    <div class="card-body">
+      <div class="row mb-2" v-for="(value, key) in fieldsMap" :key="key">
+        <span class="col-md-2 text-muted">{{ value + ':' }}</span>
+        <span class="col-md-9">{{ entity[key] }}</span>
+      </div>
     </div>
-    <div class="row mb-2">
-      <div class="col-md-2 text-muted">Роль:</div>
-      <div class="col-md-9">{{ this.data.role }}</div>
-    </div>
-    <div class="row mb-2">
-      <div class="col-md-2 text-muted">Класс:</div>
-      <div class="col-md-9">{{ magicClass }}</div>
-    </div>
-    <div class="row mb-2">
-      <div class="col-md-2 text-muted">День рождения:</div>
-      <div class="col-md-9">{{ this.data.birthday }}</div>
-    </div>
-    <div class="row mb-2">
-      <div class="col-md-2 text-muted">Рост:</div>
-      <div class="col-md-9">{{ this.data.growth }}</div>
-    </div>
-    <div class="row mb-2">
-      <div class="col-md-2 text-muted">Характер:</div>
-      <div class="col-md-9">{{ this.data.character }}</div>
-    </div>
-    <div class="row mb-2">
-      <div class="col-md-2 text-muted">Особые приметы:</div>
-      <div class="col-md-9">{{ this.data.signs }}</div>
-    </div>
-    <div class="row mb-2">
-      <div class="col-md-2 text-muted">Дополнительная информация:</div>
-      <div class="col-md-9">{{ this.data.information }}</div>
-    </div>
-    <div class="row mb-2">
-      <div class="col-md-2 text-muted">Уровень физической подготовки:</div>
-      <div class="col-md-9">{{ physics }}</div>
-    </div>
-    <div class="row mb-2">
-      <div class="col-md-2 text-muted">Уровень доступа:</div>
-      <div class="col-md-9">{{ access }}</div>
+
+    <!-- <hr class="m-0"> -->
+    <h6 v-if="entity.magic" class="card-header">Магия</h6>
+    <div v-if="entity.magic" class="card-body">
+      <div class="row mb-2">
+        <span class="col-md-2">Ординар: {{ entity.magic.lvl }}</span>
+      </div>
+
+      <div class="row mb-2" v-for="skill in entity.magic.skills" :key="skill.id">
+        <span class="col-md-2 text-muted">{{ skill.name }}</span>
+        <span class="col-md-9">
+          <img v-for="n in skill.lvl" :key="n" class="mr-1" src="/images/magic-point.png" />
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -57,6 +39,7 @@ export default {
       2: 'Средний',
       3: 'Высокий'
     },
+
     classOptions: {
       1: 'Человек',
       2: 'Маг',
@@ -64,20 +47,31 @@ export default {
       4: 'Оборотень',
       5: 'Крылатый',
       6: 'Призрак'
+    },
+
+    fieldsMap: {
+      'name': 'Имя',
+      'role': 'Роль',
+      'class': 'Класс',
+      'birthday': 'День рождения',
+      'growth': 'Рост',
+      'character': 'Характер',
+      'signs': 'Особые приметы',
+      'information': 'Дополнительная информация',
+      'physics': 'Уровень физической подготовки',
+      'access': 'Уровень доступа'
     }
   }),
 
   computed: {
-    access() {
-      return this.data.private ? 'Личный' : 'Общий'
-    },
+    entity() {
+      const entity = { ...this.data }
 
-    physics() {
-      return this.physicOptions[this.data.physics]
-    },
+      entity.access = entity.private ? 'Личный' : 'Общий'
+      entity.physics = this.physicOptions[entity.physics]
+      entity.class = this.classOptions[entity.type]
 
-    magicClass() {
-      return this.classOptions[this.data.type]
+      return entity
     }
   }
 }

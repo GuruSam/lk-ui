@@ -22,7 +22,7 @@
 <script>
 import FormSelect from '@/components/form/FormSelect'
 import DataLoader from '@/components/loaders/DataLoader'
-import NpcForm from '@/components/npc/NpcForm'
+import NpcForm from '@/components/tickets/npc/NpcForm'
 import CustomForm from '@/components/tickets/CustomForm'
 import axios from 'axios'
 
