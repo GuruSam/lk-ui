@@ -71,9 +71,9 @@ export default {
     async onCategoryChange() {
       if (!this.formOptions[this.handler]) {
         this.formLoading = true
-        const { data } = await ticket.getFormOptions(this.handler)
+        const options = await ticket.getFormOptions(this.handler)
 
-        this.formOptions[this.handler] = data
+        this.formOptions[this.handler] = options
         this.formLoading = false
       }
     },

@@ -61,8 +61,8 @@ export default {
 
   data: function () {
     return {
-      ...this.formData,
       character: null,
+      ...this.formData,
       submit: false
     }
   },
