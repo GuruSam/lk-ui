@@ -41,7 +41,7 @@ export default {
     const { data } = await axios.get('/npc/personal', { params })
 
     next(vm => {
-      vm.npcList = data.items,
+      vm.npcList = [...data.characters, ...data.items],
       vm.total = data.total
     })
   },
