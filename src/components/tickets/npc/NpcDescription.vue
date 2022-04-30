@@ -1,6 +1,5 @@
 <template>
-  <div class="card mb-4">
-    <h6 class="card-header">Описание</h6>
+  <div>
     <div class="card-body">
       <div class="row mb-2" v-for="(value, key) in fieldsMap" :key="key">
         <span class="col-md-2 text-muted">{{ value + ':' }}</span>
@@ -56,7 +55,7 @@ export default {
       'growth': 'Рост',
       'character': 'Характер',
       'signs': 'Особые приметы',
-      'information': 'Дополнительная информация',
+      'info': 'Дополнительная информация',
       'physics': 'Уровень физической подготовки',
       'access': 'Уровень доступа'
     }

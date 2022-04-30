@@ -15,11 +15,15 @@
     <div class="row">
       <div class="col-lg-12 col-xl-8 col-xxl-9">
         <NpcHeader v-if="isNpcTicket" :data="ticket.entity" />
-        <NpcDescription v-if="isNpcTicket" :data="ticket.entity" />
-        <div v-else class="card mb-4">
-          <h6 class="card-header">Описание</h6>
 
-          <div class="card-body quotable" data-source="Описание">
+        <div class="card mb-4">
+          <h6 class="card-header d-flex justify-content-between">
+            Описание
+            <router-link v-if="isEditable" class="btn btn-sm btn-outline-primary" :to="'/tickets/edit/' + ticket.id">Редактировать</router-link>
+          </h6>
+
+          <NpcDescription v-if="isNpcTicket" :data="ticket.entity" />
+          <div v-else class="card-body quotable" data-source="Описание">
             <div v-html="ticket.description" class="ticket-desc"></div>
           </div>
         </div>
@@ -88,6 +92,8 @@ import NpcDescription from '@/components/tickets/npc/NpcDescription'
 import NpcHeader from '@/components/tickets/npc/NpcHeader'
 import Button from '@/components/Button'
 
+const STATUS_NEW = 1
+const STATUS_PENDING_PLAYER = 4
 const STATUS_COMPLETED = 5
 const STATUS_ARCHIVED = 100
 
@@ -130,6 +136,10 @@ export default {
 
     isCompleted () {
       return this.ticket.status === STATUS_COMPLETED || this.ticket.status === STATUS_ARCHIVED
+    },
+
+    isEditable () {
+      return this.ticket.status === STATUS_NEW || this.ticket.status === STATUS_PENDING_PLAYER
     },
 
     statusColor () {

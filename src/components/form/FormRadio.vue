@@ -8,7 +8,7 @@
           <input class="custom-control-input"
             type="radio"
             :name="name" 
-            :selected="value === option.value"
+            :checked="value === option.value"
             :value="value"
             @input="$emit('input', option.value)"
           >
@@ -29,7 +29,7 @@ export default {
   name: 'FormRadio',
 
   props: {
-    value: [String, Number],
+    value: [String, Number, Boolean],
     options: {
       type: Array,
       default: () => []

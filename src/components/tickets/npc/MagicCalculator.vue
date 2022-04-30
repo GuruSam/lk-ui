@@ -69,7 +69,8 @@ export default {
   name: 'MagicCalculator',
   
   props: {
-    magicClass: Number
+    magicClass: Number,
+    magic: Object
   },
 
   components: { Multiselect, FormSelect },
@@ -128,6 +129,7 @@ export default {
   },
 
   created () {
+    this.ordinar = this.magic.lvl ?? 1
     this.fetchData()
   },
 
@@ -142,6 +144,7 @@ export default {
       this.points = data.magic.points
       this.blockedSkills = data.magic.blockedSkills
       this.skillsByCategories = this.createSkillsOptions(data.magic.skills)
+      this.setMagic()
 
       if (this.skills.length > this.points.skill) {
         this.skills.splice(this.points.skill)
@@ -204,6 +207,22 @@ export default {
           id: skill.data.id, 
           lvl: skill.lvl 
         }))
+      }
+    },
+
+    setMagic () {
+      const magic = this.magic
+
+      if (magic.skills.length) {
+        const flat = this.skillsByCategories.flatMap(category => category.skills)
+        const skills = []
+
+        magic.skills.forEach(skill => {
+          const data = flat.find(el => el.id === skill.id)
+          skills.push({ lvl: skill.lvl, data })
+        })
+
+        this.skills = skills
       }
     }
   }
