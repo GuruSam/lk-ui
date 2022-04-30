@@ -24,7 +24,7 @@
 
           <NpcDescription v-if="isNpcTicket" :data="ticket.entity" />
           <div v-else class="card-body quotable" data-source="Описание">
-            <div v-html="ticket.description" class="ticket-desc"></div>
+            <div v-html="ticket.message" class="ticket-desc"></div>
           </div>
         </div>
         <TicketComments v-if="ticket.comments" :ticket-id="ticket.id" :total.sync="ticket.comments.total" ref="ticketComments" />

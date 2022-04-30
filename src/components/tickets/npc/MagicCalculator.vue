@@ -136,7 +136,7 @@ export default {
   methods: {
     async fetchData () {
       const params = {
-        class: this.magicClass,
+        magicClass: this.magicClass,
         lvl: this.ordinar
       }
       const { data } = await axios.get('/npc/form', { params })

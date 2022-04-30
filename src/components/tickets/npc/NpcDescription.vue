@@ -50,7 +50,7 @@ export default {
     fieldsMap: {
       'name': 'Имя',
       'role': 'Роль',
-      'class': 'Класс',
+      'magicClass': 'Класс',
       'birthday': 'День рождения',
       'growth': 'Рост',
       'character': 'Характер',
@@ -67,7 +67,7 @@ export default {
 
       entity.access = entity.private ? 'Личный' : 'Общий'
       entity.physics = this.physicOptions[entity.physics]
-      entity.class = this.classOptions[entity.type]
+      entity.magicClass = this.classOptions[entity.magicClass]
 
       return entity
     }

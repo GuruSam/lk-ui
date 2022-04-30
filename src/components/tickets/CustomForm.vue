@@ -15,10 +15,10 @@
     <div class="form-group position-relative">
       <label class="form-label">Суть заявки</label>
       <validation rules="required" v-slot="{ errors }" :skipIfEmpty="false">
-        <quill-editor ref="editor" v-model="description" :disabled="submit" class="extended" />
+        <quill-editor ref="editor" v-model="message" :disabled="submit" class="extended" />
 
         <!-- To validate quill-editor -->
-        <input class="form-control" :class="{'is-invalid' : errors.length}" type="hidden" :value="description">
+        <input class="form-control" :class="{'is-invalid' : errors.length}" type="hidden" :value="message">
         <div v-if="errors.length" class="invalid-tooltip">{{ errors[0] }}</div>
       </validation>
     </div>
@@ -54,7 +54,7 @@ export default {
       default: () => ({
         name: null,
         character: null,
-        description: null
+        message: null
       })
     }
   },
@@ -62,6 +62,7 @@ export default {
   data: function () {
     return {
       ...this.formData,
+      character: null,
       submit: false
     }
   },
@@ -79,7 +80,7 @@ export default {
           const formData = {
             name: this.name,
             characterId: this.character ? this.character.id : null,
-            message: this.description
+            message: this.message
           }
 
           this.$emit('submit', formData)

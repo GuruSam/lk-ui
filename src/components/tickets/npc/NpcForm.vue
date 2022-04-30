@@ -46,8 +46,8 @@
 
     <img v-if="loadedAvatarUrl" :src="loadedAvatarUrl" alt="Аватар персонажа." width="100" height="100">
     <FormFile v-model="avatar" label="Аватар" :rules="!loadedAvatarUrl ? 'required' : ''" ref="fileInput" @input="onAvatarInput" />
-    <FormSelect v-model="type" :options="classOptions" label="Тип" track-by="name" track-label="name" placeholder="Выберите тип" rules="required" />
-    <MagicCalculator v-if="showMagic" :magicClass="type.value" :magic="magic" ref="magicCalculator" />
+    <FormSelect v-model="magicClass" :options="classOptions" label="Тип" track-by="name" track-label="name" placeholder="Выберите тип" rules="required" />
+    <MagicCalculator v-if="showMagic" :magicClass="magicClass.value" :magic="magic" ref="magicCalculator" />
 
     <span v-if="magicError" class="d-block text-danger mb-2">{{ magicError }}</span>
     <Button :loading="submit" @click.prevent="createNPC">Отправить заявку</Button>
@@ -88,7 +88,7 @@ export default {
         signs: null,
         physics: null,
         private: 0,
-        type: null,
+        magicClass: null,
         magic: {},
         avatar: null
       })
@@ -130,13 +130,13 @@ export default {
       this.avatar = ''
     }
     this.isPrivate = this.private
-    this.type = this.type ? this.classOptions.find(option => option.value === this.type) : null
+    this.magicClass = this.magicClass ? this.classOptions.find(option => option.value === this.magicClass) : null
     this.physics = this.physics ? this.physiqueOptions.find(option => option.value === this.physics) : null
   },
 
   computed: {
     showMagic () {
-      return this.type !== null && (this.type.value !== 1 && this.type.value !== 6)
+      return this.magicClass !== null && (this.magicClass.value !== 1 && this.magicClass.value !== 6)
     }
   },
 
@@ -152,7 +152,7 @@ export default {
         signs: this.signs,
         physics: this.physics ? this.physics.value : null,
         private: this.isPrivate,
-        class: this.type ? this.type.value : null,
+        magicClass: this.magicClass ? this.magicClass.value : null,
         magic: this.showMagic ? this.$refs.magicCalculator.getMagic() : null
       }
     },
@@ -181,7 +181,7 @@ export default {
 
       const formData = this.getFormData()
 
-      if (formData.magic.levelPoints < 0) {
+      if (formData.magic && formData.magic.levelPoints < 0) {
         this.magicError = 'Доступных баллов уровней не может быть меньше 0'
         
         return this.submit = false

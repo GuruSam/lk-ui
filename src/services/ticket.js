@@ -78,7 +78,7 @@ class TicketService {
 
     return {
       physiqueOptions: data.physics,
-      classOptions: data.class
+      classOptions: data.magicClass
     }
   }
 }
