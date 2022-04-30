@@ -17,6 +17,7 @@ import NpcCreate from '@/views/npc/NpcCreate'
 import TicketsList from '@/views/tickets/TicketsList'
 import TicketPage from '@/views/tickets/TicketPage'
 import TicketCreate from '@/views/tickets/TicketCreate'
+import TicketEdit from '@/views/tickets/TicketEdit'
 
 export default [
   {
@@ -83,6 +84,12 @@ export default [
     path: '/tickets/:id',
     name: 'ticket-page',
     component: TicketPage
+  },
+
+  {
+    path: '/tickets/edit/:id',
+    name: 'ticket-edit',
+    component: TicketEdit
   },
 
   {

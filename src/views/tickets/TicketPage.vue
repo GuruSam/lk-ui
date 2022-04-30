@@ -14,11 +14,17 @@
 
     <div class="row">
       <div class="col-lg-12 col-xl-8 col-xxl-9">
-        <div class="card mb-4">
-          <h6 class="card-header">Описание</h6>
+        <NpcHeader v-if="isNpcTicket" :data="ticket.entity" />
 
-          <div class="card-body quotable" data-source="Описание">
-            <div v-html="ticket.description" class="ticket-desc"></div>
+        <div class="card mb-4">
+          <h6 class="card-header d-flex justify-content-between">
+            Описание
+            <router-link v-if="isEditable" class="btn btn-sm btn-outline-primary" :to="'/tickets/edit/' + ticket.id">Редактировать</router-link>
+          </h6>
+
+          <NpcDescription v-if="isNpcTicket" :data="ticket.entity" />
+          <div v-else class="card-body quotable" data-source="Описание">
+            <div v-html="ticket.message" class="ticket-desc"></div>
           </div>
         </div>
         <TicketComments v-if="ticket.comments" :ticket-id="ticket.id" :total.sync="ticket.comments.total" ref="ticketComments" />
@@ -65,7 +71,7 @@
             </div>
 
             <div class="list-group-item d-flex justify-content-center align-items-center text-center">
-              <button v-if="!isCompleted" class="btn btn-primary" :disabled="submit" @click="completeTicket">Завершить</button>
+              <Button v-if="!isCompleted" :loading="submit" @click="completeTicket">Завершить</Button>
               <p v-else >Вы можете переоткрыть заявку, оставив комментарий к ней.</p>
             </div>
           </div>
@@ -82,16 +88,24 @@ import { contentMixin } from '@/mixins/content'
 import TicketComments from '@/components/tickets/TicketComments'
 import Date from '@/components/Date'
 import CiteButton from '@/components/CiteButton'
+import NpcDescription from '@/components/tickets/npc/NpcDescription'
+import NpcHeader from '@/components/tickets/npc/NpcHeader'
+import Button from '@/components/Button'
 
+const STATUS_NEW = 1
+const STATUS_PENDING_PLAYER = 4
 const STATUS_COMPLETED = 5
 const STATUS_ARCHIVED = 100
 
 export default {
   name: 'TicketPage',
+
   mixins: [contentMixin],
+
   components: {
-    TicketComments, Date, CiteButton
+    TicketComments, Date, CiteButton, NpcDescription, NpcHeader, Button
   },
+  
   data: () => ({
     ticket: {
       category: {},
@@ -112,12 +126,20 @@ export default {
       ]
     },
 
+    isNpcTicket () {
+      return this.ticket.entity && this.ticket.entity.handler === 'npc'
+    },
+
     isArchived () {
       return this.ticket.status === STATUS_ARCHIVED
     },
 
     isCompleted () {
       return this.ticket.status === STATUS_COMPLETED || this.ticket.status === STATUS_ARCHIVED
+    },
+
+    isEditable () {
+      return this.ticket.status === STATUS_NEW || this.ticket.status === STATUS_PENDING_PLAYER
     },
 
     statusColor () {
@@ -166,7 +188,7 @@ export default {
     async reopenTicket () {
       const { data } = await contentService.getTicket(this.ticket.id)
       
-      this.setData(data)
+      this.ticket = data
       this.$notify({ group: 'notifications', type: 'success', text: 'Тикет переоткрыт' })
     },
 
@@ -175,7 +197,7 @@ export default {
 
       contentService.completeTicket(this.ticket.id)
         .then(() => {
-          this.ticket.status = this.statusCompleted
+          this.ticket.status = STATUS_COMPLETED
           this.$notify({
             group: 'notifications',
             type: 'success',

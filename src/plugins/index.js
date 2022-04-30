@@ -6,7 +6,7 @@ import VueQuillEditor from 'vue-quill-editor'
 import './bootstrap-vue.js'
 import './dayjs.js'
 import './vee-validate.js'
-import './sentry.js'
+// import './sentry.js'
 
 import { quillOptions } from './editor/options'
 

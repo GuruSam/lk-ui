@@ -10,14 +10,14 @@
 
     <div class="form-group position-relative">
       <label class="form-label" for="birthdate">Дата рождения</label>
-      <Datepicker v-model="birthdate" :bootstrapStyling="true" :inline="true" :language="ru" />
+      <Datepicker v-model="birthday" :bootstrapStyling="true" :inline="true" :language="ru" />
     </div>
 
     <div class="form-group position-relative mb-4">
       <label class="form-label" for="height">Рост</label>
       <validation rules="required" v-slot="{ errors }" :skipIfEmpty="false">
         <div class="input-group">
-          <input class="form-control" :class="{'is-invalid' : errors.length}" id="height" type="text" v-model="height">
+          <input class="form-control" :class="{'is-invalid' : errors.length}" id="height" type="text" v-model="growth">
           <div class="input-group-append">
             <span class="input-group-text">см</span>
           </div>
@@ -27,27 +27,30 @@
       </validation>
     </div>
 
-    <FormTextarea v-model="character" id="character" rows="2" label="Характер">
+    <FormTextarea v-model="character" id="character" rows="2" label="Характер" rules="required">
       <small class="form-text text-muted">
         Перечислите основные черты характера через запятую. Например: добрый, общительный, отзывчивый. Рекомендуется не более 500 символов.
       </small>
     </FormTextarea>
-    <FormInput v-model="signs" id="signs" type="text" label="Особые приметы">
+    <FormInput v-model="signs" id="signs" type="text" label="Особые приметы" rules="required">
       <small class="form-text text-muted">
         Например: родимое пятно на левой половине лица.
       </small>
     </FormInput>
-    <FormSelect v-model="physique" :options="physiqueOptions" label="Уровень физической подготовки" track-by="value" track-label="name" placeholder="Выберите уровень" rules="required" />
-    <FormRadio v-model="access" :options="accessOptions" name="access" label="Уровень доступа" rules="required">
+    <FormSelect v-model="physics" :options="physiqueOptions" label="Уровень физической подготовки" track-by="value" track-label="name" placeholder="Выберите уровень" rules="required" />
+    <FormRadio v-model="isPrivate" :options="privateOptions" name="private" label="Уровень доступа" rules="required">
       <small class="form-text text-muted">
         Личные NPC доступны для игры только вам. За общих NPC, например, курьера или официанта, вы разрешаете играть другим продюсерам.
       </small>
     </FormRadio>
-    <FormFile v-model="avatar" label="Аватар" rules="required" ref="fileInput" />
-    <FormSelect v-model="npcClass" :options="classOptions" label="Тип" track-by="name" track-label="name" placeholder="Выберите тип" rules="required" />
-    <MagicCalculator v-if="showMagic" :magicClass="npcClass.value" ref="magicCalculator" />
 
-    <button class="btn btn-primary" type="button" :disabled="submit" @click="createNPC">Отправить заявку</button>
+    <img v-if="loadedAvatarUrl" :src="loadedAvatarUrl" alt="Аватар персонажа." width="100" height="100">
+    <FormFile v-model="avatar" label="Аватар" :rules="!loadedAvatarUrl ? 'required' : ''" ref="fileInput" @input="onAvatarInput" />
+    <FormSelect v-model="magicClass" :options="classOptions" label="Тип" track-by="name" track-label="name" placeholder="Выберите тип" rules="required" />
+    <MagicCalculator v-if="showMagic" :magicClass="magicClass.value" :magic="magic" ref="magicCalculator" />
+
+    <span v-if="magicError" class="d-block text-danger mb-2">{{ magicError }}</span>
+    <Button :loading="submit" @click.prevent="createNPC">Отправить заявку</Button>
   </observer>
 </template>
 
@@ -55,12 +58,13 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker'
-import MagicCalculator from '@/components/npc/MagicCalculator'
+import MagicCalculator from '@/components/tickets/npc/MagicCalculator'
 import FormInput from '@/components/form/FormInput'
 import FormTextarea from '@/components/form/FormTextarea'
 import FormSelect from '@/components/form/FormSelect'
 import FormRadio from '@/components/form/FormRadio'
 import FormFile from '@/components/form/FormFile'
+import Button from '@/components/Button'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import { ru } from 'vuejs-datepicker/dist/locale'
 import dayjs from 'dayjs'
@@ -78,13 +82,13 @@ export default {
         name: null,
         role: null,
         info: null,
-        birthdate: new Date(),
-        height: null,
+        birthday: new Date(),
+        growth: null,
         character: null,
         signs: null,
-        physique: null,
-        access: 0,
-        npcClass: null,
+        physics: null,
+        private: 0,
+        magicClass: null,
         magic: {},
         avatar: null
       })
@@ -99,6 +103,7 @@ export default {
     FormSelect,
     FormRadio,
     FormFile,
+    Button,
     'validation': ValidationProvider,
     'observer': ValidationObserver
   },
@@ -106,19 +111,32 @@ export default {
   data: function () {
     return {
       ...this.formData,
+      loadedAvatarUrl: null,
+      isPrivate: false,
 
-      accessOptions: [
-        { value: 0, name: 'Общий' }, 
-        { value: 1, name: 'Личный' }
+      privateOptions: [
+        { value: false, name: 'Общий' }, 
+        { value: true, name: 'Личный' }
       ],
       submit: false,
+      magicError: null,
       ru
     }
   },
 
+  created() {
+    if (this.avatar) {
+      this.loadedAvatarUrl = 'https://playlabirint.ru/' + this.avatar
+      this.avatar = ''
+    }
+    this.isPrivate = this.private
+    this.magicClass = this.magicClass ? this.classOptions.find(option => option.value === this.magicClass) : null
+    this.physics = this.physics ? this.physiqueOptions.find(option => option.value === this.physics) : null
+  },
+
   computed: {
     showMagic () {
-      return this.npcClass !== null && (this.npcClass.value !== 1 && this.npcClass.value !== 6)
+      return this.magicClass !== null && (this.magicClass.value !== 1 && this.magicClass.value !== 6)
     }
   },
 
@@ -128,43 +146,83 @@ export default {
         name: this.name,
         role: this.role,
         info: this.info,
-        birthday: dayjs(this.birthdate).format('YYYY-MM-DD'),
-        growth: this.height,
+        birthday: dayjs(this.birthday).format('YYYY-MM-DD'),
+        growth: Number(this.growth),
         character: this.character,
         signs: this.signs,
-        physics: this.physique.value,
-        access: this.access,
-        class: this.npcClass.value,
+        physics: this.physics ? this.physics.value : null,
+        private: this.isPrivate,
+        magicClass: this.magicClass ? this.magicClass.value : null,
         magic: this.showMagic ? this.$refs.magicCalculator.getMagic() : null
       }
     },
 
+    getReadableData () {
+      const formData = this.getFormData()
+
+      formData.physics = this.physique.name
+      formData.class = this.npcClass.name
+      formData.private = formData.private === 1 ? 'Личный' : 'Общий'
+
+      return formData
+    },
+
     async createNPC () {
       this.submit = true
-
+      this.magicError = null
       const success = await this.$refs.form.validate()
 
       if (!success) {
         const failer = document.querySelector('.form-control.is-invalid')
         this.submit = false
+
         return failer.scrollIntoView()
       }
 
+      const formData = this.getFormData()
+
+      if (formData.magic && formData.magic.levelPoints < 0) {
+        this.magicError = 'Доступных баллов уровней не может быть меньше 0'
+        
+        return this.submit = false
+      }
+
+      const avatar = await this.uploadAvatar()
+      if (avatar) {
+        formData.avatarId = avatar.id
+      }
+
+      this.$emit('submit', formData)
+    },
+
+    async uploadAvatar () {
       const avatar = this.$refs.fileInput.getFile()
-      const formData = new FormData()
-      formData.append('avatar', avatar)
       
-      const { data } = await axios.post('/npc/avatar', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-        }
-      })
+      if (avatar) {
+        const formData = new FormData()
+        formData.append('avatar', avatar)
+        
+        const { data } = await axios.post('/npc/avatar', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+          }
+        })
 
-      const npcData = this.getFormData()
-      npcData.avatar = data.id
+        return data
+      }
 
-      this.$emit('submit', npcData)
-      this.submit = false
+      return false
+    },
+
+    setSubmitState (state) {
+      this.submit = state
+    },
+
+    onAvatarInput (value) {
+      if (value) {
+        const avatar = this.$refs.fileInput.getFile()
+        this.loadedAvatarUrl = URL.createObjectURL(avatar)
+      }
     }
   }
 }

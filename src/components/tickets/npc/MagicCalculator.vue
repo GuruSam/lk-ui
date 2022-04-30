@@ -27,35 +27,33 @@
       </span>
     </div>
 
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Способность</th>
-            <th>Уровень</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(skill, index) in skills" :key="index">
-            <td>
-              <Multiselect :id="index" v-model="skill.data" :options="skillsOptions" group-values="skills" group-label="category" track-by="id" label="name" :searchable="false" />
-            </td>
-            <td class="level-column">
-              <Multiselect :id="index" v-model="skill.lvl" :options="skillLevels" :searchable="false" />
-            </td>
-            <td class="action-column">
-              <button v-if="index === 0" class="btn btn-primary btn-sm" :class="{'disabled' : disabled}" @click="addSkill">
-                <span class="ion ion-md-add"></span>
-              </button>
-              <button v-else class="btn btn-danger btn-sm" @click="removeSkill($event, index)">
-                <span class="ion ion-md-trash"></span>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Способность</th>
+          <th>Уровень</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(skill, index) in skills" :key="index">
+          <td>
+            <Multiselect :id="index" v-model="skill.data" :options="skillsOptions" group-values="skills" group-label="category" track-by="id" label="name" :searchable="false" />
+          </td>
+          <td class="level-column">
+            <Multiselect :id="index" v-model="skill.lvl" :options="skillLevels" :searchable="false" />
+          </td>
+          <td class="action-column">
+            <button v-if="index === 0" class="btn btn-primary btn-sm" :class="{'disabled' : disabled}" @click="addSkill">
+              <span class="ion ion-md-add"></span>
+            </button>
+            <button v-else class="btn btn-danger btn-sm" @click="removeSkill($event, index)">
+              <span class="ion ion-md-trash"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -71,7 +69,8 @@ export default {
   name: 'MagicCalculator',
   
   props: {
-    magicClass: Number
+    magicClass: Number,
+    magic: Object
   },
 
   components: { Multiselect, FormSelect },
@@ -130,13 +129,14 @@ export default {
   },
 
   created () {
+    this.ordinar = this.magic.lvl ?? 1
     this.fetchData()
   },
 
   methods: {
     async fetchData () {
       const params = {
-        class: this.magicClass,
+        magicClass: this.magicClass,
         lvl: this.ordinar
       }
       const { data } = await axios.get('/npc/form', { params })
@@ -144,6 +144,7 @@ export default {
       this.points = data.magic.points
       this.blockedSkills = data.magic.blockedSkills
       this.skillsByCategories = this.createSkillsOptions(data.magic.skills)
+      this.setMagic()
 
       if (this.skills.length > this.points.skill) {
         this.skills.splice(this.points.skill)
@@ -201,10 +202,27 @@ export default {
     getMagic () {
       return {
         lvl: this.ordinar,
+        levelPoints: this.levelPoints,
         skills: this.skills.map(skill => ({ 
           id: skill.data.id, 
           lvl: skill.lvl 
         }))
+      }
+    },
+
+    setMagic () {
+      const magic = this.magic
+
+      if (magic.skills.length) {
+        const flat = this.skillsByCategories.flatMap(category => category.skills)
+        const skills = []
+
+        magic.skills.forEach(skill => {
+          const data = flat.find(el => el.id === skill.id)
+          skills.push({ lvl: skill.lvl, data })
+        })
+
+        this.skills = skills
       }
     }
   }

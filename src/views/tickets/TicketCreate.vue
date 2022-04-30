@@ -4,7 +4,7 @@
 
     <div class="card mb-4" ref="formContainer">
       <div class="card-body">
-        <FormSelect v-model="category" :options="categories" track-by="id" track-label="name" label="Категория" placeholder="Выберите категорию">
+        <FormSelect v-model="category" :options="categories" track-by="id" track-label="name" label="Категория" placeholder="Выберите категорию" @input="onCategoryChange">
           <small class="form-text text-muted">
             Выберите тему заявки. Если затрудняетесь отнести свой вопрос к существующим категориям, выберите 'другое'
           </small>
@@ -22,8 +22,9 @@
 <script>
 import FormSelect from '@/components/form/FormSelect'
 import DataLoader from '@/components/loaders/DataLoader'
-import NpcForm from '@/components/npc/NpcForm'
+import NpcForm from '@/components/tickets/npc/NpcForm'
 import CustomForm from '@/components/tickets/CustomForm'
+import { ticketService as ticket } from '@/services/ticket'
 import axios from 'axios'
 
 export default {
@@ -37,45 +38,23 @@ export default {
   },
 
   data: () => ({
-    formData: {},
-    categories: [],
-    characters: [],
+    formOptions: {},
     category: null,
-    formLoading: false,
-
-    npc: {
-      physiqueOptions: [],
-      classOptions: []
-    }
+    categories: [],
+    formLoading: false
   }),
 
   computed: {
-    selectedForm () {
-      if (!this.category) {
-        return null
-      }
+    handler () {
+      return this.category ? this.category.handler : null
+    },
 
-      switch (this.category.handler) {
-        case 'npc':
-          return 'NpcForm'
-        case 'custom':
-          return 'CustomForm'
-      
-        default:
-          return 'CustomForm'
-      }
+    selectedForm () {
+      return ticket.getForm(this.handler)
     },
 
     formProps () {
-      if (!this.category) {
-        return null
-      }
-
-      if (this.category.handler === 'custom') {
-        return { characters: this.characters }
-      }
-
-      return {}
+      return this.handler ? this.formOptions[this.handler] : {}
     }
   },
 
@@ -83,33 +62,26 @@ export default {
     const { data } = await axios.get('/tickets/form')
 
     next(vm => {
+      vm.formOptions['custom'] = data
       vm.categories = data.categories
-      vm.characters = data.characters
     })
   },
 
   methods: {
-    async fetchNpcOptions () {
-      this.formLoading = true
+    async onCategoryChange() {
+      if (!this.formOptions[this.handler]) {
+        this.formLoading = true
+        const { data } = await ticket.getFormOptions(this.handler)
 
-      const { data } = await axios.get('/npc/form')
-
-      this.npc.physiqueOptions = data.physics
-      this.npc.classOptions = data.class
-      this.formLoading = false
+        this.formOptions[this.handler] = data
+        this.formLoading = false
+      }
     },
 
     createTicket (formData) {
-      const additionalData = {
-        categoryId: this.category.id,
-        data: {
-          handler: this.category.handler
-        }
-      }
+      const data = ticket.createRequestData(formData, this.handler, this.category.id)
 
-      formData = {...formData, ...additionalData}
-
-      axios.post('/tickets', formData)
+      axios.post('/tickets', data)
         .then(ticket => this.$router.push(`/tickets/${ticket.data.id}`))
         .catch(() => this.$refs.form.setSubmitState(false))
     }
