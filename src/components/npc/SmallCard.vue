@@ -75,7 +75,8 @@ export default {
     },
 
     profileUrl () {
-      return 'https://playlabirint.ru/npc/view/' + this.character.id
+      const id = this.character.id
+      return this.character.status ? `https://playlabirint.ru/character/profile/${id}` : `https://playlabirint.ru/npc/view/${id}`
     }
   }
 }
