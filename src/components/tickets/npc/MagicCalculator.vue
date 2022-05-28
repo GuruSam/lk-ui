@@ -213,7 +213,7 @@ export default {
     setMagic () {
       const magic = this.magic
 
-      if (magic.skills.length) {
+      if (magic.skills && magic.skills.length) {
         const flat = this.skillsByCategories.flatMap(category => category.skills)
         const skills = []
 

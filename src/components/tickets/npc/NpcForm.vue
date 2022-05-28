@@ -70,6 +70,9 @@ import { ru } from 'vuejs-datepicker/dist/locale'
 import dayjs from 'dayjs'
 import axios from 'axios'
 
+const CLASS_HUMAN = 1
+const CLASS_GHOST = 6
+
 export default {
   name: 'NpcForm',
 
@@ -136,7 +139,7 @@ export default {
 
   computed: {
     showMagic () {
-      return this.magicClass !== null && (this.magicClass.value !== 1 && this.magicClass.value !== 6)
+      return this.magicClass !== null && (this.magicClass.value !== CLASS_HUMAN && this.magicClass.value !== CLASS_GHOST)
     }
   },
 

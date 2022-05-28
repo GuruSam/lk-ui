@@ -1,20 +1,22 @@
-const initState = function () {
+const State = function () {
   this.userId = null,
   this.username = null,
   this.avatar = null,
   this.balance = 0,
   this.isProducer = false,
-  this.ticketId = null
+  this.ticketId = null,
+  this.fetched = false
 }
 
-const state = new initState()
+const state = new State()
 
 const mutations = {
   setUser: (state, payload) => {
     Object.assign(state, payload)
+    state.fetched = true
   },
   removeUser: state => {
-    Object.assign(state, new initState())
+    Object.assign(state, new State())
   }
 }
 

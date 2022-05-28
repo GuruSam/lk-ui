@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import store from '@/store/index'
-import { authService, userService } from '@/services'
+import { authService as auth, userService as user } from '@/services'
 import routes from './routes'
 
 Vue.use(VueRouter)
@@ -14,7 +14,13 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (!store.state.auth.loggedIn) {
-    return authService.redirectToLogin()
+    return auth.redirectToLogin()
+  }
+
+  const user = store.state.user
+
+  if (user.fetched && !user.isProducer && to.name !== 'welcome-page') {
+    return next('/welcome')
   }
   
   next()
@@ -24,7 +30,7 @@ router.beforeResolve((to, from, next) => {
   document.title = to.meta.title || document.title
 
   if (store.getters.appLoading) {
-    return userService.userFetch.finally(() => {
+    return user.userFetch.finally(() => {
         store.dispatch('setLoadingState', false)
         next()
       })

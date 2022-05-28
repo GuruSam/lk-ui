@@ -22,8 +22,7 @@ export default class UserService {
    */
   getUserData () {
     return axios.get('/user')
-      .then(({ data }) => {
-        const user = data
+      .then(({ data: user }) => {
         store.dispatch('user/setUser', user)
 
         if (!user.isProducer) {

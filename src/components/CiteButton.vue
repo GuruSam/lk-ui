@@ -17,11 +17,13 @@ export default {
   mounted () {
     document.addEventListener('mouseup', this.onMouseUp)
     document.addEventListener('touchend', this.onMouseUp)
-    document.addEventListener('mousedown', () => {
-      if (!document.getSelection().isCollapsed) {
-        document.getSelection().empty()
-      }
-    })
+    document.addEventListener('mousedown', this.onMouseDown)
+  },
+
+  beforeDestroy () {
+    document.removeEventListener('mouseup', this.onMouseUp)
+    document.removeEventListener('touchend', this.onMouseUp)
+    document.removeEventListener('mousedown', this.onMouseDown)
   },
 
   methods: {
@@ -38,6 +40,12 @@ export default {
 
       } else if (this.showCiteBtn) {
         this.hide()
+      }
+    },
+
+    onMouseDown () {
+      if (!document.getSelection().isCollapsed) {
+        document.getSelection().empty()
       }
     },
 

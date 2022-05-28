@@ -2,7 +2,6 @@ import Vue from 'vue'
 import axios from 'axios'
 import platform from 'platform'
 import { tokenService } from './index'
-import store from '../store'
 
 export default class AuthService {
   constructor () {
@@ -30,9 +29,6 @@ export default class AuthService {
 
   logout () {
     tokenService.removeToken()
-    store.dispatch('user/removeUser')
-    store.dispatch('auth/clearLogoutInfo')
-    
     this.redirectToLogin()
   }
 
