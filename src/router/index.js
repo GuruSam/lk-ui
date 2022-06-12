@@ -19,8 +19,14 @@ router.beforeEach((to, from, next) => {
 
   const user = store.state.user
 
-  if (user.fetched && !user.isProducer && to.name !== 'welcome-page') {
-    return next('/welcome')
+  if (user.fetched) {
+    if (!user.isProducer && !to.meta.guestOnly) {
+      return next('/welcome')
+    }
+
+    if (user.isProducer && to.meta.guestOnly) {
+      return next('/dashboard')
+    }
   }
   
   next()

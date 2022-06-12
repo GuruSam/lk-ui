@@ -4,6 +4,7 @@ import { userService } from '@/services'
 import Home from '@/views/Home'
 import WelcomeScreen from '@/views/WelcomeScreen'
 import ErrorScreen from '@/views/ErrorScreen'
+import Join from '@/views/Join'
 
 // Characters
 import CharactersList from '@/views/characters/CharactersList'
@@ -11,7 +12,6 @@ import CharactersList from '@/views/characters/CharactersList'
 // NPC
 import GeneralNpcList from '@/views/npc/GeneralNpcList'
 import PersonalNpcList from '@/views/npc/PersonalNpcList'
-import NpcCreate from '@/views/npc/NpcCreate'
 
 // Tickets
 import TicketsList from '@/views/tickets/TicketsList'
@@ -49,7 +49,8 @@ export default [
     name: 'welcome-page',
     component: WelcomeScreen,
     meta: {
-      title: 'Добро пожаловать в Лабиринт'
+      title: 'Добро пожаловать в Лабиринт',
+      guestOnly: true
     },
     beforeEnter: (to, from, next) => {
       userService.userFetch.finally(() => {
@@ -59,6 +60,16 @@ export default [
 
         next()
       })
+    }
+  },
+
+  {
+    path: '/join',
+    name: 'join',
+    component: Join,
+    meta: {
+      title: 'Присоединиться к Лабиринту',
+      guestOnly: true
     }
   },
 
@@ -121,15 +132,6 @@ export default [
     component: PersonalNpcList,
     meta: {
       title: 'ЛК - Личные NPC'
-    }
-  },
-
-  {
-    path: '/npc/create',
-    name: 'npc-create',
-    component: NpcCreate,
-    meta: {
-      title: 'ЛК - Создать NPC'
     }
   }
 ]
