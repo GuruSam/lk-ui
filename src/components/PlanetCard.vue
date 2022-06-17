@@ -1,6 +1,6 @@
 <template>
   <div class="card mb-4">
-    <div class="card-header info-header info-header--full text-center">
+    <div class="card-header info-header text-center" :class="{'info-header--full' : fullHeader}">
       <slot name="header"></slot>
     </div>
     <div class="card-body info-message">
@@ -11,7 +11,14 @@
 
 <script>
 export default {
-  name: 'PlanetCard'
+  name: 'PlanetCard',
+
+  props: {
+    fullHeader: {
+      type: Boolean,
+      default: false
+    }
+  }
 }
 </script>
 

@@ -5,6 +5,7 @@ import Home from '@/views/Home'
 import WelcomeScreen from '@/views/WelcomeScreen'
 import ErrorScreen from '@/views/ErrorScreen'
 import Join from '@/views/Join'
+import JoinGuest from '@/views/JoinGuest'
 
 // Characters
 import CharactersList from '@/views/characters/CharactersList'
@@ -67,6 +68,16 @@ export default [
     path: '/join',
     name: 'join',
     component: Join,
+    meta: {
+      title: 'Присоединиться к Лабиринту',
+      guestOnly: true
+    }
+  },
+
+  {
+    path: '/join/guest',
+    name: 'join-as-guest',
+    component: JoinGuest,
     meta: {
       title: 'Присоединиться к Лабиринту',
       guestOnly: true

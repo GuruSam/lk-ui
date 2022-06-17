@@ -2,7 +2,7 @@
   <div class="container mt-5">
     <div class="row">
       <div class="col">
-        <PlanetCard>
+        <PlanetCard full-header>
           <template #header>
             <h1 class="card-title display-4 mb-2 mt-3">Добро пожаловать в Лабиринт!</h1>
             <p class="card-text text-muted info-header_quote">Среди далёких галактик затерялся неприметный мир под названием Иртмис...</p>
