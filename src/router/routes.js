@@ -20,6 +20,9 @@ import TicketPage from '@/views/tickets/TicketPage'
 import TicketCreate from '@/views/tickets/TicketCreate'
 import TicketEdit from '@/views/tickets/TicketEdit'
 
+// Producers
+import ProducerList from '@/views/producers/ProducerList'
+
 export default [
   {
     path: '/',
@@ -144,5 +147,14 @@ export default [
     meta: {
       title: 'ЛК - Личные NPC'
     }
-  }
+  },
+
+  {
+    path: '/producers',
+    name: 'producers',
+    component: ProducerList,
+    meta: {
+      title: 'ЛК - Мои продюсеры'
+    }
+  },
 ]

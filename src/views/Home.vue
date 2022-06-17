@@ -105,13 +105,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .alert-custom {
   display: flex;
   align-items: center;
   background-color: #131315;
   color: #c3c3c3;
   font-style: italic;
+  font-weight: 300;
 }
 
 .alert-custom p {
