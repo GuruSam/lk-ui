@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <h1 class="font-weight-bold py-3 mb-4 h2">Главная</h1>
     <div class="alert alert-custom" role="alert">
-      <img class="warning-icon" src="/images/warning-sign.png" alt="Знак предупреждения." width="60" height="52">
+      <img class="warning-icon" src="/images/warning-sign-sm.png" alt="Знак предупреждения." width="60" height="52">
       <p>
         Добро пожаловать! Личный кабинет продюсера находится в активной разработке, поэтому возможны баги.
         Если вы заметили ошибку, не стесняйтесь сообщить об этом <a href="https://t.me/gurusamius" target="_blank">@gurusamius</a>.
