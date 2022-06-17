@@ -9,7 +9,7 @@
 
             <p class="card-text mt-4">Доступ в личный кабинет имеют только игроки Лабиринта.</p>
 
-            <router-link to="/join" class="btn btn-primary">Присоединиться к игре!</router-link>
+            <!-- <router-link to="/join" class="btn btn-primary">Присоединиться к игре!</router-link> -->
           </div>
         </div>
       </div>
