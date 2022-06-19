@@ -4,7 +4,8 @@ class TicketService {
   constructor() {
     this.formMap = {
       'custom': 'CustomForm',
-      'npc': 'NpcForm'
+      'npc': 'NpcForm',
+      'producer_alias': 'ProducerForm'
     }
   }
 
@@ -28,9 +29,11 @@ class TicketService {
     switch (handler) {
       case 'npc':
         return this._getNpcFormOptions()
-    
-      default:
+      case 'custom':
         return this._getCustomFormOptions()
+
+      default:
+        return {}
     }
   }
 

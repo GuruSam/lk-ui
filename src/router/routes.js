@@ -22,6 +22,7 @@ import TicketEdit from '@/views/tickets/TicketEdit'
 
 // Producers
 import ProducerList from '@/views/producers/ProducerList'
+import ProducerForm from '@/components/tickets/ProducerForm'
 
 export default [
   {
@@ -153,6 +154,15 @@ export default [
     path: '/producers',
     name: 'producers',
     component: ProducerList,
+    meta: {
+      title: 'ЛК - Мои продюсеры'
+    }
+  },
+
+  {
+    path: '/producers/create',
+    name: 'producers-create',
+    component: ProducerForm,
     meta: {
       title: 'ЛК - Мои продюсеры'
     }

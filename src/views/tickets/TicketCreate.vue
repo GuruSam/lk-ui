@@ -10,6 +10,10 @@
           </small>
         </FormSelect>
       </div>
+
+      <div class="card-body" v-if="category && category.id === 1">
+        <ProducerForm />
+      </div>
       
       <div class="card-body" v-if="selectedForm">
         <DataLoader v-if="formLoading" />
@@ -22,8 +26,11 @@
 <script>
 import FormSelect from '@/components/form/FormSelect'
 import DataLoader from '@/components/loaders/DataLoader'
+
 import NpcForm from '@/components/tickets/npc/NpcForm'
 import CustomForm from '@/components/tickets/CustomForm'
+import ProducerForm from '@/components/tickets/ProducerForm'
+
 import { ticketService as ticket } from '@/services/ticket'
 import axios from 'axios'
 
@@ -34,7 +41,8 @@ export default {
     FormSelect,
     DataLoader,
     NpcForm,
-    CustomForm
+    CustomForm,
+    ProducerForm
   },
 
   data: () => ({

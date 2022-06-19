@@ -4,14 +4,14 @@
       <span class="form-label mb-3 d-inline-block">{{ label }}</span>
 
       <div class="custom-controls-stacked">
-        <label class="custom-control custom-checkbox">
+        <label class="custom-control custom-checkbox" v-for="option in legalOptions" :key="option.value">
           <input class="custom-control-input"
             type="checkbox"
             :checked="value.includes(option)"
-            :value="option"
+            :value="option.value"
             @input="onInput"
           >
-          <span class="custom-control-label">{{ option }}</span>
+          <span class="custom-control-label">{{ option.name }}</span>
         </label>
       </div>
 
@@ -28,8 +28,8 @@ export default {
   name: 'FormCheckbox',
 
   props: {
-    value: Array,
-    option: String,
+    value: [Array, String, Boolean, Number],
+    options: [Array],
     label: String,
     rules: {
       type: String,
@@ -45,7 +45,15 @@ export default {
     'validation': ValidationProvider
   },
 
-   methods: {
+  computed: {
+    legalOptions () {
+      return this.options.map(option => 
+        typeof option === 'string' ? { name: option, value: option } : option
+      )
+    }
+  },
+
+  methods: {
     onInput (evt) {
       const values = [...this.value]
 
