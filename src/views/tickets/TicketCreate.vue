@@ -11,13 +11,18 @@
         </FormSelect>
       </div>
 
-      <div class="card-body" v-if="category && category.id === 1">
+      <!-- <div class="card-body" v-if="category && category.id === 1">
         <ProducerForm />
-      </div>
+      </div> -->
       
-      <div class="card-body" v-if="selectedForm">
+      <div class="card-body" v-if="form">
         <DataLoader v-if="formLoading" />
-        <component v-else :is="selectedForm" v-bind="formProps" ref="form" @submit="createTicket" />
+
+        <div v-show="!formLoading">
+          <KeepAlive>
+            <component :is="form" @loaded="onFormLoaded" @submit="createTicket" ref="form" />
+          </KeepAlive>
+        </div>
       </div>
     </div>
   </section>
@@ -46,10 +51,16 @@ export default {
   },
 
   data: () => ({
-    formOptions: {},
     category: null,
     categories: [],
-    formLoading: false
+
+    formLoading: false,
+    formsLoaded: {},
+    formsMap: {
+      'custom': 'CustomForm',
+      'npc': 'NpcForm',
+      'producer_alias': 'ProducerForm'
+    }
   }),
 
   computed: {
@@ -57,12 +68,8 @@ export default {
       return this.category ? this.category.handler : null
     },
 
-    selectedForm () {
-      return ticket.getForm(this.handler)
-    },
-
-    formProps () {
-      return this.handler ? this.formOptions[this.handler] : {}
+    form () {
+      return this.formsMap[this.handler] ?? null
     }
   },
 
@@ -70,20 +77,24 @@ export default {
     const { data } = await axios.get('/tickets/form')
 
     next(vm => {
-      vm.formOptions['custom'] = data
       vm.categories = data.categories
     })
   },
 
   methods: {
-    async onCategoryChange() {
-      if (!this.formOptions[this.handler]) {
-        this.formLoading = true
-        const options = await ticket.getFormOptions(this.handler)
-
-        this.formOptions[this.handler] = options
+    onCategoryChange() {
+      if (this.formLoading && this.formsLoaded[this.handler]) {
         this.formLoading = false
       }
+
+      if (!this.formsLoaded[this.handler]) {
+        this.formLoading = true
+      } 
+    },
+
+    onFormLoaded () {
+      this.formsLoaded[this.handler] = true
+      this.formLoading = false
     },
 
     createTicket (formData) {
@@ -91,7 +102,7 @@ export default {
 
       axios.post('/tickets', data)
         .then(ticket => this.$router.push(`/tickets/${ticket.data.id}`))
-        .catch(() => this.$refs.form.setSubmitState(false))
+        .catch(() => this.$refs.form.setSubmit(false))
     }
   }
 }

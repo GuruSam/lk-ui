@@ -4,7 +4,7 @@
 
     <div class="card mb-4" ref="formContainer">
       <div class="card-body">
-        <component :is="formComponent" v-bind="formProps" ref="form" @submit="updateTicket" />
+        <component :is="formComponent" :form-data="formData" ref="form" @submit="updateTicket" />
       </div>
     </div>
   </section>
@@ -13,13 +13,14 @@
 <script>
 import NpcForm from '@/components/tickets/npc/NpcForm'
 import CustomForm from '@/components/tickets/CustomForm'
+import ProducerForm from '@/components/tickets/ProducerForm'
 import { ticketService as ticket } from '@/services/ticket'
 import axios from 'axios'
 
 export default {
   name: 'TicketEdit',
 
-  components: { NpcForm, CustomForm },
+  components: { NpcForm, CustomForm, ProducerForm },
 
   data: () => ({
     formData: {},
@@ -31,12 +32,10 @@ export default {
   async beforeRouteEnter (to, from, next) {
     const { data } = await axios.get(`/tickets/${to.params.id}`)
     const handler = data.entity ? data.entity.handler : 'custom'
-    const formOptions = await ticket.getFormOptions(handler)
     
     next(vm => {
       vm.formData = data.entity ?? data
       vm.formComponent = ticket.getForm(handler)
-      vm.formOptions[handler] = formOptions
       vm.handler = handler
     })
   },

@@ -1,32 +1,18 @@
 <template>
-  <div class="form-group position-relative mb-4">
-    <div class="custom-controls-stacked">
-      <label class="custom-control custom-checkbox">
-        <input class="custom-control-input"
-          type="checkbox"
-          :checked="createDefault"
-          :value="createDefault"
-          @input="createDefault = $event.target.checked"
-        >
-        <span class="custom-control-label">Создать основной аккаунт <strong>{{ username }}</strong></span>
-      </label>
-    </div>
+  <observer tag="form" ref="form">
+    <p class="mb-2" v-if="openedCharacters.length">
+      У вас есть неанонимные персонажи. В первую очередь создайте продюсера для них.
+    </p>
+    <FormInput v-model="username" label="Ник:" rules="required" type="text" />
+    <FormInput v-model="email" label="Почта:" rules="required" type="email" />
+    <FormInput v-model="birthday" label="Дата рождения:" rules="required" type="date" />
 
-    <small class="form-text text-muted mb-3">Снимите галочку, если хотите сохранить анонимность и выбрать другое имя.</small>
+    <span class="d-block form-label mb-2" v-if="characters.length">Персонажи, привязанные к этому аккаунту:</span>
 
-    <transition name="slide">
-    <div class="fields" v-if="!createDefault">
-      <FormInput v-model="newUsername" label="Ник:" rules="required" />
-      <FormInput v-model="email" label="Почта:" rules="required" />
-    </div>
-    </transition>
-
-    <span class="d-block form-label mb-2">Персонажи, привязанные к этому аккаунту:</span>
-
-    <div class="character-container" :class="{'selectable' : !createDefault}">
+    <div class="character-container" :class="{'selectable' : openedCharacters.length === 0}">
       <div 
-        class="rounded ui-bordered p-2 mb-3 prod-character"
-        v-for="character in characters"
+        class="rounded ui-bordered p-2 mb-2 prod-character"
+        v-for="character in characterList"
         :class="{'selected' : character.selected}" 
         :key="character.id" 
         @click="onSelect(character.id, $event)"
@@ -37,62 +23,116 @@
         </div>
       </div>
     </div>
-  </div>
+
+    <span v-if="error" class="d-block text-danger mb-2">{{ error }}</span>
+    <Button class="mt-3" :loading="submit" @click.prevent="submitForm">Создать</Button>
+  </observer>
 </template>
 
 <script>
 import FormInput from '@/components/form/FormInput'
+import Button from '@/components/Button'
+import { ValidationObserver } from 'vee-validate'
 import axios from 'axios'
 
 export default {
   name: 'ProducerForm',
 
   props: {
-    characters: Array
+    formData: {
+      type: Object,
+      default: () => ({
+        username: null,
+        email: null,
+        birthday: null,
+        characters: []
+      })
+    }
   },
 
   components: { 
-    FormInput
+    FormInput,
+    Button,
+    'observer': ValidationObserver
   },
 
-  data: () => ({
-    createDefault: true,
-    newUsername: null, 
-    email: null
-  }),
+  data: function () {
+    return {
+      username: this.formData.username || this.$store.state.user.username,
+      email: this.formData.email,
+      birthday: this.formData.birthday,
+      characters: [],
+      createDefault: true,
+      submit: false,
+      error: null
+    }
+  },
 
-  // created () {
-  //   if (!this.characters.length) {
-  //     this.fetchCharacters()
-  //   }
-  // },
+  async created () {
+    this.characters = await this.fetchCharacters()
+    this.characters.forEach(char => {
+      if (this.formData.characters.find(selected => selected.id === char.id)) {
+        char.selected = true
+      }
+    })
+    this.$emit('loaded', true)
+  },
 
   computed: {
-    username () {
-      return this.$store.state.user.username
-    },
-
     anonymCharacters () {
       return this.characters.filter(char => char.isAnonym)
     },
 
     openedCharacters () {
       return this.characters.filter(char => !char.isAnonym)
+    },
+
+    characterList () {
+      return this.openedCharacters.length > 0 ? this.openedCharacters : this.anonymCharacters
     }
   },
 
   methods: {
     async fetchCharacters () {
-      const { data } = await axios.get('/characters')
-      this.characters = [...data.active, ...data.idle]
+      const { data } = await axios.get('/tickets/form')
+
+      return data.characters.filter(char => !char.producerAliasId)
     },
 
     onSelect (id) {
-      if (!this.createDefault) {
-        const character = this.characters.find(char => char.id === id)
-        character.selected = character.selected ? false : true
-        this.characters = [...this.characters]
+      const character = this.characters.find(char => char.id === id)
+      character.selected = character.selected ? false : true
+      this.characters = [...this.characters]
+    },
+
+    async submitForm () {
+      this.setSubmit(true)
+      this.error = null
+
+      const success = await this.$refs.form.validate()
+      const selected = this.openedCharacters.length > 0 ? this.openedCharacters : this.characters.filter(char => char.selected)
+
+      if (!success) {
+        return this.setSubmit(false)
       }
+
+      if (this.anonymCharacters.length && !selected.length) {
+        this.error = 'Нужно выбрать хотя бы одного персонажа'
+        return this.setSubmit(false)
+      }
+
+      const formData = {
+        username: this.username,
+        email: this.email,
+        birthday: this.birthday,
+        characters: selected.map(char => char.id)
+      }
+
+      this.$emit('submit', formData)
+    },
+
+    setSubmit (state) {
+      this.submit = state
     }
   }
 }

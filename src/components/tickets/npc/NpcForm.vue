@@ -77,8 +77,6 @@ export default {
   name: 'NpcForm',
 
   props: {
-    physiqueOptions: Array,
-    classOptions: Array,
     formData: {
       type: Object,
       default: () => ({
@@ -117,6 +115,8 @@ export default {
       loadedAvatarUrl: null,
       isPrivate: false,
 
+      physiqueOptions: [],
+      classOptions: [],
       privateOptions: [
         { value: false, name: 'Общий' }, 
         { value: true, name: 'Личный' }
@@ -128,6 +128,8 @@ export default {
   },
 
   created() {
+    this.fetchOptions()
+
     if (this.avatar) {
       this.loadedAvatarUrl = 'https://playlabirint.ru/' + this.avatar
       this.avatar = ''
@@ -144,6 +146,13 @@ export default {
   },
 
   methods: {
+    async fetchOptions () {
+      const { data } = await axios.get('/npc/form')
+      this.physiqueOptions = data.physics
+      this.classOptions = data.magicClass
+      this.$emit('loaded', true)
+    },
+
     getFormData () {
       return {
         name: this.name,
@@ -217,7 +226,7 @@ export default {
       return false
     },
 
-    setSubmitState (state) {
+    setSubmit (state) {
       this.submit = state
     },
 
