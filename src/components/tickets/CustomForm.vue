@@ -32,6 +32,7 @@ import FormInput from '@/components/form/FormInput'
 import FormSelect from '@/components/form/FormSelect'
 import Button from '@/components/Button'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import axios from 'axios'
 
 export default {
   name: 'CustomForm',
@@ -45,10 +46,6 @@ export default {
   },
 
   props: {
-    characters: {
-      type: Array,
-      default: () => []
-    },
     formData: {
       type: Object,
       default: () => ({
@@ -61,20 +58,33 @@ export default {
 
   data: function () {
     return {
+      characters: [],
       character: null,
       ...this.formData,
       submit: false
     }
   },
 
+  created () {
+    if (!this.characters.length) {
+      this.fetchCharacters()
+    }
+  },
+
   methods: {
+    async fetchCharacters () {
+      const { data } = await axios.get('/tickets/form')
+      this.characters = data.characters
+      this.$emit('loaded', true)
+    },
+
     submitForm () {
-      this.setSubmitState(true)
+      this.setSubmit(true)
 
       this.$refs.form.validate()
         .then(success => {
           if (!success) {
-            return this.setSubmitState(false)
+            return this.setSubmit(false)
           }
 
           const formData = {
@@ -87,7 +97,7 @@ export default {
         })
     },
 
-    setSubmitState (state) {
+    setSubmit (state) {
       this.submit = state
     }
   }

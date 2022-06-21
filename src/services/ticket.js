@@ -52,6 +52,11 @@ class TicketService {
         request.message = '*'
         request.data = formData
         break;
+      case 'producer_alias':
+        request.name = 'Заявка на создание продюсера ' + formData.username
+        request.message = '*'
+        request.data = formData
+        break;
     
       default:
         request = formData
