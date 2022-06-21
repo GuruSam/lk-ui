@@ -9,23 +9,35 @@
     </div>
 
     <div v-if="producers.length" class="row mt-3">
+      <producer v-for="prod in producers" :key="prod.id" :producer="prod" />
     </div>
   </div>
 </template>
 
 <script>
 import PageTitle from '@/components/PageTitle'
+import ProducerCard from '@/components/producers/ProducerCard'
+import axios from 'axios'
 
 export default {
   name: 'ProducerList',
 
   components: {
-    'page-title': PageTitle
+    'page-title': PageTitle,
+    'producer': ProducerCard
   },
 
   data: () => ({
     producers: []
-  })
+  }),
+
+  async beforeRouteEnter (to, from, next) {
+    const { data } = await axios.get('/producers')
+    
+    next(vm => {
+      vm.producers = data.items
+    })
+  }
 }
 </script>
 

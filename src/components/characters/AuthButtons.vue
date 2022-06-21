@@ -1,7 +1,7 @@
 <template>
   <div>
     <form ref="authForm" method="post" action="https://playlabirint.ru/game/login/login">
-      <input type="hidden" name="login" :value="character.name" />
+      <input type="hidden" name="login" :value="character.name || character.username" />
       <input type="hidden" name="password" :value="character.password" />
       <input type="hidden" name="remember" value="1" />
       <input type="hidden" name="logout" value="1" />

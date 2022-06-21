@@ -1,13 +1,13 @@
 <template>
   <observer tag="form" ref="form">
-    <p class="mb-2" v-if="openedCharacters.length">
+    <p class="mb-2 text-warning" v-if="openedCharacters.length">
       У вас есть неанонимные персонажи. В первую очередь создайте продюсера для них.
     </p>
     <FormInput v-model="username" label="Ник:" rules="required" type="text" />
-    <FormInput v-model="email" label="Почта:" rules="required" type="email" />
+    <FormInput v-model="email" label="Почта:" rules="required|email" type="email" />
     <FormInput v-model="birthday" label="Дата рождения:" rules="required" type="date" />
 
-    <span class="d-block form-label mb-2" v-if="characters.length">Персонажи, привязанные к этому аккаунту:</span>
+    <span class="d-block form-label mb-2" v-if="characters.length">Персонажи, привязанные к этому продюсеру:</span>
 
     <div class="character-container" :class="{'selectable' : openedCharacters.length === 0}">
       <div 
@@ -87,8 +87,12 @@ export default {
       return this.characters.filter(char => !char.isAnonym)
     },
 
+    isSelectable () {
+      return this.openedCharacters.length > 0 ? false : true
+    },
+
     characterList () {
-      return this.openedCharacters.length > 0 ? this.openedCharacters : this.anonymCharacters
+      return this.isSelectable ? this.anonymCharacters : this.openedCharacters
     }
   },
 
@@ -100,9 +104,11 @@ export default {
     },
 
     onSelect (id) {
-      const character = this.characters.find(char => char.id === id)
-      character.selected = character.selected ? false : true
-      this.characters = [...this.characters]
+      if (this.isSelectable) {
+        const character = this.characters.find(char => char.id === id)
+        character.selected = character.selected ? false : true
+        this.characters = [...this.characters]
+      }
     },
 
     async submitForm () {
