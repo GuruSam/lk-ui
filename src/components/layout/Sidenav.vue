@@ -24,10 +24,7 @@
       </div>
       <sidenav-router-link icon="ion ion-md-speedometer" to="/dashboard" :active="isMenuActive('/dashboard')" :exact="true">Главная</sidenav-router-link>
       <sidenav-router-link icon="ion ion-ios-mail" to="/tickets" :active="isMenuActive('/tickets')" :exact="true">Заявки</sidenav-router-link>
-      <sidenav-router-link icon="ion ion-ios-contacts" to="/producers" :active="isMenuActive('/producers')" :exact="true" :disabled="true">
-        Продюсеры
-        <span class="badge badge-pill badge-default">Скоро</span>
-      </sidenav-router-link>
+      <sidenav-router-link icon="ion ion-ios-contacts" to="/producers" :active="isMenuActive('/producers')" :exact="true">Продюсеры</sidenav-router-link>
       <sidenav-router-link icon="ion ion-ios-contacts" to="/characters" :active="isMenuActive('/characters')" :exact="true">Персонажи</sidenav-router-link>
       <sidenav-menu icon="ion ion-md-contacts" :open="true">
         <template slot="link-text">NPC</template>

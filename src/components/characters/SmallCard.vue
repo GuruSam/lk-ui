@@ -1,22 +1,22 @@
 <template>
   <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-4">
-    <div class="card card-bordered character-card" :class="{'character-card--shrink' : isCardShrunk}" ref="card">
+    <div class="card card-bordered profile-card" :class="{'character-card--shrink' : isCardShrunk}" ref="card">
       <div class="card-body media">
-        <img class="avatar" width="100" height="100" alt="Аватар персонажа." :src="character.avatar" />
+        <img class="profile-avatar" width="100" height="100" alt="Аватар персонажа." :src="character.avatar" />
 
         <div class="media-body pt-2">
-          <h3 class="character-name mb-2">{{ character.name }}</h3>
+          <h3 class="profile-name mb-2">{{ character.name }}</h3>
 
           <div class="text-big character-status" :class="statusColor">{{ status }}</div>
 
           <div class="link-group">
-            <a class="character-link" target="_blank" :href="profileUrl">
-              <span class="character-link__icon ion ion-ios-contact mr-1"></span>
+            <a class="profile-link" target="_blank" :href="profileUrl">
+              <span class="profile-link__icon ion ion-ios-contact mr-1"></span>
               <span v-if="!isCardShrunk" class="mr-2">Профиль</span>
             </a>
 
-            <a class="character-link" target="_blank" :href="wikiUrl">
-              <span class="character-link__icon ion ion-ios-clipboard mr-1"></span>
+            <a class="profile-link" target="_blank" :href="wikiUrl">
+              <span class="profile-link__icon ion ion-ios-clipboard mr-1"></span>
               <span v-if="!isCardShrunk" class="mr-2">Wiki</span>
             </a>
           </div>
@@ -121,13 +121,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.card-footer {
-  display: flex;
-  justify-content: space-between;
-}
-
-.character-card {
+<style lang="scss">
+.profile-card {
   margin-bottom: 1.5rem;
   background: linear-gradient(-45deg, #111a1a, #081212, #03252a, #050d0e);
   background-size: 400% 400%;
@@ -138,16 +133,16 @@ export default {
       padding: 1.3rem 1.3rem 0.8rem;
     }
 
-    .avatar {
+    .profile-avatar {
       width: 80px;
       height: 80px;
     }
 
-    .character-name {
+    .profile-name {
       font-size: 130%;
     }
 
-    .character-link--bordered {
+    .profile-link--bordered {
       border: none;
 
       &:not(:last-child) {
@@ -159,9 +154,14 @@ export default {
       margin-bottom: 1rem;
     }
   }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
-.character-name {
+.profile-name {
   font-size: 150%;
 }
 
@@ -169,7 +169,7 @@ export default {
   margin-bottom: 1.5rem;
 }
 
-.character-link {
+.profile-link {
   font-size: 0.8rem;
   color: #e0e1e1;
 
@@ -183,7 +183,7 @@ export default {
   }
 }
 
-.avatar {
+.profile-avatar {
   max-width: 100px;
   margin-right: 1.5rem;
   border: 2px solid #087482;
@@ -191,18 +191,18 @@ export default {
   box-shadow: 0px 0px 12px #025661;
 }
 
-.character-link__icon,
+.profile-link__icon,
 .favorite-icon,
-.character-link {
+.profile-link {
   transition: all 0.2s ease-in-out;
 }
 
-.character-link__icon:hover,
+.profile-link__icon:hover,
 .favorite-icon:hover {
   cursor: pointer;
 }
 
-.character-link__icon {
+.profile-link__icon {
   font-size: 1rem;
 }
 
