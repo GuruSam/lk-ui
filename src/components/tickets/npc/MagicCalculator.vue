@@ -135,19 +135,21 @@ export default {
 
   methods: {
     async fetchData () {
-      const params = {
-        magicClass: this.magicClass,
-        lvl: this.ordinar
-      }
-      const { data } = await axios.get('/npc/form', { params })
+      if (this.magicClass && this.ordinar) {
+        const params = {
+          magicClass: this.magicClass,
+          lvl: this.ordinar
+        }
+        const { data } = await axios.get('/npc/form', { params })
 
-      this.points = data.magic.points
-      this.blockedSkills = data.magic.blockedSkills
-      this.skillsByCategories = this.createSkillsOptions(data.magic.skills)
-      this.setMagic()
+        this.points = data.magic.points
+        this.blockedSkills = data.magic.blockedSkills
+        this.skillsByCategories = this.createSkillsOptions(data.magic.skills)
+        this.setMagic()
 
-      if (this.skills.length > this.points.skill) {
-        this.skills.splice(this.points.skill)
+        if (this.skills.length > this.points.skill) {
+          this.skills.splice(this.points.skill)
+        }
       }
     },
 

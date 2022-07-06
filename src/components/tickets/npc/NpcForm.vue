@@ -127,17 +127,15 @@ export default {
     }
   },
 
-  async created() {
+  created() {
     // eslint-disable-next-line no-unused-vars
-    const options = await this.fetchOptions()
+    this.fetchOptions()
 
     if (this.avatar) {
       this.loadedAvatarUrl = 'https://playlabirint.ru/' + this.avatar
       this.avatar = ''
     }
     this.isPrivate = this.private
-    this.magicClass = this.magicClass ? this.classOptions.find(option => option.value === this.magicClass) : null
-    this.physics = this.physics ? this.physiqueOptions.find(option => option.value === this.physics) : null
   },
 
   computed: {
@@ -151,7 +149,11 @@ export default {
       const { data } = await axios.get('/npc/form')
       this.physiqueOptions = data.physics
       this.classOptions = data.magicClass
+      this.magicClass = this.magicClass ? this.classOptions.find(option => option.value === this.magicClass) : null
+      this.physics = this.physics ? this.physiqueOptions.find(option => option.value === this.physics) : null
       this.$emit('loaded', true)
+
+      return true
     },
 
     getFormData () {
