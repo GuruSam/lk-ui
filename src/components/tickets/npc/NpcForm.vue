@@ -127,17 +127,17 @@ export default {
     }
   },
 
-  created() {
-    this.fetchOptions()
-      .then(() => {
-        if (this.avatar) {
-          this.loadedAvatarUrl = 'https://playlabirint.ru/' + this.avatar
-          this.avatar = ''
-        }
-        this.isPrivate = this.private
-        this.magicClass = this.magicClass ? this.classOptions.find(option => option.value === this.magicClass) : null
-        this.physics = this.physics ? this.physiqueOptions.find(option => option.value === this.physics) : null
-      })
+  async created() {
+    // eslint-disable-next-line no-unused-vars
+    const options = await this.fetchOptions()
+
+    if (this.avatar) {
+      this.loadedAvatarUrl = 'https://playlabirint.ru/' + this.avatar
+      this.avatar = ''
+    }
+    this.isPrivate = this.private
+    this.magicClass = this.magicClass ? this.classOptions.find(option => option.value === this.magicClass) : null
+    this.physics = this.physics ? this.physiqueOptions.find(option => option.value === this.physics) : null
   },
 
   computed: {
