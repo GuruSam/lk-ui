@@ -129,14 +129,15 @@ export default {
 
   created() {
     this.fetchOptions()
-
-    if (this.avatar) {
-      this.loadedAvatarUrl = 'https://playlabirint.ru/' + this.avatar
-      this.avatar = ''
-    }
-    this.isPrivate = this.private
-    this.magicClass = this.magicClass ? this.classOptions.find(option => option.value === this.magicClass) : null
-    this.physics = this.physics ? this.physiqueOptions.find(option => option.value === this.physics) : null
+      .then(() => {
+        if (this.avatar) {
+          this.loadedAvatarUrl = 'https://playlabirint.ru/' + this.avatar
+          this.avatar = ''
+        }
+        this.isPrivate = this.private
+        this.magicClass = this.magicClass ? this.classOptions.find(option => option.value === this.magicClass) : null
+        this.physics = this.physics ? this.physiqueOptions.find(option => option.value === this.physics) : null
+      })
   },
 
   computed: {
