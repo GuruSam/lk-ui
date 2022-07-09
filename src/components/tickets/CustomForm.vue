@@ -1,36 +1,41 @@
 <template>
-  <observer tag="form" ref="form">
-    <FormInput v-model="name" id="name" label="Название" rules="required">
-      <small class="form-text text-muted">
-        Укажите кратко тему заявки
-      </small>
-    </FormInput>
+  <div>
+    <DataLoader v-if="loading" />
 
-    <FormSelect v-model="character" :options="characters" track-by="id" track-label="name" label="Персонаж" placeholder="Выберите персонажа">
-      <small class="form-text text-muted">
-        Если заявка не относится к персонажу, оставьте поле пустым
-      </small>
-    </FormSelect>
+    <observer v-else tag="form" ref="form">
+      <FormInput v-model="name" id="name" label="Название" rules="required">
+        <small class="form-text text-muted">
+          Укажите кратко тему заявки
+        </small>
+      </FormInput>
 
-    <div class="form-group position-relative">
-      <label class="form-label">Суть заявки</label>
-      <validation rules="required" v-slot="{ errors }" :skipIfEmpty="false">
-        <quill-editor ref="editor" v-model="message" :disabled="submit" class="extended" />
+      <FormSelect v-model="character" :options="characters" track-by="id" track-label="name" label="Персонаж" placeholder="Выберите персонажа">
+        <small class="form-text text-muted">
+          Если заявка не относится к персонажу, оставьте поле пустым
+        </small>
+      </FormSelect>
 
-        <!-- To validate quill-editor -->
-        <input class="form-control" :class="{'is-invalid' : errors.length}" type="hidden" :value="message">
-        <div v-if="errors.length" class="invalid-tooltip">{{ errors[0] }}</div>
-      </validation>
-    </div>
+      <div class="form-group position-relative">
+        <label class="form-label">Суть заявки</label>
+        <validation rules="required" v-slot="{ errors }" :skipIfEmpty="false">
+          <quill-editor ref="editor" v-model="message" :disabled="submit" class="extended" />
 
-    <Button :loading="submit" @click.prevent="submitForm">Отправить заявку</Button>
-  </observer>
+          <!-- To validate quill-editor -->
+          <input class="form-control" :class="{'is-invalid' : errors.length}" type="hidden" :value="message">
+          <div v-if="errors.length" class="invalid-tooltip">{{ errors[0] }}</div>
+        </validation>
+      </div>
+
+      <Button :loading="submit" @click.prevent="submitForm">Отправить заявку</Button>
+    </observer>
+  </div>
 </template>
 
 <script>
 import FormInput from '@/components/form/FormInput'
 import FormSelect from '@/components/form/FormSelect'
 import Button from '@/components/Button'
+import DataLoader from '@/components/loaders/DataLoader'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import axios from 'axios'
 
@@ -41,6 +46,7 @@ export default {
     FormInput,
     FormSelect,
     Button,
+    DataLoader,
     'validation': ValidationProvider,
     'observer': ValidationObserver
   },
@@ -61,7 +67,8 @@ export default {
       characters: [],
       character: null,
       ...this.formData,
-      submit: false
+      submit: false,
+      loading: true
     }
   },
 
@@ -73,9 +80,10 @@ export default {
 
   methods: {
     async fetchCharacters () {
+      this.loading = true
       const { data } = await axios.get('/tickets/form')
       this.characters = data.characters
-      this.$emit('loaded', true)
+      this.loading = false
     },
 
     submitForm () {

@@ -4,25 +4,17 @@
 
     <div class="card mb-4" ref="formContainer">
       <div class="card-body">
-        <FormSelect v-model="category" :options="categories" track-by="id" track-label="name" label="Категория" placeholder="Выберите категорию" @input="onCategoryChange">
+        <FormSelect v-model="category" :options="categories" track-by="id" track-label="name" label="Категория" placeholder="Выберите категорию">
           <small class="form-text text-muted">
             Выберите тему заявки. Если затрудняетесь отнести свой вопрос к существующим категориям, выберите 'другое'
           </small>
         </FormSelect>
       </div>
-
-      <!-- <div class="card-body" v-if="category && category.id === 1">
-        <ProducerForm />
-      </div> -->
       
       <div class="card-body" v-if="form">
-        <DataLoader v-if="formLoading" />
-
-        <div v-show="!formLoading">
-          <KeepAlive>
-            <component :is="form" @loaded="onFormLoaded" @submit="createTicket" ref="form" />
-          </KeepAlive>
-        </div>
+        <KeepAlive>
+          <component :is="form" @submit="createTicket" ref="form" />
+        </KeepAlive>
       </div>
     </div>
   </section>
@@ -30,8 +22,6 @@
 
 <script>
 import FormSelect from '@/components/form/FormSelect'
-import DataLoader from '@/components/loaders/DataLoader'
-
 import NpcForm from '@/components/tickets/npc/NpcForm'
 import CustomForm from '@/components/tickets/CustomForm'
 import ProducerForm from '@/components/tickets/ProducerForm'
@@ -44,7 +34,6 @@ export default {
 
   components: {
     FormSelect,
-    DataLoader,
     NpcForm,
     CustomForm,
     ProducerForm
@@ -53,14 +42,6 @@ export default {
   data: () => ({
     category: null,
     categories: [],
-
-    formLoading: false,
-    formsLoaded: {},
-    formsMap: {
-      'custom': 'CustomForm',
-      'npc': 'NpcForm',
-      'producer_alias': 'ProducerForm'
-    }
   }),
 
   computed: {
@@ -69,7 +50,7 @@ export default {
     },
 
     form () {
-      return this.formsMap[this.handler] ?? null
+      return ticket.getForm(this.handler)
     }
   },
 
@@ -82,21 +63,6 @@ export default {
   },
 
   methods: {
-    onCategoryChange() {
-      if (this.formLoading && this.formsLoaded[this.handler]) {
-        this.formLoading = false
-      }
-
-      if (!this.formsLoaded[this.handler]) {
-        this.formLoading = true
-      } 
-    },
-
-    onFormLoaded () {
-      this.formsLoaded[this.handler] = true
-      this.formLoading = false
-    },
-
     createTicket (formData) {
       const data = ticket.createRequestData(formData, this.handler, this.category.id)
 

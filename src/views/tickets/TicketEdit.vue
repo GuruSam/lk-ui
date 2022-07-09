@@ -40,18 +40,6 @@ export default {
     })
   },
 
-  computed: {
-    formProps () {
-      const props = Object.assign({}, this.formOptions[this.handler])
-
-      if (Object.keys(this.formData).length) {
-        props.formData = this.formData
-      }
-
-      return props
-    }
-  },
-
   methods: {
     updateTicket (formData) {
       const data = ticket.createRequestData(formData, this.handler)
@@ -59,7 +47,7 @@ export default {
 
       axios.put(`/tickets/${ticketId}`, data)
         .then(() => this.$router.push(`/tickets/${ticketId}`))
-        .catch(() => this.$refs.form.setSubmitState(false))
+        .catch(() => this.$refs.form.setSubmit(false))
     }
   }
 }

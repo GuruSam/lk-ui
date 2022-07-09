@@ -1,37 +1,41 @@
 <template>
-  <observer tag="form" ref="form">
-    <p class="mb-2 text-warning" v-if="openedCharacters.length">
-      У вас есть неанонимные персонажи. В первую очередь создайте продюсера для них.
-    </p>
-    <FormInput v-model="username" label="Ник:" rules="required" type="text" />
-    <FormInput v-model="email" label="Почта:" rules="required|email" type="email" />
-    <FormInput v-model="birthday" label="Дата рождения:" rules="required" type="date" />
+  <div class="producer-form">
+    <loader v-if="loading" />
+    <observer v-else tag="form" ref="form">
+      <p class="mb-2 text-warning" v-if="openedCharacters.length">
+        У вас есть неанонимные персонажи. В первую очередь создайте продюсера для них.
+      </p>
+      <FormInput v-model="username" label="Ник:" rules="required" type="text" />
+      <FormInput v-model="email" label="Почта:" rules="required|email" type="email" />
+      <FormInput v-model="birthday" label="Дата рождения:" rules="required" type="date" />
 
-    <span class="d-block form-label mb-2" v-if="characters.length">Персонажи, привязанные к этому продюсеру:</span>
+      <span class="d-block form-label mb-2" v-if="characters.length">Персонажи, привязанные к этому продюсеру:</span>
 
-    <div class="character-container" :class="{'selectable' : openedCharacters.length === 0}">
-      <div 
-        class="rounded ui-bordered p-2 mb-2 prod-character"
-        v-for="character in characterList"
-        :class="{'selected' : character.selected}" 
-        :key="character.id" 
-        @click="onSelect(character.id, $event)"
-      >
-        <div class="media align-items-center">
-          <img :src="character.avatar" class="d-block ui-w-30 rounded-circle" alt="Аватар.">
-          <div class="media-body ml-2">{{ character.name }}</div>
+      <div class="character-container" :class="{'selectable' : openedCharacters.length === 0}">
+        <div 
+          class="rounded ui-bordered p-2 mb-2 prod-character"
+          v-for="character in characterList"
+          :class="{'selected' : character.selected}" 
+          :key="character.id" 
+          @click="onSelect(character.id, $event)"
+        >
+          <div class="media align-items-center">
+            <img :src="character.avatar" class="d-block ui-w-30 rounded-circle" alt="Аватар.">
+            <div class="media-body ml-2">{{ character.name }}</div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <span v-if="error" class="d-block text-danger mb-2">{{ error }}</span>
-    <Button class="mt-3" :loading="submit" @click.prevent="submitForm">Создать</Button>
-  </observer>
+      <span v-if="error" class="d-block text-danger mb-2">{{ error }}</span>
+      <Button class="mt-3" :loading="submit" @click.prevent="submitForm">Создать</Button>
+    </observer>
+  </div>
 </template>
 
 <script>
 import FormInput from '@/components/form/FormInput'
 import Button from '@/components/Button'
+import DataLoader from '@/components/loaders/DataLoader'
 import { ValidationObserver } from 'vee-validate'
 import axios from 'axios'
 
@@ -53,6 +57,7 @@ export default {
   components: { 
     FormInput,
     Button,
+    'loader': DataLoader,
     'observer': ValidationObserver
   },
 
@@ -64,18 +69,20 @@ export default {
       characters: [],
       createDefault: true,
       submit: false,
+      loading: true,
       error: null
     }
   },
 
   async created () {
+    this.loading = true
     this.characters = await this.fetchCharacters()
     this.characters.forEach(char => {
       if (this.formData.characters.find(selected => selected.id === char.id)) {
         char.selected = true
       }
     })
-    this.$emit('loaded', true)
+    this.loading = false
   },
 
   computed: {
