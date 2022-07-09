@@ -2,26 +2,26 @@
   <div class="producer-form">
     <loader v-if="loading" />
     <observer v-else tag="form" ref="form">
-      <p class="mb-2 text-warning" v-if="openedCharacters.length">
-        У вас есть неанонимные персонажи. В первую очередь создайте продюсера для них.
-      </p>
       <FormInput v-model="username" label="Ник:" rules="required" type="text" />
       <FormInput v-model="email" label="Почта:" rules="required|email" type="email" />
       <FormInput v-model="birthday" label="Дата рождения:" rules="required" type="date" />
 
       <span class="d-block form-label mb-2" v-if="characters.length">Персонажи, привязанные к этому продюсеру:</span>
 
-      <div class="character-container" :class="{'selectable' : openedCharacters.length === 0}">
+      <div class="character-container selectable">
         <div 
           class="rounded ui-bordered p-2 mb-2 prod-character"
-          v-for="character in characterList"
+          v-for="character in characters"
           :class="{'selected' : character.selected}" 
           :key="character.id" 
           @click="onSelect(character.id, $event)"
         >
           <div class="media align-items-center">
             <img :src="character.avatar" class="d-block ui-w-30 rounded-circle" alt="Аватар.">
-            <div class="media-body ml-2">{{ character.name }}</div>
+            <div class="media-body ml-2">
+              {{ character.name }}
+              <span v-if="character.isAnonym" class="badge badge-secondary ml-2">Аноним</span>
+            </div>
           </div>
         </div>
       </div>
@@ -92,14 +92,6 @@ export default {
 
     openedCharacters () {
       return this.characters.filter(char => !char.isAnonym)
-    },
-
-    isSelectable () {
-      return this.openedCharacters.length > 0 ? false : true
-    },
-
-    characterList () {
-      return this.isSelectable ? this.anonymCharacters : this.openedCharacters
     }
   },
 
@@ -111,11 +103,9 @@ export default {
     },
 
     onSelect (id) {
-      if (this.isSelectable) {
-        const character = this.characters.find(char => char.id === id)
-        character.selected = character.selected ? false : true
-        this.characters = [...this.characters]
-      }
+      const character = this.characters.find(char => char.id === id)
+      character.selected = character.selected ? false : true
+      this.characters = [...this.characters]
     },
 
     async submitForm () {
@@ -123,14 +113,19 @@ export default {
       this.error = null
 
       const success = await this.$refs.form.validate()
-      const selected = this.openedCharacters.length > 0 ? this.openedCharacters : this.characters.filter(char => char.selected)
+      const selected = this.characters.filter(char => char.selected)
 
       if (!success) {
         return this.setSubmit(false)
       }
-
-      if (this.anonymCharacters.length && !selected.length) {
+      if (this.characters.length && !selected.length) {
         this.error = 'Нужно выбрать хотя бы одного персонажа'
+        return this.setSubmit(false)
+      }
+
+      const notAllSelected = this.openedCharacters.some(char => !selected.includes(char))
+      if (notAllSelected) {
+        this.error = 'Вы выбрали не всех неанонимных персонажей. Все ваши неанонимные персонажи должны быть привязаны к одному продюсеру.'
         return this.setSubmit(false)
       }
 
