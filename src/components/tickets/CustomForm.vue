@@ -9,7 +9,7 @@
         </small>
       </FormInput>
 
-      <FormSelect v-model="character" :options="characters" track-by="id" track-label="name" label="Персонаж" placeholder="Выберите персонажа">
+      <FormSelect v-model="character" :options="characters" track-by="id" track-label="name" label="Персонаж" placeholder="Выберите персонажа" show-image>
         <small class="form-text text-muted">
           Если заявка не относится к персонажу, оставьте поле пустым
         </small>

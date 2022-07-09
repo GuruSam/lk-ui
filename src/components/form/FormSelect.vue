@@ -10,8 +10,19 @@
         :placeholder="placeholder"
         :value="value"
         :searchable="searchable"
+        select-label=""
+        selected-label="Выбрано"
+        deselect-label="Нажмите, чтобы отменить"
         @input="$emit('input', $event)"
-      ></multiselect>
+      >
+        <template slot="option" slot-scope="props">
+          <div class="option__desc">
+            <img v-if="showImage && props.option.avatar" class="option__image ui-w-30 rounded-circle mr-2" :src="props.option.avatar" :alt="props.option.name">
+            <span class="option__small">{{ props.option.name }}</span>
+          </div>
+        </template>
+      
+      </multiselect>
 
       <div v-if="errors.length" class="invalid-tooltip">{{ errors[0] }}</div>
       <slot></slot>
@@ -52,6 +63,10 @@ export default {
     rules: {
       type: String,
       default: ''
+    },
+    showImage: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -61,3 +76,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.multiselect__option.multiselect__option--highlight::after {
+  font-size: 12px;
+}
+</style>
