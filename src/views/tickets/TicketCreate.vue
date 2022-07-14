@@ -1,6 +1,6 @@
 <template>
   <section class="container-fluid">
-    <h1 class="font-weight-bold py-3 mb-4 h4">Создать заявку</h1>
+    <page-title class="mb-0" title="Создать заявку" />
 
     <div class="card mb-4" ref="formContainer">
       <div class="card-body">
@@ -25,6 +25,7 @@ import FormSelect from '@/components/form/FormSelect'
 import NpcForm from '@/components/tickets/npc/NpcForm'
 import CustomForm from '@/components/tickets/CustomForm'
 import ProducerForm from '@/components/tickets/ProducerForm'
+import PageTitle from '@/components/PageTitle'
 
 import { ticketService as ticket } from '@/services/ticket'
 import axios from 'axios'
@@ -36,7 +37,8 @@ export default {
     FormSelect,
     NpcForm,
     CustomForm,
-    ProducerForm
+    ProducerForm,
+    'page-title': PageTitle
   },
 
   data: () => ({

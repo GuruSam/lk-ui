@@ -2,10 +2,13 @@
   <div class="container-fluid">
     <page-title class="mb-0" title="Мои продюсеры" />
 
-    <div class="alert alert-custom producer-info" role="alert">
+    <div class="alert alert-custom producer-info d-flex justify-content-between" role="alert">
       <p>
         Ваши аккаунты на игровом форуме <strong>playlabirint.ru/game</strong>.
       </p>
+      <router-link to="/tickets/create" class="d-block btn btn-primary rounded-pill">
+        <span class="ion ion-md-add"></span>&nbsp; Создать продюсера
+      </router-link>
     </div>
 
     <div v-if="producers.length" class="row mt-3">
