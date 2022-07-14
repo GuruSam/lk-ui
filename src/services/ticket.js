@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 class TicketService {
   constructor() {
     this.formMap = {
@@ -20,22 +18,6 @@ class TicketService {
 
     return this.formMap[handler]
   }
-  
-  /**
-   * @param {String} handler 
-   * @returns Promise
-   */
-  getFormOptions (handler) {
-    switch (handler) {
-      case 'npc':
-        return this._getNpcFormOptions()
-      case 'custom':
-        return this._getCustomFormOptions()
-
-      default:
-        return {}
-    }
-  }
 
   /**
    * @param {String} handler 
@@ -48,14 +30,10 @@ class TicketService {
 
     switch (handler) {
       case 'npc':
-        request.name = 'Заявка на NPC ' + formData.name
-        request.message = '*'
-        request.data = formData
+        request = this.createNpcRequest(formData)
         break;
       case 'producer_alias':
-        request.name = 'Заявка на создание продюсера ' + formData.username
-        request.message = '*'
-        request.data = formData
+        request = this.createProducerRequest(formData)
         break;
     
       default:
@@ -72,21 +50,27 @@ class TicketService {
     return request
   }
 
-  async _getCustomFormOptions () {
-    const { data } = await axios.get('/tickets/form')
-
+  /**
+   * @param {Object} formData 
+   * @returns 
+   */
+  createNpcRequest (formData) {
     return {
-      characters: data.characters,
-      categories: data.categories
+      name: 'Заявка на NPC ' + formData.name,
+      message: '*',
+      data: formData
     }
   }
 
-  async _getNpcFormOptions () {
-    const { data } = await axios.get('/npc/form')
-
+  /**
+   * @param {Object} formData 
+   * @returns 
+   */
+  createProducerRequest (formData) {
     return {
-      physiqueOptions: data.physics,
-      classOptions: data.magicClass
+      name: 'Заявка на создание продюсера ' + formData.username,
+      message: '*',
+      data: formData
     }
   }
 }
