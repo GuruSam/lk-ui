@@ -28,6 +28,10 @@ export default class UserService {
         if (!user.isProducer) {
           router.push('welcome')
         }
+
+        if (user.isBlocked) {
+          store.dispatch('setError', { code: null, message: 'Упс! Отказано в доступе.' })
+        }
       })
       .catch(() => {
         store.dispatch('user/removeUser')

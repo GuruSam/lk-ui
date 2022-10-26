@@ -4,6 +4,7 @@ const State = function () {
   this.avatar = null,
   this.balance = 0,
   this.isProducer = false,
+  this.isBlocked = false,
   this.ticketId = null,
   this.fetched = false
 }

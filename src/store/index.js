@@ -42,7 +42,8 @@ const actions = {
 
 const getters = {
   appLoading: state => state.appLoaded === false && state.showLoader === true,
-  hasError: state => state.appError.code || state.appError.message ? true : false
+  hasError: state => state.appError.code || state.appError.message ? true : false,
+  has404Error: state => state.appError.code == 404
 }
 
 export default new Vuex.Store({

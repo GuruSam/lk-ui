@@ -42,7 +42,7 @@ router.beforeResolve((to, from, next) => {
       })
   }
 
-  if (store.getters.hasError) {
+  if (store.getters.has404Error) {
     store.dispatch('setError', { code: null, message: null })
   }
 
