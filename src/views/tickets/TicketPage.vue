@@ -70,10 +70,10 @@
               <Date class="text-right" :value="ticket.updatedAt" />
             </div>
 
-            <div v-if="ticket.staff.name" class="list-group-item d-flex justify-content-between align-items-center">
+            <div v-if="ticket.staff" class="list-group-item d-flex justify-content-between align-items-center">
               <span class="text-muted">Исполнитель</span>
-              <div>
-                <img :src="ticket.staff.avatar" class="ui-w-20 mr-2 rounded-circle" alt="Аватар исполнителя.">
+              <div v-if="ticket.staff.name">
+                <img v-if="ticket.staff.avatar" :src="ticket.staff.avatar" class="ui-w-20 mr-2 rounded-circle" alt="Аватар исполнителя.">
                 <span>{{ ticket.staff.name }}</span>
               </div>
             </div>
