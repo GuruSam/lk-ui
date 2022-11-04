@@ -70,6 +70,14 @@
               <Date class="text-right" :value="ticket.updatedAt" />
             </div>
 
+            <div v-if="ticket.staff.name" class="list-group-item d-flex justify-content-between align-items-center">
+              <span class="text-muted">Исполнитель</span>
+              <div>
+                <img :src="ticket.staff.avatar" class="ui-w-20 mr-2 rounded-circle" alt="Аватар исполнителя.">
+                <span>{{ ticket.staff.name }}</span>
+              </div>
+            </div>
+
             <div class="list-group-item d-flex justify-content-center align-items-center text-center">
               <Button v-if="!isCompleted" :loading="submit" @click="completeTicket">Завершить</Button>
               <p v-else >Вы можете переоткрыть заявку, оставив комментарий к ней.</p>
