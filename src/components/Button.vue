@@ -1,5 +1,5 @@
 <template>
-  <button class="btn btn-primary" :disabled="loading" @click="$emit('click', $event)">
+  <button class="btn" :class="variantClass" :disabled="loading" @click="$emit('click', $event)">
     <slot></slot>
     <span v-if="loading" aria-hidden="true" class="ml-1 spinner-border" />
   </button>
@@ -10,7 +10,17 @@ export default {
   name: 'Button',
 
   props: {
-    loading: Boolean
+    loading: Boolean,
+    variant: {
+      type: String,
+      default: 'primary'
+    }
+  },
+
+  computed: {
+    variantClass () {
+      return 'btn-' + this.variant
+    }
   }
 }
 </script>
