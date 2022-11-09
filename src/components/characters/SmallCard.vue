@@ -7,9 +7,13 @@
         <div class="media-body pt-2">
           <h3 class="profile-name mb-2">{{ character.name }}</h3>
 
-          <div class="text-big character-status" :class="statusColor">{{ status }}</div>
+          <div class="text-big character-status mb-2" :class="statusColor">{{ status }}</div>
 
-          <div class="link-group">
+          <div v-if="producerEditable">
+            Продюсер: <a class="text-secondary producer-select-link" href="" @click.prevent="toggleSelect">{{ producer }}</a>
+          </div>
+
+          <div class="link-group mt-4">
             <a class="profile-link" target="_blank" :href="profileUrl">
               <span class="profile-link__icon ion ion-ios-contact mr-1"></span>
               <span v-if="!isCardShrunk" class="mr-2">Профиль</span>
@@ -32,11 +36,20 @@
         ></span>
       </footer>
     </div>
+
+    <SelectProducer 
+      v-if="showSelectProducer" 
+      :character="character" 
+      :producer="producerAlias" 
+      @hidden="toggleSelect" 
+      @submit="onProducerChange"
+    />
   </div>
 </template>
 
 <script>
 import AuthButtons from './AuthButtons'
+import SelectProducer from '@/components/modals/SelectProducer'
 import { contentService } from '@/services'
 
 export default {
@@ -45,15 +58,28 @@ export default {
     character: {
       type: Object,
       default: () => {}
+    },
+    producerEditable: {
+      type: Boolean,
+      default: false
     }
   },
   components: {
-    AuthButtons
+    AuthButtons,
+    SelectProducer
   },
 
   data: () => ({
-    cardWidth: 0
+    cardWidth: 0,
+    producerAlias: null,
+    showSelectProducer: false
   }),
+
+  created() {
+    if (this.character.producerAlias) {
+      this.producerAlias = this.character.producerAlias
+    }
+  },
 
   mounted() {
     const card = this.$refs.card
@@ -108,6 +134,10 @@ export default {
 
     profileUrl () {
       return 'https://playlabirint.ru/character/profile/' + this.character.id
+    },
+
+    producer () {
+      return this.producerAlias ? this.producerAlias.name || this.producerAlias.username : 'не выбран'
     }
   },
 
@@ -116,6 +146,14 @@ export default {
       return this.character.isFavorite 
         ? contentService.removeFromFavorites(this.character) 
         : contentService.addToFavorites(this.character)
+    },
+
+    onProducerChange (newProducer) {
+      this.producerAlias = newProducer
+    },
+
+    toggleSelect () {
+      this.showSelectProducer = !this.showSelectProducer
     }
   }
 }
@@ -163,10 +201,6 @@ export default {
 
 .profile-name {
   font-size: 150%;
-}
-
-.character-status {
-  margin-bottom: 1.5rem;
 }
 
 .profile-link {
@@ -217,6 +251,10 @@ export default {
 
 .is-favorite {
   color: #89e6f1;
+}
+
+.producer-select-link {
+  border-bottom: 1px dashed;
 }
 
 @keyframes gradient {
