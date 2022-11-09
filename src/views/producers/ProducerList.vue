@@ -4,7 +4,7 @@
 
     <div class="alert alert-custom producer-info d-flex justify-content-between" role="alert">
       <p>
-        Ваши аккаунты на игровом форуме <strong>playlabirint.ru/game</strong>.
+        Ваши аккаунты на игровом форуме <strong>playlabirint.ru/game</strong>. Все оповещения из ЛК будут приходить на аккаунт основного продюсера, выбрать которого вы можете в списке ниже.
       </p>
       <router-link to="/tickets/create" class="d-block btn btn-primary rounded-pill">
         <span class="ion ion-md-add"></span>&nbsp; Создать продюсера
@@ -12,7 +12,7 @@
     </div>
 
     <div v-if="producers.length" class="row mt-3">
-      <producer v-for="prod in producers" :key="prod.id" :producer="prod" />
+      <producer v-for="prod in producers" :key="prod.id" :producer="prod" @switched-to-main="onProducerUpdate" />
     </div>
   </div>
 </template>
@@ -40,6 +40,18 @@ export default {
     next(vm => {
       vm.producers = data.items
     })
+  },
+  
+  methods: {
+    onProducerUpdate (producer) {
+      const prevProd = this.producers.find(prod => prod.isMain)
+
+      if (prevProd) {
+        prevProd.isMain = false
+      }
+
+      producer.isMain = true
+    }
   }
 }
 </script>
