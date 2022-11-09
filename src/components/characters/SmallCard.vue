@@ -9,7 +9,7 @@
 
           <div class="text-big character-status mb-2" :class="statusColor">{{ status }}</div>
 
-          <div>
+          <div v-if="producerEditable">
             Продюсер: <a class="text-secondary producer-select-link" href="" @click.prevent="toggleSelect">{{ producer }}</a>
           </div>
 
@@ -58,6 +58,10 @@ export default {
     character: {
       type: Object,
       default: () => {}
+    },
+    producerEditable: {
+      type: Boolean,
+      default: false
     }
   },
   components: {
