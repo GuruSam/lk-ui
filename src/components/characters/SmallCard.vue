@@ -40,7 +40,7 @@
     <SelectProducer 
       v-if="showSelectProducer" 
       :character="character" 
-      :producer="character.producerAlias" 
+      :producer="producerAlias" 
       @hidden="toggleSelect" 
       @submit="onProducerChange"
     />
@@ -67,8 +67,15 @@ export default {
 
   data: () => ({
     cardWidth: 0,
+    producerAlias: null,
     showSelectProducer: false
   }),
+
+  created() {
+    if (this.character.producerAlias) {
+      this.producerAlias = this.character.producerAlias
+    }
+  },
 
   mounted() {
     const card = this.$refs.card
@@ -126,7 +133,7 @@ export default {
     },
 
     producer () {
-      return this.character.producerAlias ? this.character.producerAlias.name : 'не выбран'
+      return this.producerAlias ? this.producerAlias.name || this.producerAlias.username : 'не выбран'
     }
   },
 
@@ -138,7 +145,7 @@ export default {
     },
 
     onProducerChange (newProducer) {
-      this.character.producerAlias = newProducer
+      this.producerAlias = newProducer
     },
 
     toggleSelect () {

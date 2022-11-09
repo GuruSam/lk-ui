@@ -71,7 +71,7 @@ export default {
     async onSubmit (evt) {
       evt.preventDefault()
 
-      if (this.newProducer) {
+      if (this.newProducer && this.newProducer.id) {
         this.busy = true
 
         const response = await axios.put(`/characters/${this.character.id}/producer`, {
@@ -80,10 +80,11 @@ export default {
 
         if (response.status === 200) {
           this.$emit('submit', this.newProducer)
+          this.$notify({ group: 'notifications', type: 'success', text: `Продюсер персонажа ${this.character.name} успешно изменён.` })
+          this.$refs.modal.hide()
         }
 
         this.busy = false
-        this.$refs.modal.hide()
       }
     },
 
