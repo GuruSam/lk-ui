@@ -84,7 +84,7 @@ export default {
     },
 
     scrollHandler () {
-      const scrolledToBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight
+      const scrolledToBottom = (window.innerHeight + window.scrollY) >= document.body.offsetHeight
 
       if (scrolledToBottom && !this.fetching && this.npcList.length < this.total) {
         this.fetchData()
