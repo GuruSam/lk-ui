@@ -138,6 +138,7 @@ export default {
   align-items: center;
   width: 40px;
   height: 40px;
+  min-width: 40px;
   font-size: 1.2rem;
   border-radius: 50%;
 }
