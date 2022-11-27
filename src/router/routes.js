@@ -24,6 +24,10 @@ import TicketEdit from '@/views/tickets/TicketEdit'
 import ProducerList from '@/views/producers/ProducerList'
 import ProducerForm from '@/components/tickets/ProducerForm'
 
+// Tasks
+import TaskList from '@/views/tasks/TaskList'
+import TaskPage from '@/views/tasks/TaskPage'
+
 export default [
   {
     path: '/',
@@ -166,5 +170,20 @@ export default [
     meta: {
       title: 'ЛК - Мои продюсеры'
     }
+  },
+
+  {
+    path: '/tasks',
+    name: 'tasks',
+    component: TaskList,
+    meta: {
+      title: 'ЛК - Список заданий'
+    }
+  },
+
+  {
+    path: '/tasks/:id',
+    name: 'task-page',
+    component: TaskPage
   },
 ]
