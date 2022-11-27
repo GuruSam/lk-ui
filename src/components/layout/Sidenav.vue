@@ -6,7 +6,9 @@
           <div class="card-body text-center user-block">
             <img :src="user.avatar" alt class="rounded-circle mt-2 mb-3 avatar">
             <h5 class="mb-2">{{ user.username }}</h5>
-            <p class="text-muted small">{{ balance }}</p>
+            <p class="text-primary small">
+              {{ balance }}
+            </p>
           </div>
           <!-- <div class="card-footer text-center p-0">
             <div class="row no-gutters row-bordered">
@@ -26,13 +28,13 @@
       <sidenav-router-link icon="ion ion-ios-mail" to="/tickets" :active="isMenuActive('/tickets')" :exact="true">Заявки</sidenav-router-link>
       <sidenav-router-link icon="ion ion-ios-contact" to="/producers" :active="isMenuActive('/producers')" :exact="true">Продюсеры</sidenav-router-link>
       <sidenav-router-link icon="ion ion-ios-contacts" to="/characters" :active="isMenuActive('/characters')" :exact="true">Персонажи</sidenav-router-link>
-      <sidenav-menu icon="ion ion-md-contacts" :open="true">
+      <sidenav-menu icon="ion ion-md-contacts">
         <template slot="link-text">NPC</template>
 
         <sidenav-router-link to="/npc/personal" :active="isMenuActive('/npc/personal')" :exact="true">Личные</sidenav-router-link>
         <sidenav-router-link to="/npc/general" :active="isMenuActive('/npc/general')" :exact="true">Общие</sidenav-router-link>
       </sidenav-menu>
-      <sidenav-router-link icon="ion ion-ios-list-box" to="/tasks" :active="isMenuActive('/tasks')" :exact="true" :disabled="true">Задания</sidenav-router-link>
+      <sidenav-router-link icon="ion ion-ios-list-box" to="/tasks" :active="isMenuActive('/tasks')" :exact="true">Задания</sidenav-router-link>
       <sidenav-router-link icon="ion ion-logo-freebsd-devil" to="/pets-constructor" :active="isMenuActive('/pets-constructor')" :exact="true" :disabled="true">Конструктор существ</sidenav-router-link>
     </div>
   </sidenav>
