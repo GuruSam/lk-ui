@@ -61,6 +61,10 @@ export default {
 
     next(vm => {
       vm.categories = data.categories
+
+      if (to.query.category) {
+        vm.category = data.categories.find(cat => cat.id == to.query.category)
+      }
     })
   },
 
