@@ -6,7 +6,7 @@
       <p>
         Ваши аккаунты на игровом форуме <strong>playlabirint.ru/game</strong>. Все оповещения из ЛК будут приходить на аккаунт основного продюсера, выбрать которого вы можете в списке ниже.
       </p>
-      <router-link to="/tickets/create" class="d-block btn btn-primary rounded-pill">
+      <router-link to="/tickets/create?category=17" class="d-block btn btn-primary rounded-pill">
         <span class="ion ion-md-add"></span>&nbsp; Создать продюсера
       </router-link>
     </div>

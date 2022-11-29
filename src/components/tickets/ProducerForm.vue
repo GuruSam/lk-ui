@@ -3,8 +3,16 @@
     <loader v-if="loading" />
     <observer v-else tag="form" ref="form">
       <FormInput v-model="username" label="Ник:" rules="required" type="text" />
-      <FormInput v-model="email" label="Почта:" rules="required|email" type="email" />
-      <FormInput v-model="birthday" label="Дата рождения:" rules="required" type="date" />
+      <FormInput v-model="email" label="Почта:" rules="required|email" type="email">
+        <small class="form-text text-muted">
+          Должна быть уникальной и не повторяться с персонажами.
+        </small>
+      </FormInput>
+      <FormInput v-model="birthday" label="Дата рождения:" rules="required" type="date">
+        <small class="form-text text-muted">
+          Любая удобная для вас дата, требуется для регистрации аккаунта.
+        </small>
+      </FormInput>
 
       <span class="d-block form-label mb-2" v-if="characters.length">Персонажи, привязанные к этому продюсеру:</span>
 
