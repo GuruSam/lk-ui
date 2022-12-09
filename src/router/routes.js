@@ -33,16 +33,6 @@ export default [
     path: '/',
     redirect: '/dashboard'
   },
-  
-  {
-    path: '*',
-    name: 'not-found',
-    component: ErrorScreen,
-    props: {
-      code: '404',
-      error: 'Страница не найдена'
-    }
-  },
 
   {
     path: '/dashboard',
@@ -185,5 +175,15 @@ export default [
     path: '/tasks/:id',
     name: 'task-page',
     component: TaskPage
+  },
+
+  {
+    path: '*',
+    name: 'not-found',
+    component: ErrorScreen,
+    props: {
+      code: '404',
+      error: 'Страница не найдена'
+    }
   },
 ]
