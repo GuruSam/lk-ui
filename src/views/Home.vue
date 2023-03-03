@@ -35,7 +35,7 @@
             <div class="col mt-2"><h3>Избранные персонажи</h3></div>
           </div>
           <div class="row">
-            <character v-for="char in characters.favorites" :key="char.id" :character="char" />
+            <character v-for="char in characters.favorites" :key="char.id" :character="char" @unfavorite="removeFromFavorites" />
           </div>
         </div>
       </div>
@@ -100,6 +100,10 @@ export default {
       this.tasks = tasks
       this.characters = characters
       this.npc = npc
+    },
+
+    removeFromFavorites (id) {
+      this.characters.favorites = this.characters.favorites.filter(char => char.id !== id)
     }
   }
 }

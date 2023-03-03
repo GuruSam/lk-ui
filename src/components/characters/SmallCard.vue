@@ -50,7 +50,7 @@
 <script>
 import AuthButtons from './AuthButtons'
 import SelectProducer from '@/components/modals/SelectProducer'
-import { contentService } from '@/services'
+import axios from 'axios'
 
 export default {
   name: 'small-card',
@@ -144,8 +144,25 @@ export default {
   methods: {
     onFavoriteClick () {
       return this.character.isFavorite 
-        ? contentService.removeFromFavorites(this.character) 
-        : contentService.addToFavorites(this.character)
+        ? this.removeFromFavorites(this.character) 
+        : this.addToFavorites(this.character)
+    },
+
+    removeFromFavorites () {
+      axios.delete(`/characters/${this.character.id}/favorite`)
+        .then(() => {
+          this.character.isFavorite = false
+          this.$notify({ group: 'notifications', type: 'success', text: `${this.character.name} удален(а) из избранных` })
+          this.$emit('unfavorite', this.character.id)
+        })
+    },
+
+    addToFavorites () {
+      axios.post(`/characters/${this.character.id}/favorite`)
+        .then(() => {
+          this.character.isFavorite = true
+          this.$notify({ group: 'notifications', type: 'success', text: `${this.character.name} добавлен(а) в избранные` })
+        })
     },
 
     onProducerChange (newProducer) {
