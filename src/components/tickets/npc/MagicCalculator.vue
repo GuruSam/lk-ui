@@ -205,11 +205,17 @@ export default {
       return {
         lvl: this.ordinar,
         levelPoints: this.levelPoints,
-        skills: this.skills.map(skill => ({ 
-          id: skill.data.id, 
-          lvl: skill.lvl 
-        }))
+        skills: this.getSkills()
       }
+    },
+
+    getSkills () {
+      const skills = this.skills.map(skill => ({ 
+        id: skill.data ? skill.data.id : null, 
+        lvl: skill.lvl 
+      }))
+
+      return skills.filter(skill => skill.id)
     },
 
     setMagic () {
