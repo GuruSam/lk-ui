@@ -4,10 +4,10 @@
       <div class="card-header task-header">{{ task.project.name }}</div>
       <div class="card-body">
         <router-link :to="'/tasks/' + task.id" class="text-white">
-          <h4 class="card-title lead">{{ task.name }}</h4>
+          <h4 class="card-title text-primary lead">{{ task.name }}</h4>
         </router-link>
 
-        <div class="card-subtitle text-primary mb-4 mt-3">
+        <div class="card-subtitle text-secondary mb-4 mt-3">
           <small class="mr-3 task-details">
             <span class="task-details__icon">ሌ</span>
             {{ reward }}
