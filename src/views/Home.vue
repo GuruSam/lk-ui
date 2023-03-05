@@ -34,9 +34,9 @@
           <div class="row">
             <div class="col mt-2"><h3>Избранные персонажи</h3></div>
           </div>
-          <div class="row">
+          <TransitionGroup name="fade" tag="div" class="row">
             <character v-for="char in characters.favorites" :key="char.id" :character="char" @unfavorite="removeFromFavorites" />
-          </div>
+          </TransitionGroup>
         </div>
       </div>
       <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
