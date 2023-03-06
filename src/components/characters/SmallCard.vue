@@ -30,11 +30,7 @@
 
       <footer class="card-footer py-3">
         <AuthButtons :character="character" />
-        <span v-if="favorable" class="ion favorite-icon" 
-          :class="character.isFavorite ? 'ion-md-star is-favorite' : 'ion-md-star-outline'"
-          :title="character.isFavorite ? 'Удалить из избранных' : 'Добавить в избранные'"
-          @click="onFavoriteClick"
-        ></span>
+        <FavoriteButton :character="character" :api-call="apiCall" @toggle="onFavoriteClick" />
       </footer>
     </div>
 
@@ -51,7 +47,7 @@
 <script>
 import AuthButtons from './AuthButtons'
 import SelectProducer from '@/components/modals/SelectProducer'
-import axios from 'axios'
+import FavoriteButton from './FavoriteButton'
 
 export default {
   name: 'small-card',
@@ -75,7 +71,8 @@ export default {
   },
   components: {
     AuthButtons,
-    SelectProducer
+    SelectProducer,
+    FavoriteButton
   },
 
   data: () => ({
@@ -159,27 +156,13 @@ export default {
   },
 
   methods: {
-    onFavoriteClick () {
-      return this.character.isFavorite 
-        ? this.removeFromFavorites(this.character) 
-        : this.addToFavorites(this.character)
-    },
-
-    removeFromFavorites () {
-      axios.delete(`/${this.apiCall}/${this.character.id}/favorite`)
-        .then(() => {
-          this.character.isFavorite = false
-          this.$notify({ group: 'notifications', type: 'success', text: `${this.character.name} удален(а) из избранных` })
-          this.$emit('unfavorite', this.character.id)
-        })
-    },
-
-    addToFavorites () {
-      axios.post(`/${this.apiCall}/${this.character.id}/favorite`)
-        .then(() => {
-          this.character.isFavorite = true
-          this.$notify({ group: 'notifications', type: 'success', text: `${this.character.name} добавлен(а) в избранные` })
-        })
+    onFavoriteClick (character) {
+      if (character.isFavorite) {
+        this.$notify({ group: 'notifications', type: 'success', text: `${this.character.name} добавлен(а) в избранные` })
+      } else {
+        this.$notify({ group: 'notifications', type: 'success', text: `${this.character.name} удален(а) из избранных` })
+        this.$emit('unfavorite', this.character.id)
+      }
     },
 
     onProducerChange (newProducer) {
