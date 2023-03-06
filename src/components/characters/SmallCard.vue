@@ -1,15 +1,16 @@
 <template>
   <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-4">
-    <div class="card card-bordered profile-card" :class="{'character-card--shrink' : isCardShrunk}" ref="card">
+    <div class="card card-bordered profile-card" :class="{'profile-card--shrink' : isCardShrunk, 'profile-card-gradient' : gradient}" ref="card">
       <div class="card-body media">
         <img class="profile-avatar" width="100" height="100" alt="Аватар персонажа." :src="character.avatar" />
 
         <div class="media-body pt-2">
           <h3 class="profile-name mb-2">{{ character.name }}</h3>
 
-          <div class="text-big character-status mb-2" :class="statusColor">{{ status }}</div>
+          <div v-if="character.role" class="character-role">{{ character.role }}</div>
+          <div v-else-if="character.status !== undefined" class="character-status mb-2" :class="statusColor">{{ status }}</div>
 
-          <div v-if="producerEditable">
+          <div v-if="producerEditable && !isNPC">
             Продюсер: <a class="text-secondary producer-select-link" href="" @click.prevent="toggleSelect">{{ producer }}</a>
           </div>
 
@@ -29,7 +30,7 @@
 
       <footer class="card-footer py-3">
         <AuthButtons :character="character" />
-        <span class="ion favorite-icon" 
+        <span v-if="favorable" class="ion favorite-icon" 
           :class="character.isFavorite ? 'ion-md-star is-favorite' : 'ion-md-star-outline'"
           :title="character.isFavorite ? 'Удалить из избранных' : 'Добавить в избранные'"
           @click="onFavoriteClick"
@@ -60,6 +61,14 @@ export default {
       default: () => {}
     },
     producerEditable: {
+      type: Boolean,
+      default: false
+    },
+    gradient: {
+      type: Boolean,
+      default: false
+    },
+    favorable: {
       type: Boolean,
       default: false
     }
@@ -98,6 +107,10 @@ export default {
   },
 
   computed: {
+    isNPC () {
+      return this.character.status === undefined
+    },
+
     status () {
       switch (this.character.status) {
         case 0:
@@ -133,7 +146,11 @@ export default {
     },
 
     profileUrl () {
-      return 'https://playlabirint.ru/character/profile/' + this.character.id
+      return this.isNPC ? `https://playlabirint.ru/npc/view/${this.character.id}` : `https://playlabirint.ru/character/profile/${this.character.id}`
+    },
+
+    apiCall () {
+      return this.isNPC ? 'npc' : 'characters'
     },
 
     producer () {
@@ -149,7 +166,7 @@ export default {
     },
 
     removeFromFavorites () {
-      axios.delete(`/characters/${this.character.id}/favorite`)
+      axios.delete(`/${this.apiCall}/${this.character.id}/favorite`)
         .then(() => {
           this.character.isFavorite = false
           this.$notify({ group: 'notifications', type: 'success', text: `${this.character.name} удален(а) из избранных` })
@@ -158,7 +175,7 @@ export default {
     },
 
     addToFavorites () {
-      axios.post(`/characters/${this.character.id}/favorite`)
+      axios.post(`/${this.apiCall}/${this.character.id}/favorite`)
         .then(() => {
           this.character.isFavorite = true
           this.$notify({ group: 'notifications', type: 'success', text: `${this.character.name} добавлен(а) в избранные` })
@@ -179,9 +196,6 @@ export default {
 <style lang="scss">
 .profile-card {
   margin-bottom: 1.5rem;
-  background: linear-gradient(-45deg, #111a1a, #081212, #03252a, #050d0e);
-  background-size: 400% 400%;
-  animation: gradient 8s ease infinite;
 
   &--shrink {
     .card-body {
@@ -193,8 +207,13 @@ export default {
       height: 80px;
     }
 
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
+    }
+
     .profile-name {
-      font-size: 130%;
+      font-size: 120%;
     }
 
     .profile-link--bordered {
@@ -216,8 +235,24 @@ export default {
   }
 }
 
+.profile-card-gradient {
+  background: linear-gradient(-45deg, #111a1a, #081212, #03252a, #050d0e);
+  background-size: 400% 400%;
+  animation: gradient 8s ease infinite;
+}
+
 .profile-name {
-  font-size: 150%;
+  font-size: 130%;
+}
+
+.character-status {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.character-role {
+  font-size: 1rem;
+  color: #4b939f;
 }
 
 .profile-link {

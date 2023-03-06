@@ -7,7 +7,7 @@
     </page-title>
 
     <div class="row mt-3">
-      <character v-for="character in npcList" :key="character.id" :character="character" />
+      <character v-for="character in npcList" :key="character.id" :character="character" favorable />
       <span v-if="npcList.length === 0 && !fetching" class="text-muted">Персонажи не найдены.</span>
     </div>
 
@@ -17,7 +17,7 @@
 
 <script>
 import PageTitle from '@/components/PageTitle'
-import SmallCard from '@/components/npc/SmallCard'
+import SmallCard from '@/components/characters/SmallCard'
 import DataLoader from '@/components/loaders/DataLoader'
 import axios from 'axios'
 
@@ -37,11 +37,11 @@ export default {
   }),
   
   async beforeRouteEnter (to, from, next) {
-    const params = { limit: 12, offset: 0 }
+    const params = { limit: 12, offset: 13 }
     const { data } = await axios.get('/npc/personal', { params })
 
     next(vm => {
-      vm.npcList = [...data.characters, ...data.items],
+      vm.npcList = vm.npcList.concat(data.characters, data.items),
       vm.total = data.total
     })
   },
@@ -64,7 +64,7 @@ export default {
       }
       const { data } = await axios.get('/npc/personal', { params })
 
-      this.npcList = [...this.npcList, ...data.items]
+      this.npcList = this.npcList.concat(data.characters, data.items)
       this.total = data.total
       this.fetching = false
     },

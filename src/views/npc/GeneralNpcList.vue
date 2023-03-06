@@ -25,7 +25,7 @@
 
 <script>
 import PageTitle from '@/components/PageTitle'
-import SmallCard from '@/components/npc/SmallCard'
+import SmallCard from '@/components/characters/SmallCard'
 import DataLoader from '@/components/loaders/DataLoader'
 import axios from 'axios'
 

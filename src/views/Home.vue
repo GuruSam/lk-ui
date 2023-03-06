@@ -35,7 +35,7 @@
             <div class="col mt-2"><h3>Избранные персонажи</h3></div>
           </div>
           <TransitionGroup name="fade" tag="div" class="row">
-            <character v-for="char in characters.favorites" :key="char.id" :character="char" @unfavorite="removeFromFavorites" />
+            <character v-for="char in favoriteCharacters" :key="char.id" :character="char" gradient favorable @unfavorite="removeFromFavorites" />
           </TransitionGroup>
         </div>
       </div>
@@ -90,6 +90,10 @@ export default {
 
     activeTasks () {
       return declOfNum(this.tasks.total, ['задание', 'задания', 'заданий']) + ' в процессе'
+    },
+
+    favoriteCharacters () {
+      return this.characters.favorites.concat(this.npc.favorites)
     }
   },
   methods: {
@@ -104,6 +108,7 @@ export default {
 
     removeFromFavorites (id) {
       this.characters.favorites = this.characters.favorites.filter(char => char.id !== id)
+      this.npc.favorites = this.npc.favorites.filter(char => char.id !== id)
     }
   }
 }
