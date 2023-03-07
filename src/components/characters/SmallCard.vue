@@ -30,7 +30,7 @@
 
       <footer class="card-footer py-3">
         <AuthButtons :character="character" />
-        <FavoriteButton :character="character" :api-call="apiCall" @toggle="onFavoriteClick" />
+        <FavoriteButton v-if="favorable" :character="character" :api-call="apiCall" @toggle="onFavoriteClick" />
       </footer>
     </div>
 

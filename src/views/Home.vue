@@ -30,7 +30,7 @@
             />
           </div>
         </div>
-        <div v-if="characters.favorites && characters.favorites.length">
+        <div v-if="favoriteCharacters.length">
           <div class="row">
             <div class="col mt-2"><h3>Избранные персонажи</h3></div>
           </div>
@@ -71,8 +71,12 @@ export default {
   data: () => ({
     tickets: {},
     tasks: {},
-    characters: {},
-    npc: {}
+    characters: {
+      favorites: []
+    },
+    npc: {
+      favorites: []
+    }
   }),
   beforeRouteEnter (to, from, next) {
     contentService.getDashboardInfo()
@@ -93,7 +97,7 @@ export default {
     },
 
     favoriteCharacters () {
-      return this.characters.favorites.concat(this.npc.favorites)
+      return [...this.characters.favorites, ...this.npc.favorites]
     }
   },
   methods: {
