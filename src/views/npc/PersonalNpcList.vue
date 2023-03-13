@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
-    <page-title title="Список личных NPC">
-      <router-link to="/tickets/create" class="d-block btn btn-primary rounded-pill">
+    <page-title title="Список личных NPC" sub-title="NPC, доступ к которым есть только у вас">
+      <router-link to="/tickets/create?category=14" class="d-block btn btn-primary rounded-pill">
         <span class="ion ion-md-add"></span>&nbsp; Создать нового NPC
       </router-link>
     </page-title>
@@ -35,7 +35,7 @@ export default {
     limit: 12,
     total: null
   }),
-  
+
   async beforeRouteEnter (to, from, next) {
     const params = { limit: 12, offset: 13 }
     const { data } = await axios.get('/npc/personal', { params })
@@ -58,8 +58,8 @@ export default {
     async fetchData () {
       this.fetching = true
 
-      const params = { 
-        limit: this.limit, 
+      const params = {
+        limit: this.limit,
         offset: this.npcList.length
       }
       const { data } = await axios.get('/npc/personal', { params })

@@ -82,7 +82,7 @@ export default {
       this.showDropdown = false
 
       if (this.producer.isMain) return
-  
+
       this.busy = true
       const response = await axios.post(`/producers/${this.producer.id}/main`)
 

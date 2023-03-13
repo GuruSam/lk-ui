@@ -1,22 +1,25 @@
 <template>
   <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-4">
-    <div class="card task-card mb-4">
-      <div class="card-header task-header">{{ task.project.name }}</div>
+    <div class="card task-card card-bordered mb-4">
+      <div class="card-header task-header">
+        <span class="ion ion-md-pricetag task-details__icon mr-1"></span>
+        {{ task.project.name }}
+      </div>
       <div class="card-body">
         <router-link :to="'/tasks/' + task.id" class="text-white">
-          <h4 class="card-title text-primary lead">{{ task.name }}</h4>
+          <h4 class="card-title task-name">{{ task.name }}</h4>
         </router-link>
 
-        <div class="card-subtitle text-secondary mb-4 mt-3">
-          <small class="mr-3 task-details">
+        <div class="card-subtitle text-secondary mb-4 mt-1">
+          <small class="mr-3 task-details badge badge-primary mt-2">
             <span class="task-details__icon">ሌ</span>
             {{ reward }}
           </small>
-          <small class="mr-3 task-details">
+          <small class="mr-3 task-details badge badge-primary mt-2">
             <span class="ion ion-md-calendar task-details__icon mr-1"></span>
             {{ date }}
           </small>
-          <small class="mr-3 task-details">
+          <small class="mr-3 task-details badge badge-primary mt-2">
             <span class="ion ion-md-sync task-details__icon mr-1"></span>
             {{ task.type.name }}
           </small>
@@ -25,7 +28,7 @@
         <p class="card-text">
           {{ description }}
         </p>
-        <router-link :to="'/tasks/' + task.id" class="ml-1">Подробнее</router-link>
+        <router-link :to="'/tasks/' + task.id" class="ml-1 float-right btn btn-sm text-primary">Подробнее</router-link>
       </div>
     </div>
   </div>
@@ -71,8 +74,8 @@ export default {
       el.innerHTML = this.task.description
       const description = el.textContent
 
-      return description.length > 103 
-        ? description.slice(0, 100) + '...' 
+      return description.length > 103
+        ? description.slice(0, 100) + '...'
         : description
     }
   }
@@ -99,5 +102,9 @@ export default {
 
 .task-details__icon {
   font-size: 0.9rem;
+}
+
+.task-name {
+  font-size: 1.1rem;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <h1 class="font-weight-bold py-3 mb-4 h2">Главная</h1>
+    <page-title class="mb-0" title="Главная"></page-title>
     <div class="alert alert-custom" role="alert">
       <img class="warning-icon" src="/images/warning-sign-sm.png" alt="Знак предупреждения." width="60" height="52">
       <p>
@@ -12,8 +12,8 @@
       <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
         <div class="row">
           <div class="col">
-            <info-table 
-              type="tickets" 
+            <info-table
+              type="tickets"
               title="Активные заявки"
               empty="Активных заявок нет"
               :data="tickets.items"
@@ -22,11 +22,11 @@
         </div>
         <div class="row">
           <div class="col">
-            <info-table 
+            <info-table
               type="tasks"
-              title="Задания в процессе" 
+              title="Задания в процессе"
               empty="Активных заданий нет"
-              :data="tasks.items" 
+              :data="tasks.items"
             />
           </div>
         </div>
@@ -35,7 +35,7 @@
             <div class="col mt-2"><h3>Избранные персонажи</h3></div>
           </div>
           <TransitionGroup name="fade" tag="div" class="row">
-            <character v-for="char in favoriteCharacters" :key="char.id" :character="char" gradient favorable @unfavorite="removeFromFavorites" />
+            <character v-for="char in favoriteCharacters" :key="char.id" :character="char" gradient favorable simple @unfavorite="removeFromFavorites" />
           </TransitionGroup>
         </div>
       </div>
@@ -57,6 +57,7 @@ import InfoCard from '@/components/dashboard/InfoCard'
 import SmallCard from '@/components/characters/SmallCard'
 import { contentService } from '@/services'
 import { declOfNum } from '@/helpers.js'
+import PageTitle from '@/components/PageTitle'
 
 export default {
   name: 'Home',
@@ -66,7 +67,8 @@ export default {
   components: {
     'info-table': InfoTable,
     'info-card': InfoCard,
-    'character': SmallCard
+    'character': SmallCard,
+    'page-title': PageTitle,
   },
   data: () => ({
     tickets: {},
@@ -85,7 +87,7 @@ export default {
   },
   computed: {
     charactersInGame () {
-      return declOfNum(this.characters.total, ['персонаж', 'персонажа', 'персонажей']) + ' в игре' 
+      return declOfNum(this.characters.total, ['персонаж', 'персонажа', 'персонажей']) + ' в игре'
     },
 
     ticketsPending () {

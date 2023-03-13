@@ -7,7 +7,7 @@
         <div class="media-body pt-2">
           <h3 class="profile-name mb-2">{{ character.name }}</h3>
 
-          <div v-if="character.role" class="character-role">{{ character.role }}</div>
+          <div v-if="character.role" class="character-role"><span v-if="simple" class="text-success">NPC</span><span v-else>{{ character.role }}</span></div>
           <div v-else-if="character.status !== undefined" class="character-status mb-2" :class="statusColor">{{ status }}</div>
 
           <div v-if="producerEditable && !isNPC">
@@ -34,11 +34,11 @@
       </footer>
     </div>
 
-    <SelectProducer 
-      v-if="showSelectProducer" 
-      :character="character" 
-      :producer="producerAlias" 
-      @hidden="toggleSelect" 
+    <SelectProducer
+      v-if="showSelectProducer"
+      :character="character"
+      :producer="producerAlias"
+      @hidden="toggleSelect"
       @submit="onProducerChange"
     />
   </div>
@@ -65,6 +65,10 @@ export default {
       default: false
     },
     favorable: {
+      type: Boolean,
+      default: false
+    },
+    simple: {
       type: Boolean,
       default: false
     }
@@ -112,7 +116,7 @@ export default {
       switch (this.character.status) {
         case 0:
           return 'Вне игры'
-        case 1: 
+        case 1:
           return 'В игре'
         case 2:
           return 'Недоступен'
@@ -125,7 +129,7 @@ export default {
       switch (this.character.status) {
         case 0:
           return 'text-danger'
-        case 1: 
+        case 1:
           return 'text-success'
         case 2:
           return 'text-warning'

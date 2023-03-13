@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <page-title title="Список общих NPC">
+    <page-title title="Список общих NPC" sub-title="NPC, доступ к которым есть у всех игроков">
       <div class="row justify-content-end px-3">
         <label class="npc-filter mr-3">
           <span class="mr-2">Имя:</span>
@@ -47,7 +47,7 @@ export default {
     filterByRole: null,
     filterDebounce: null
   }),
-  
+
   async beforeRouteEnter (to, from, next) {
     const params = { limit: 12, offset: 0 }
     const { data } = await axios.get('/npc/general', { params })
@@ -70,8 +70,8 @@ export default {
     async fetchData () {
       this.fetching = true
 
-      const params = { 
-        limit: this.limit, 
+      const params = {
+        limit: this.limit,
         offset: this.npcList.length,
         name: this.filterByName,
         role: this.filterByRole

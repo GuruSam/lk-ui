@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <page-title class="mb-0" title="Мои персонажи" />
+    <page-title class="mb-0" title="Персонажи" sub-title="Ваши игровые персонажи" />
 
     <div v-if="active.length" class="row mt-3">
       <character v-for="character in active" :key="character.id" :character="character" producer-editable gradient favorable />

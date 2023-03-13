@@ -4,7 +4,7 @@
 
     <ol class="breadcrumb font-weight-bold h4 py-3 mb-4">
       <li class="breadcrumb-item">
-        <router-link to="/tasks">Список заданий</router-link>
+        <router-link to="/tasks">Задания</router-link>
       </li>
 
       <li class="breadcrumb-item active">
@@ -49,7 +49,7 @@
 
             <div class="list-group-item d-flex justify-content-between align-items-center">
               <span class="text-muted">Награда</span>
-              <span class="text-primary">ሌ {{ reward }}</span>
+              <span>ሌ {{ reward }}</span>
             </div>
 
             <div class="list-group-item d-flex justify-content-between align-items-center">
@@ -68,7 +68,7 @@
             </div>
 
             <div v-if="task.skills.length" class="list-group-item d-flex flex-column justify-content-between align-items-center">
-              <span class="text-muted mb-2">Требования к исполнителю</span>
+              <span class="mb-2">Требования к исполнителю</span>
               <div class="text-center">
                 <span v-for="skill in task.skills" :key="skill" class="badge badge-primary mr-2">{{ skill }}</span>
               </div>

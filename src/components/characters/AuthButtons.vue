@@ -19,7 +19,7 @@
 
     <button class="btn btn-sm rounded-pill" :class="{'btn-success' : pwdCopied}" @click="copyPassword">
       <i class="ion mr-1" :class="pwdCopied ? 'ion-md-checkmark' : 'ion-md-copy'"></i>
-      {{ pwdCopied ? 'Пароль скопирован' : 'Скопировать пароль' }}
+      {{ pwdCopied ? 'Пароль скопирован' : 'Копировать пароль' }}
     </button>
   </div>
 </template>
@@ -51,7 +51,7 @@ export default {
     },
     copyPassword (evt) {
       evt.preventDefault()
-      
+
       navigator.clipboard.writeText(this.character.password)
         .then(() => {
           this.pwdCopied = true

@@ -1,8 +1,8 @@
 <template>
-  <div class="page-title py-3">
+  <div class="page-title py-2">
     <div v-if="title" class="heading">
       <h1 class="h3 m-0 font-weight-light">{{ title }}</h1>
-      <span v-if="subTitle" class="text-muted font-weight-light h4">{{ subTitle }}</span>
+      <span v-if="subTitle" class="text-muted">{{ subTitle }}</span>
     </div>
 
     <slot></slot>

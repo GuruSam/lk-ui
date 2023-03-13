@@ -1,10 +1,6 @@
 <template>
   <div class="container-fluid">
-    <PageTitle class="mb-0" title="Список заданий" />
-
-    <div class="alert alert-custom producer-info d-flex justify-content-between" role="alert">
-      <p>Выполняйте задания и получайте лабрики, а затем покупайте на них редкие артефакты в Лабсторе. </p>
-    </div>
+    <PageTitle title="Задания" sub-title="Задания за игровую валюту." />
 
     <div class="row">
       <TaskCard v-for="task in tasks" :key="task.id" :task="task" />

@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <PageTitle title="Заявки" sub-title="Связь с организаторами">
+    <PageTitle title="Заявки" sub-title="Обратная связь с организаторами игры">
       <router-link class="d-block btn btn-primary rounded-pill" to="/tickets/create">
         <span class="ion ion-md-add"></span>&nbsp; Создать заявку
       </router-link>
@@ -11,11 +11,11 @@
     <b-tabs no-fade class="nav-tabs-top mb-4" active-nav-item-class="tabs-border" @activate-tab="applyType">
       <b-tab title="Активные" :active="filter.type === 'active'"></b-tab>
       <b-tab title="Завершенные" :active="filter.type === 'completed'"></b-tab>
-      <TicketsTable 
-        :busy="busy" 
-        :tickets="tickets" 
+      <TicketsTable
+        :busy="busy"
+        :tickets="tickets"
         :total="total"
-        @pagination="fetchData" 
+        @pagination="fetchData"
       />
     </b-tabs>
   </div>
