@@ -35,6 +35,9 @@ module.exports = {
       })
   },
   devServer: {
-    port: 18003
+    port: 18003,
+    allowedHosts: [
+      '.playlabirint.local'
+    ]
   }
 }
