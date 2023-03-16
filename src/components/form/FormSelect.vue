@@ -18,7 +18,7 @@
         <template slot="option" slot-scope="props">
           <div class="option__desc">
             <img v-if="showImage && props.option.avatar" class="option__image ui-w-30 rounded-circle mr-2" :src="props.option.avatar" :alt="props.option[trackLabel]">
-            <span class="option__small">{{ props.option[trackLabel] }}</span>
+            <span class="option__small">{{ trackLabel ? props.option[trackLabel] : props.option }}</span>
           </div>
         </template>
       

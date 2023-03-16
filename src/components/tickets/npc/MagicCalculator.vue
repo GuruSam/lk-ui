@@ -143,7 +143,7 @@ export default {
         const { data } = await axios.get('/npc/form', { params })
 
         this.points = data.magic.points
-        this.blockedSkills = data.magic.blockedSkills
+        this.blockedSkills = data.magic.blockedSkills ?? []
         this.skillsByCategories = this.createSkillsOptions(data.magic.skills)
         this.setMagic()
 
